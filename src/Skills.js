@@ -21,7 +21,6 @@ const getUniqueArray=(array)=>[...new Set(array)]//ensure unique values
 export class Skills extends Component {
     state={
         selectedSkills:[],
-        //selectedTeam:[],
         skillsByPersonel:[],
         skills:[], 
     }
@@ -31,6 +30,7 @@ export class Skills extends Component {
         axios.get(`${url}/currentAssociates`).then((response)=>this.availablePersonel=response.data).catch((err)=>console.log(err));
         axios.get(`${url}/skills`).then((response)=>this.setState({skills:response.data})).catch((err)=>console.log(err));
         axios.get(`${url}/skillAssessment`).then((response)=>this.setState({skillsByPersonel:response.data})).catch((err)=>console.log(err));
+        axios.get(`${url}/selectedSkills`).then((response)=>this.setState({selectedSkills:response.data})).catch((err)=>console.log(err));
     }
     handleSelect=(e, i, v)=>{
         this.setState((prevState)=>{
@@ -39,13 +39,14 @@ export class Skills extends Component {
             this.availablePersonel=leftjoin(this.availablePersonel, prevState.skillsByPersonel, (left, right)=>left.id===right.id)
             prevState.skillsByPersonel=getSkillsPerPersonel(prevState.selectedSkills, this.availablePersonel);
             prevState.skillsByPersonel.sort((a, b)=>a.numberOfRequiredSkills>b.numberOfRequiredSkills?-1:1);
+            axios.post(`${this.props.url}/handleSelect`, prevState.selectedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return prevState;
         })
     }
     handleAddTeamMember=(id, isChecked)=>{
         this.setState((prevState)=>{
             prevState.skillsByPersonel.find((val)=>val.id===id).selectedForTeam=isChecked;
-            axios.post(`${this.props.url}/handleAddTeamMember`, prevState.skillsByPersonel.filter((val)=>val.selectedForTeam)).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            axios.post(`${this.props.url}/handleAddTeamMember`, prevState.skillsByPersonel).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return prevState;
         })
     }
