@@ -8,6 +8,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import SubmitButtonProgress from './SubmitProgress.js'
 import axios from 'axios';
+import {leftjoin} from './helperFunctions.js'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'; //temporary
 
 const Checks=[
@@ -44,10 +45,10 @@ class SelectTesting extends Component {
             />,
         ];
         return(
-            <div>
+            <div >
                 {isSubmitted?
-                    <RaisedButton primary label="Submitted!" onTouchTap={this.handleOpen} />:
-                <RaisedButton label="Enter Testing Plan" onTouchTap={this.handleOpen} />}
+                    <RaisedButton  primary label="Submitted!" onTouchTap={this.handleOpen} />:
+                <RaisedButton  label="Enter Plan" onTouchTap={this.handleOpen} />}
                 <Dialog
                     title="Testing Plan"
                     actions={actions}
@@ -61,8 +62,8 @@ class SelectTesting extends Component {
         )
     }
 }
-const FourColHead=({first, second, third, fourth})=>
-<Row>
+const FourColHead=({first, second, third, fourth, style})=>
+<Row style={style}>
     <Col xs={3} >
         <h3>{first}</h3>
     </Col>
@@ -76,8 +77,8 @@ const FourColHead=({first, second, third, fourth})=>
         <h3>{fourth}</h3>
     </Col>
 </Row>
-const FourColBody=({first, second, third, fourth,children})=>
-<Row>
+const FourColBody=({first, second, third, fourth,children, style})=>
+<Row style={style}>
     <Col xs={3} >
         <p>{first}</p>
     </Col>
@@ -166,6 +167,7 @@ const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
+const tableStyle={marginLeft:0, marginRight:0};
 export class Scope extends Component {
     state={
         mrmvPlanning:[],
@@ -178,10 +180,8 @@ export class Scope extends Component {
             console.log(rcus);
             console.log(scope);
             this.setState({
-                mrmvPlanning:rcus.data.map((val)=>{
-                const result=scope.data.find((scopeVal)=>scopeVal.processStep===val.processStep&&scopeVal.riskStep===val.riskStep)
-                return result?result:val;
-            })});
+                mrmvPlanning:leftjoin(rcus.data, scope.data, (left, right)=>left.processStep===right.processStep&&left.riskStep===right.riskStep)
+            });
         }))
         axios.get(`${url}/testSelection`).then((response)=>this.setState({testSelection:response.data})).catch((err)=>console.log(err));
     }
@@ -219,10 +219,12 @@ export class Scope extends Component {
     }
     render(){
         return <Container>
-            <FourColHead first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
+            <div style={{maxHeight:500, overflowY:"auto"}}>
+            <FourColHead style={tableStyle} first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
+            
             {this.state.mrmvPlanning.map((val, index)=>{
-                return <FourColBody key={index} first={val.process} second={val.risk} third={val.controls}>
-                    <SelectTesting isSubmitted={val.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
+                return <FourColBody style={tableStyle} key={index} first={val.process} second={val.risk} third={val.controls}>
+                    <SelectTesting  isSubmitted={val.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
                         <RiskTestExplanation responsibility={val.MRMVResponsibility} risk={val.risk} control={val.controls}/>
                         <TestTypes 
                             testSelection={this.state.testSelection}
@@ -234,6 +236,7 @@ export class Scope extends Component {
                     </SelectTesting>
                 </FourColBody>
             })}
+            </div>
             <RaisedButton label="View final scope" onTouchTap={(e, v)=>this.handleOpenFinalScope(v)}/>
             <Dialog
                 contentStyle={customContentStyle}

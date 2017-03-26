@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {ListOfPersonel} from './ListOfPersonel.js';
 import {List, ListItem} from 'material-ui/List';
 import axios from 'axios';
+import {leftjoin} from './helperFunctions.js'
 
 const whoFitsSkill=(skill, availablePersonel)=>{
     return availablePersonel.filter((val, index)=>val.skills.filter((v)=>v===skill).length>0);
@@ -12,7 +13,7 @@ const whoFitsSkill=(skill, availablePersonel)=>{
 const getSkillsPerPersonel=(skills, availablePersonel)=>{
     return availablePersonel.map((person, index)=>{
         const requiredSkills=skills.filter((skill)=>person.skills.find((personSkill)=>skill===personSkill));
-        return {name:person.name, requiredSkills:requiredSkills, selectedForTeam:person.selectedForTeam, id:person.id, numberOfRequiredSkills:requiredSkills.length};
+        return {name:person.name, requiredSkills:requiredSkills, skills:person.skills, selectedForTeam:person.selectedForTeam, id:person.id, numberOfRequiredSkills:requiredSkills.length};
     })
 }
 const getUniqueArray=(array)=>[...new Set(array)]//ensure unique values
@@ -35,11 +36,7 @@ export class Skills extends Component {
         this.setState((prevState)=>{
             prevState.selectedSkills.push(v);
             prevState.selectedSkills=getUniqueArray(prevState.selectedSkills);
-            this.availablePersonel=this.availablePersonel.map((val, index)=>{
-                let result=prevState.skillsByPersonel.find((skill)=>skill.id===val.id);
-                result?result.skills=val.skills:"";
-                return result?result:val
-            })
+            this.availablePersonel=leftjoin(this.availablePersonel, prevState.skillsByPersonel, (left, right)=>left.id===right.id)
             prevState.skillsByPersonel=getSkillsPerPersonel(prevState.selectedSkills, this.availablePersonel);
             prevState.skillsByPersonel.sort((a, b)=>a.numberOfRequiredSkills>b.numberOfRequiredSkills?-1:1);
             return prevState;

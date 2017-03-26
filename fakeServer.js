@@ -25,10 +25,10 @@ app.get("/RCUS", (req, res)=>{//these are "static"
 app.get("/testSelection", (req, res)=>{//these are "static"
     res.send(testSelection)
 })
-app.get("/skillAssessment", (req, res)=>{//in final state use validation id
+app.get("/skillAssessment", (req, res)=>{//in final state use validation id.  This is the "instantiated" version of "currentAssociates"
     res.send(skillData);
 })
-app.get("/scopeAssessment", (req, res)=>{ //in final state use validation id
+app.get("/scopeAssessment", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
     res.send(scopeData);
 })
 
