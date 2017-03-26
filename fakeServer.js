@@ -43,7 +43,6 @@ app.post("/handleTestSubmit",  (req, res)=>{ //in final state use validation id
     scopeData.push(req.body);
     res.sendStatus(200);
 })
-
 app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation id
     console.log(req.body);
     skillData=req.body;

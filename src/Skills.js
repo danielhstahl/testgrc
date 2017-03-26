@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SelectField from 'material-ui/SelectField';
 import { Container, Row, Col} from 'react-grid-system';
 import MenuItem from 'material-ui/MenuItem';
-import {ListOfPersonel} from './ListOfPersonel.js';
+import {ListOfPersonel, ListWithDelete} from './ListComponents.js';
 import {List, ListItem} from 'material-ui/List';
 import axios from 'axios';
 import {leftjoin} from './helperFunctions.js'
@@ -17,7 +17,18 @@ const getSkillsPerPersonel=(skills, availablePersonel)=>{
     })
 }
 const getUniqueArray=(array)=>[...new Set(array)]//ensure unique values
-
+const addSelectedSkill=(prevSkills, skill)=>{
+    prevSkills.push(skill);
+    return getUniqueArray(prevSkills);
+}
+const removeSelectedSkill=(prevSkills, skill)=>{
+    return prevSkills.filter((gSkill)=>skill!==gSkill);
+}
+const updatePersonel=(updatedSkills, personel)=>{
+    const updatedPersonel=getSkillsPerPersonel(updatedSkills, personel);
+    updatedPersonel.sort((a, b)=>a.numberOfRequiredSkills>b.numberOfRequiredSkills?-1:1);
+    return updatedPersonel;
+}
 export class Skills extends Component {
     state={
         selectedSkills:[],
@@ -34,13 +45,11 @@ export class Skills extends Component {
     }
     handleSelect=(e, i, v)=>{
         this.setState((prevState)=>{
-            prevState.selectedSkills.push(v);
-            prevState.selectedSkills=getUniqueArray(prevState.selectedSkills);
+            const updatedSkills=addSelectedSkill(prevState.selectedSkills, v);
             this.availablePersonel=leftjoin(this.availablePersonel, prevState.skillsByPersonel, (left, right)=>left.id===right.id)
-            prevState.skillsByPersonel=getSkillsPerPersonel(prevState.selectedSkills, this.availablePersonel);
-            prevState.skillsByPersonel.sort((a, b)=>a.numberOfRequiredSkills>b.numberOfRequiredSkills?-1:1);
-            axios.post(`${this.props.url}/handleSelect`, prevState.selectedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
-            return prevState;
+            const updatedPersonel=updatePersonel(updatedSkills, this.availablePersonel);
+            axios.post(`${this.props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            return {selectedSkills:updatedSkills, skillsByPersonel:updatedPersonel};
         })
     }
     handleAddTeamMember=(id, isChecked)=>{
@@ -49,6 +58,14 @@ export class Skills extends Component {
             axios.post(`${this.props.url}/handleAddTeamMember`, prevState.skillsByPersonel).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return prevState;
         })
+    }
+    handleDeleteSkill=(skill, isChecked)=>{
+        this.setState((prevState)=>{
+            const updatedSkills=removeSelectedSkill(prevState.selectedSkills, skill);
+            const updatedPersonel=updatePersonel(updatedSkills, this.availablePersonel);
+            axios.post(`${this.props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            return {selectedSkills:updatedSkills, skillsByPersonel:updatedPersonel};
+        });
     }
     render(){
         const {selectedSkills, skillsByPersonel, skills}=this.state;
@@ -68,14 +85,7 @@ export class Skills extends Component {
             </Row>
             <Row>
             <Col sm={6}>
-                <List>
-                    {
-                        selectedSkills.map((val, index)=>{
-                            return <ListItem key={index} primaryText={val}/>
-                        })
-                    }
-                </List>    
-            
+               <ListWithDelete selectedSkills={selectedSkills} onDelete={this.handleDeleteSkill}/>  
             </Col>
             <Col sm={6}>
                 <ListOfPersonel ArrayOfPersons={skillsByPersonel} onCheck={this.handleAddTeamMember}/>
