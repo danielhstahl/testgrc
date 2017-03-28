@@ -38,10 +38,16 @@ export class Skills extends Component {
     availablePersonel=[]
     componentDidMount(){
         const {url}=this.props;
-        axios.get(`${url}/currentAssociates`).then((response)=>this.availablePersonel=response.data).catch((err)=>console.log(err));
+        axios.all([
+            axios.get(`${url}/currentAssociates`), 
+            axios.get(`${url}/selectedSkills`), 
+            axios.get(`${url}/skillAssessment`)]
+        ).then(axios.spread((associates ,selectedSkills, skillsByPersonel)=>{
+            this.availablePersonel=leftjoin(associates.data, skillsByPersonel.data, (left, right)=>left.id===right.id)
+            const updatedPersonel=updatePersonel(selectedSkills.data, this.availablePersonel);
+            this.setState({selectedSkills:selectedSkills.data, skillsByPersonel:updatedPersonel});
+        })).catch((err)=>console.log(err));
         axios.get(`${url}/skills`).then((response)=>this.setState({skills:response.data})).catch((err)=>console.log(err));
-        axios.get(`${url}/skillAssessment`).then((response)=>this.setState({skillsByPersonel:response.data})).catch((err)=>console.log(err));
-        axios.get(`${url}/selectedSkills`).then((response)=>this.setState({selectedSkills:response.data})).catch((err)=>console.log(err));
     }
     handleSelect=(e, i, v)=>{
         this.setState((prevState)=>{
@@ -56,7 +62,7 @@ export class Skills extends Component {
         this.setState((prevState)=>{
             prevState.skillsByPersonel.find((val)=>val.id===id).selectedForTeam=isChecked;
             axios.post(`${this.props.url}/handleAddTeamMember`, prevState.skillsByPersonel).then((response)=>console.log(response)).catch((err)=>console.log(err));
-            return prevState;
+            return {skillsByPersonel:prevState.skillsByPersonel};
         })
     }
     handleDeleteSkill=(skill, isChecked)=>{

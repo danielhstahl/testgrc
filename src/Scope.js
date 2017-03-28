@@ -25,22 +25,21 @@ class SelectTesting extends Component {
     handleOpen = () => {
         this.setState({open: true});
     };
-
     handleClose = () => {
         this.setState({open: false});
     };
     render(){
-        const {handleSubmit, isSubmitted, children}=this.props;
+        const {handleSubmit, isSubmitted, children, notAllowedToSubmit}=this.props;
         const actions = [
             <FlatButton
                 label="Cancel"
                 primary={true}
                 onTouchTap={this.handleClose}
             />,
-            <FlatButton
+            <RaisedButton
                 label="Submit"
                 primary={true}
-                keyboardFocused={true}
+                disabled={notAllowedToSubmit}
                 onTouchTap={()=>{this.handleClose();handleSubmit();}}
             />,
         ];
@@ -114,23 +113,28 @@ class TestTypes extends Component {
     render(){
         const {handleSelect, handleExplanation, selectedItem}=this.props;
         return(
-        <div>
-            <SelectField
-                floatingLabelText="Select Test Type"
-                value={selectedItem}
-                onChange={(e, i, v)=>{handleSelect(v, this.props.testSelection.filter((val)=>val.index===v)[0].description);this.handleSelect(v)}}
-            >
-                {this.props.testSelection.map((val, index)=>{
-                    return <MenuItem key={index} value={val.index} primaryText={val.description} />;
-                })}
-            </SelectField>
-            {this.state.requiresExplanation?<TextField 
-                defaultValue={this.props.requiresExplanation}
-                floatingLabelText="Explanation for Lack of Testing"
-                onChange={(e,v)=>handleExplanation(v)}
-
-            />:""}
-        </div>
+        <Container>
+            <Row>
+                <Col xs={12} sm={6}>
+                    <SelectField
+                        floatingLabelText="Select Test Type"
+                        value={selectedItem}
+                        onChange={(e, i, v)=>{handleSelect(v, this.props.testSelection.filter((val)=>val.index===v)[0].description);this.handleSelect(v)}}
+                    >
+                        {this.props.testSelection.map((val, index)=>{
+                            return <MenuItem key={index} value={val.index} primaryText={val.description} />;
+                        })}
+                    </SelectField>
+                </Col>
+                <Col xs={12} sm={6}>
+                    {this.state.requiresExplanation?<TextField 
+                        defaultValue={this.props.requiresExplanation}
+                        floatingLabelText="Explanation for Lack of Testing"
+                        onChange={(e,v)=>handleExplanation(v)}
+                    />:""}
+                </Col>
+            </Row>
+        </Container>
         )
     }
 }
@@ -168,6 +172,16 @@ const customContentStyle = {
   maxWidth: 'none',
 };
 const tableStyle={marginLeft:0, marginRight:0};
+const isOkToSubmit=(item)=>{
+    switch(item.testWorkDescription){
+        case "None":
+            return item.explanation?true:false
+        case undefined:
+            return false;
+        default:
+            return true;
+    }
+}
 export class Scope extends Component {
     state={
         mrmvPlanning:[],
@@ -177,8 +191,6 @@ export class Scope extends Component {
     componentDidMount(){
         const {url}=this.props;
         axios.all([axios.get(`${url}/RCUS`), axios.get(`${url}/scopeAssessment`)]).then(axios.spread((rcus, scope)=>{
-            console.log(rcus);
-            console.log(scope);
             this.setState({
                 mrmvPlanning:leftjoin(rcus.data, scope.data, (left, right)=>left.processStep===right.processStep&&left.riskStep===right.riskStep)
             });
@@ -188,7 +200,7 @@ export class Scope extends Component {
     handleTestSubmit=(i)=>{
         this.setState((prevState, props)=>{
             prevState.mrmvPlanning[i].isSubmitted=true;
-            axios.post(`${this.props.url}/handleTestSubmit`, prevState.mrmvPlanning[i]).then((response)=>console.log(response)).catch((err)=>console.log(err))
+            axios.post(`${this.props.url}/handleTestSubmit`, prevState.mrmvPlanning).then((response)=>console.log(response)).catch((err)=>console.log(err))
             return prevState;
         })
     }
@@ -221,10 +233,9 @@ export class Scope extends Component {
         return <Container>
             <div style={{maxHeight:500, overflowY:"auto"}}>
             <FourColHead style={tableStyle} first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
-            
             {this.state.mrmvPlanning.map((val, index)=>{
                 return <FourColBody style={tableStyle} key={index} first={val.process} second={val.risk} third={val.controls}>
-                    <SelectTesting  isSubmitted={val.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
+                    <SelectTesting notAllowedToSubmit={!isOkToSubmit(val)} isSubmitted={val.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
                         <RiskTestExplanation responsibility={val.MRMVResponsibility} risk={val.risk} control={val.controls}/>
                         <TestTypes 
                             testSelection={this.state.testSelection}

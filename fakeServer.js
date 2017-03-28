@@ -39,17 +39,14 @@ app.get("/selectedSkills", (req, res)=>{ //in final state use validation id.  Th
 })
 
 app.post("/handleTestSubmit",  (req, res)=>{ //in final state use validation id
-    console.log(req.body);
-    scopeData.push(req.body);
+    scopeData=req.body;
     res.sendStatus(200);
 })
 app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation id
-    console.log(req.body);
     skillData=req.body;
     res.sendStatus(200);
 })
 app.post("/handleSelect",  (req, res)=>{ //in final state use validation id
-    console.log(req.body);
     selectedSkills=req.body;
     res.sendStatus(200);
 })
