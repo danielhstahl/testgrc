@@ -12,7 +12,7 @@ const whoFitsSkill=(skill, availablePersonel)=>{
 }
 const getSkillsPerPersonel=(skills, availablePersonel)=>{
     return availablePersonel.map((person, index)=>{
-        const requiredSkills=skills.filter((skill)=>person.skills.find((personSkill)=>skill===personSkill));
+        const requiredSkills=skills.filter((skill)=>person.skills.filter((personSkill)=>skill===personSkill)[0]);
         return {name:person.name, requiredSkills:requiredSkills, skills:person.skills, selectedForTeam:person.selectedForTeam, id:person.id, numberOfRequiredSkills:requiredSkills.length};
     })
 }
@@ -60,7 +60,7 @@ export class Skills extends Component {
     }
     handleAddTeamMember=(id, isChecked)=>{
         this.setState((prevState)=>{
-            prevState.skillsByPersonel.find((val)=>val.id===id).selectedForTeam=isChecked;
+            prevState.skillsByPersonel.filter((val)=>val.id===id)[0].selectedForTeam=isChecked;
             axios.post(`${this.props.url}/handleAddTeamMember`, prevState.skillsByPersonel).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return {skillsByPersonel:prevState.skillsByPersonel};
         })
