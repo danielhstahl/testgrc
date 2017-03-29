@@ -96,6 +96,7 @@ const contents=[
 ]
 const url="http://localhost:3001";
 class App extends Component {
+  isCompatable=Array.prototype.find?true:false;
   maxStep=contents.length;
   state={
     step:0
@@ -117,6 +118,7 @@ class App extends Component {
         On step {step}
       </p>
     ];
+    this.isCompatable?"":alert("Not a compatable web browser.  Use Chrome or another modern browser.");
     return (
       <MuiThemeProvider>
         <Container>

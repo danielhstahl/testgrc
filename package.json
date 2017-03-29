@@ -2,7 +2,7 @@
   "name": "mrmvworkflow",
   "version": "0.0.1",
   "private": true,
-  "homepage": "https://phillyfan1138.github.io/testgrc",
+  "homepage": "./",
   "devDependencies": {
     "gh-pages": "^0.12.0",
     "react-scripts": "0.9.5",
