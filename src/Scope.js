@@ -182,6 +182,10 @@ const isOkToSubmit=(item)=>{
             return true;
     }
 }
+export let testOkToSubmit;
+if(process.env.NODE_ENV==='test'){
+    testOkToSubmit=isOkToSubmit;
+}
 export class Scope extends Component {
     state={
         mrmvPlanning:[],
@@ -200,7 +204,7 @@ export class Scope extends Component {
     handleTestSubmit=(i)=>{
         this.setState((prevState, props)=>{
             prevState.mrmvPlanning[i].isSubmitted=true;
-            axios.post(`${this.props.url}/handleTestSubmit`, prevState.mrmvPlanning).then((response)=>console.log(response)).catch((err)=>console.log(err))
+            axios.post(`${props.url}/handleTestSubmit`, prevState.mrmvPlanning).then((response)=>console.log(response)).catch((err)=>console.log(err))
             return prevState;
         })
     }

@@ -5,29 +5,42 @@ import MenuItem from 'material-ui/MenuItem';
 import {ListOfPersonel, ListWithDelete} from './ListComponents.js';
 import {List, ListItem} from 'material-ui/List';
 import axios from 'axios';
-import {leftjoin} from './helperFunctions.js'
+import {leftjoin} from './helperFunctions.js';
 
-const whoFitsSkill=(skill, availablePersonel)=>{
+const whoFitsSkill=(skill="", availablePersonel=[{skills:[]}])=>{
     return availablePersonel.filter((val, index)=>val.skills.filter((v)=>v===skill).length>0);
 }
-const getSkillsPerPersonel=(skills, availablePersonel)=>{
+const getSkillsPerPersonel=(skills=[], availablePersonel=[{name:"", id:"", skills:[]}])=>{
     return availablePersonel.map((person, index)=>{
         const requiredSkills=skills.filter((skill)=>person.skills.filter((personSkill)=>skill===personSkill)[0]);
         return {name:person.name, requiredSkills:requiredSkills, skills:person.skills, selectedForTeam:person.selectedForTeam, id:person.id, numberOfRequiredSkills:requiredSkills.length};
     })
 }
-const getUniqueArray=(array)=>[...new Set(array)]//ensure unique values
-const addSelectedSkill=(prevSkills, skill)=>{
-    prevSkills.push(skill);
-    return getUniqueArray(prevSkills);
+const getUniqueArray=Array.from?(array)=>[...new Set(array)]:(array)=>array.sort().filter((val, index, arr)=>!index||val!==arr[index-1])//ensure unique values
+const addSelectedSkill=(prevSkills=[], skill="")=>{
+    return getUniqueArray(prevSkills.concat([skill]));
 }
-const removeSelectedSkill=(prevSkills, skill)=>{
+const removeSelectedSkill=(prevSkills=[], skill="")=>{
     return prevSkills.filter((gSkill)=>skill!==gSkill);
 }
-const updatePersonel=(updatedSkills, personel)=>{
+const updatePersonel=(updatedSkills=[], personel=[{name:"", id:"", skills:[]}])=>{
     const updatedPersonel=getSkillsPerPersonel(updatedSkills, personel);
     updatedPersonel.sort((a, b)=>a.numberOfRequiredSkills>b.numberOfRequiredSkills?-1:1);
     return updatedPersonel;
+}
+export let testWhoFitsSkill;
+export let testGetSkillsPerPersonel;
+export let testGetUniqueArray;
+export let testAddSelectedSkill;
+export let testRemoveSelectedSkill;
+export let testUpdatePersonel;
+if(process.env.NODE_ENV==='test'){
+    testWhoFitsSkill=whoFitsSkill;
+    testGetSkillsPerPersonel=getSkillsPerPersonel;
+    testGetUniqueArray=getUniqueArray;
+    testAddSelectedSkill=addSelectedSkill;
+    testRemoveSelectedSkill=removeSelectedSkill;
+    testUpdatePersonel=updatePersonel;
 }
 export class Skills extends Component {
     state={
