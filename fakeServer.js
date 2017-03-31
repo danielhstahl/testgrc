@@ -1,16 +1,20 @@
 'use strict';
 const express = require('express');
 const bodyParser=require('body-parser');
-const data =require('./tmpData.js');
-const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePersonel, testSelection=data.testSelection;
+
+const schema =require('./schema.js');
+
 const jsonParser = bodyParser.json();
 let app = express();
 app.use(bodyParser.json());
-app.use((req, res, next)=>{
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use('*', cors({origin:'http://localhost:3000'}));
+app.use('/graphql',jsonParser, graphqlExpress({
+  schema
+}));
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql'
+}));
+
 
 let port = process.env.PORT || 3001;
 let scopeData=[];
