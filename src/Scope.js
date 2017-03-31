@@ -111,7 +111,7 @@ class TestTypes extends Component {
         });
     }
     render(){
-        const {handleSelect, handleExplanation, selectedItem}=this.props;
+        const {handleSelect, handleExplanation, selectedItem, testSelection}=this.props;
         return(
         <Container>
             <Row>
@@ -119,9 +119,9 @@ class TestTypes extends Component {
                     <SelectField
                         floatingLabelText="Select Test Type"
                         value={selectedItem}
-                        onChange={(e, i, v)=>{handleSelect(v, this.props.testSelection.filter((val)=>val.index===v)[0].description);this.handleSelect(v)}}
+                        onChange={(e, i, v)=>{handleSelect(v, testSelection.filter((val)=>val.index===v)[0].description);this.handleSelect(v)}}
                     >
-                        {this.props.testSelection.map((val, index)=>{
+                        {testSelection.map((val, index)=>{
                             return <MenuItem key={index} value={val.index} primaryText={val.description} />;
                         })}
                     </SelectField>
@@ -234,17 +234,18 @@ export class Scope extends Component {
         });
     }
     render(){
+        const {mrmvPlanning, testSelection, openFinalScope, filteredData}=this.state;
         return <Container>
             <div style={{maxHeight:500, overflowY:"auto"}}>
             <FourColHead style={tableStyle} first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
-            {this.state.mrmvPlanning.map((val, index)=>{
-                return <FourColBody style={tableStyle} key={index} first={val.process} second={val.risk} third={val.controls}>
-                    <SelectTesting notAllowedToSubmit={!isOkToSubmit(val)} isSubmitted={val.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
-                        <RiskTestExplanation responsibility={val.MRMVResponsibility} risk={val.risk} control={val.controls}/>
+            {mrmvPlanning.map((rcusItem, index)=>{
+                return <FourColBody style={tableStyle} key={index} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
+                    <SelectTesting notAllowedToSubmit={!isOkToSubmit(rcusItem)} isSubmitted={rcusItem.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
+                        <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
                         <TestTypes 
-                            testSelection={this.state.testSelection}
-                            requiresExplanation={val.explanation} 
-                            selectedItem={val.testWork} 
+                            testSelection={testSelection}
+                            requiresExplanation={rcusItem.explanation} 
+                            selectedItem={rcusItem.testWork} 
                             handleExplanation={(v)=>this.handleExplanation(index, v)} 
                             handleSelect={(i, v)=>this.handleSelect(index, i, v)}
                         />
@@ -257,10 +258,10 @@ export class Scope extends Component {
                 contentStyle={customContentStyle}
                 title="Final Scope"
                 modal={false}
-                open={this.state.openFinalScope}
+                open={openFinalScope}
                 onRequestClose={this.handleCloseFinalScope}
             >
-                <TmpTable dataObj={this.state.filteredData} columnTitles={["workpaper", "risk", "controls", "testWorkDescription", "explanation"]} height="500px"/>
+                <TmpTable dataObj={filteredData} columnTitles={["workpaper", "risk", "controls", "testWorkDescription", "explanation"]} height="500px"/>
             </Dialog>
         </Container>
     }

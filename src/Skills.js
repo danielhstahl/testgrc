@@ -63,26 +63,26 @@ export class Skills extends Component {
         axios.get(`${url}/skills`).then((response)=>this.setState({skills:response.data})).catch((err)=>console.log(err));
     }
     handleSelect=(e, i, v)=>{
-        this.setState((prevState)=>{
+        this.setState((prevState, props)=>{
             const updatedSkills=addSelectedSkill(prevState.selectedSkills, v);
             this.availablePersonel=leftjoin(this.availablePersonel, prevState.skillsByPersonel, (left, right)=>left.id===right.id)
             const updatedPersonel=updatePersonel(updatedSkills, this.availablePersonel);
-            axios.post(`${this.props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            axios.post(`${props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return {selectedSkills:updatedSkills, skillsByPersonel:updatedPersonel};
         })
     }
     handleAddTeamMember=(id, isChecked)=>{
-        this.setState((prevState)=>{
+        this.setState((prevState, props)=>{
             prevState.skillsByPersonel.filter((val)=>val.id===id)[0].selectedForTeam=isChecked;
-            axios.post(`${this.props.url}/handleAddTeamMember`, prevState.skillsByPersonel).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            axios.post(`${props.url}/handleAddTeamMember`, prevState.skillsByPersonel).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return {skillsByPersonel:prevState.skillsByPersonel};
         })
     }
     handleDeleteSkill=(skill, isChecked)=>{
-        this.setState((prevState)=>{
+        this.setState((prevState, props)=>{
             const updatedSkills=removeSelectedSkill(prevState.selectedSkills, skill);
             const updatedPersonel=updatePersonel(updatedSkills, this.availablePersonel);
-            axios.post(`${this.props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            axios.post(`${props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
             return {selectedSkills:updatedSkills, skillsByPersonel:updatedPersonel};
         });
     }
