@@ -8,7 +8,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import SubmitButtonProgress from './SubmitProgress.js'
 import axios from 'axios';
-import {leftjoin} from './helperFunctions.js'
+import {leftjoin} from './../helperFunctions.js'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'; //temporary
 import {FourColHead, FourColBody, RiskTestExplanation} from './ScopeUtils'
 import EnterTestingPlan from './EnterTestingPlan'

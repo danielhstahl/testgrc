@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper';
 import {ListOfPersonel, ListWithDelete} from './ListComponents.js';
 import {List, ListItem} from 'material-ui/List';
 import axios from 'axios';
-import {leftjoin} from './helperFunctions.js';
+import {leftjoin} from './../helperFunctions.js';
 
 const whoFitsSkill=(skill="", availablePersonel=[{skills:[]}])=>{
     return availablePersonel.filter((val, index)=>val.skills.filter((v)=>v===skill).length>0);
