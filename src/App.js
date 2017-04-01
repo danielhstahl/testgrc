@@ -13,6 +13,8 @@ import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container, Row, Col} from 'react-grid-system';
 import {Scope} from './Scope.js'
 import {Skills} from './Skills.js'
@@ -20,10 +22,21 @@ import {Skills} from './Skills.js'
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-
+const FlowStyles={
+  borderBottom: "1px solid lightgrey", 
+  padding: "2% 0% 2% 0%", 
+  marginBottom: "5%"
+}
+const FlowDescriptionStyles={
+  fontSize:'.75em', 
+  paddingLeft:14, 
+  paddingRight:14
+}
+const ArrowColor=lightBaseTheme.palette.primary1Color;
 const ValidationWork=({step, nodeArray})=>{ 
   return nodeArray[step];
 }
+
 
 const ValidationFlow=({handleStepChange, step, contents})=>{
   return (
@@ -52,13 +65,13 @@ const ValidationFlow=({handleStepChange, step, contents})=>{
 
 const ValidationFlowDescription=({contents, step, maxStep, handleStepChange})=>
 <div>
-    <p style={{fontSize:'.75em', paddingLeft:14, paddingRight:14}}>
+    <p style={FlowDescriptionStyles}>
       {contents[step].text}</p>
       <IconButton disabled={step===0} onTouchTap={()=>{return handleStepChange(step-1);}}>
-        <ArrowBack color="#00bcd4"/>
+        <ArrowBack color={ArrowColor}/>
       </IconButton> 
       <IconButton disabled={step===maxStep-1} onTouchTap={()=>{return handleStepChange(step+1);}}>
-        <ArrowForward color="#00bcd4"/>
+        <ArrowForward color={ArrowColor}/>
       </IconButton>
 </div>
 
@@ -103,9 +116,9 @@ class App extends Component {
       </p>
     ];
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <Container>
-          <Row style={{borderBottom: "1px solid lightgrey", padding: "2% 0% 2% 0%", marginBottom: "5%"}}>
+          <Row style={FlowStyles}>
             <Col xs={12}>
               <ValidationFlow contents={contents}  handleStepChange={this.handleStepChange} step={step}/>
             </Col>
