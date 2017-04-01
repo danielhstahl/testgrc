@@ -4,7 +4,7 @@ import Subheader from 'material-ui/Subheader';
 import {List, ListItem} from 'material-ui/List';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 export const ListOfPersonel=({ArrayOfPersons, onCheck})=>
-<List>
+<List style={{marginTop:14}}>
     <Subheader>List of Available Associates</Subheader>
     {ArrayOfPersons.map((person, index)=>{
         return <ListItem 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SelectField from 'material-ui/SelectField';
 import { Container, Row, Col} from 'react-grid-system';
 import MenuItem from 'material-ui/MenuItem';
+import Paper from 'material-ui/Paper';
 import {ListOfPersonel, ListWithDelete} from './ListComponents.js';
 import {List, ListItem} from 'material-ui/List';
 import axios from 'axios';
@@ -42,6 +43,8 @@ if(process.env.NODE_ENV==='test'){
     testRemoveSelectedSkill=removeSelectedSkill;
     testUpdatePersonel=updatePersonel;
 }
+const PaperDepth=1;
+const PaperStyle={marginTop:25, paddingBottom:15}
 export class Skills extends Component {
     state={
         selectedSkills:[],
@@ -89,29 +92,25 @@ export class Skills extends Component {
     render(){
         const {selectedSkills, skillsByPersonel, skills}=this.state;
         return(
-        <Container>
-            <Row>
-            <Col xs={12}>
-                <SelectField
-                    floatingLabelText="Skills"
-                    onChange={this.handleSelect}
-                >
-                {skills.map((val, index)=>{
-                    return <MenuItem key={index} value={val.value} primaryText={val.value} />;
-                })}
-                </SelectField>
-            </Col>
-            </Row>
-            <Row>
-            <Col sm={6}>
-               <ListWithDelete selectedSkills={selectedSkills} onDelete={this.handleDeleteSkill}/>  
-            </Col>
-            <Col sm={6}>
-                <ListOfPersonel ArrayOfPersons={skillsByPersonel} onCheck={this.handleAddTeamMember}/>
-            </Col>
-           
-            </Row>
-        </Container>
+            <Container>
+                <Row>
+                    <Col md={6}>
+                        <SelectField
+                            floatingLabelText="Skills"
+                            onChange={this.handleSelect}
+                            fullWidth={true}
+                        >
+                            {skills.map((val, index)=>{
+                                return <MenuItem key={index} value={val.value} primaryText={val.value} />;
+                            })}
+                        </SelectField>
+                        <ListWithDelete selectedSkills={selectedSkills} onDelete={this.handleDeleteSkill}/> 
+                    </Col>
+                    <Col md={6} >
+                        <ListOfPersonel ArrayOfPersons={skillsByPersonel} onCheck={this.handleAddTeamMember}/>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

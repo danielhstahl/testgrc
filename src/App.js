@@ -8,52 +8,29 @@ import {
   StepContent,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Paper from 'material-ui/Paper';
 import { Container, Row, Col} from 'react-grid-system';
 import {Scope} from './Scope.js'
 import {Skills} from './Skills.js'
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-const RenderStepActions=({step, maxStep, handleStepChange})=>
-<div style={{margin: '12px 0'}}>
-  {step<(maxStep-1) && (<RaisedButton
-    label="Next"
-    disableTouchRipple={true}
-    disableFocusRipple={true}
-    primary={true}
-    onTouchTap={()=>{return handleStepChange(step+1);}}
-    style={{marginRight: 12}}
-  />)}
-  {step > 0 &&  (
-    <FlatButton
-      label="Back"
-      disableTouchRipple={true}
-      disableFocusRipple={true}
-      onTouchTap={()=>{return handleStepChange(step-1);}}
-    />
-  )}
-</div>
-RenderStepActions.propTypes={
-  step:React.PropTypes.number.isRequired,
-  maxStep:React.PropTypes.number.isRequired,
-  handleStepChange:React.PropTypes.func.isRequired
-}
 
 
 const ValidationWork=({step, nodeArray})=>{ 
   return nodeArray[step];
 }
 
-const ValidationFlow=({handleStepChange, step, maxStep, contents})=>{
+const ValidationFlow=({handleStepChange, step, contents})=>{
   return (
-      <div style={{maxWidth: 380, maxHeight: 400, margin: 'auto'}}>
+      <div >
         <Stepper
           activeStep={step}
           linear={false}
-          orientation="vertical"
         >
         {contents.map((val, index, arr)=>{
           const {title, text}=val;
@@ -62,19 +39,28 @@ const ValidationFlow=({handleStepChange, step, maxStep, contents})=>{
               <StepButton onTouchTap={() => handleStepChange(index)}>
                 {title}
               </StepButton>
-              <StepContent>
-                <p>
-                  {text}
-                </p>
-                <RenderStepActions step={index} maxStep={maxStep} handleStepChange={handleStepChange}/>
-              </StepContent>
+              
             </Step>
+            
           );
         })}
         </Stepper>
+        <ValidationFlowDescription contents={contents} step={step} maxStep={contents.length} handleStepChange={handleStepChange}/>
       </div>
   );
 }
+
+const ValidationFlowDescription=({contents, step, maxStep, handleStepChange})=>
+<div>
+    <p style={{fontSize:'.75em', paddingLeft:14, paddingRight:14}}>
+      {contents[step].text}</p>
+      <IconButton disabled={step===0} onTouchTap={()=>{return handleStepChange(step-1);}}>
+        <ArrowBack color="#00bcd4"/>
+      </IconButton> 
+      <IconButton disabled={step===maxStep-1} onTouchTap={()=>{return handleStepChange(step+1);}}>
+        <ArrowForward color="#00bcd4"/>
+      </IconButton>
+</div>
 
 const contents=[
   {
@@ -96,12 +82,11 @@ const contents=[
 ]
 const url="http://localhost:3001";
 class App extends Component {
-  maxStep=contents.length;
   state={
     step:0
   }
   handleStepChange=(step)=>{
-    if(step>=0 &&step<=this.maxStep){
+    if(step>=0 &&step<=contents.length){
       this.setState({step:step});
     }
   }
@@ -120,17 +105,17 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <Container>
-          <Row>
-            <Col sm={4}>
-              <ValidationFlow contents={contents} maxStep={this.maxStep} handleStepChange={this.handleStepChange} step={step}/>
+          <Row style={{borderBottom: "1px solid lightgrey", padding: "2% 0% 2% 0%", marginBottom: "5%"}}>
+            <Col xs={12}>
+              <ValidationFlow contents={contents}  handleStepChange={this.handleStepChange} step={step}/>
             </Col>
-            <Col sm={8}>
-              <Paper  zDepth={1} style={{marginTop:25, paddingBottom:15}}>
+          </Row>
+          <Row>
+            <Col xs={12}>
                 <ValidationWork 
                   step={step} 
                   nodeArray={componentPerItem} 
                 />
-              </Paper>
             </Col>
 
           </Row>
