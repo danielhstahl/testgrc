@@ -45,8 +45,9 @@ EnterTestingPlan.propTypes={
     handleSelect:React.PropTypes.func.isRequired,
     handleExplanation:React.PropTypes.func.isRequired,
     selectedItem:React.PropTypes.number,
-    testSelection:React.PropTypes.arrayOf((propValue, key, componentName, location, propFullName)=>{
-        return !(propValue[key].index>=0&&propValue[key].description)&&new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Validation failed.`)
-    }).isRequired,
+    testSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
+        index: React.PropTypes.number.isRequired,
+        description: React.PropTypes.string.isRequired
+    })).isRequired,
     requiresExplanation:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
 }

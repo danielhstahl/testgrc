@@ -18,9 +18,11 @@ export const ListOfPersonel=({ArrayOfPersons, onCheck})=>
     })}
 </List>
 ListOfPersonel.propTypes={
-    ArrayOfPersons:React.PropTypes.arrayOf((propValue, key, componentName, location, propFullName)=>{
-        return !(propValue[key].name&&propValue[key].id&&propValue[key].requiredSkills)&& new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Validation failed.`)
-    }).isRequired,
+    ArrayOfPersons:React.PropTypes.arrayOf(React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string.isRequired,
+        requiredSkills: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    })).isRequired,
     onCheck:React.PropTypes.func.isRequired
 }
 
