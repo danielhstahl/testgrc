@@ -13,7 +13,21 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import { Container, Row, Col} from 'react-grid-system';
 import {Scope} from './Scope.js'
-import {Skills} from './Skills.js'
+import {SkillsQL} from './Skills.js'
+
+import {
+  ApolloClient,
+  gql,
+  graphql,
+  ApolloProvider,
+  createNetworkInterface
+} from 'react-apollo';
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface({
+    uri: 'http://localhost:3001',
+  }),
+});
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -108,7 +122,7 @@ class App extends Component {
   render() { //{renderSomethingOnPageTemp(step)}
     const {step}=this.state;
     const componentPerItem=[
-      <Skills url={url}/>,
+      <SkillsQL url={url}/>,
       <Scope url={url}/>,
       <p>
         On step {step}
@@ -118,6 +132,7 @@ class App extends Component {
       </p>
     ];
     return (
+      <ApolloProvider client={client}>
       <MuiThemeProvider>
         <Container>
           <Row>
@@ -136,6 +151,7 @@ class App extends Component {
           </Row>
         </Container>
       </MuiThemeProvider>
+      </ApolloProvider>
     );
   }
 }

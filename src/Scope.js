@@ -10,6 +10,37 @@ import SubmitButtonProgress from './SubmitProgress.js'
 import axios from 'axios';
 import {leftjoin} from './helperFunctions.js'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'; //temporary
+import {
+  gql,
+  graphql,
+  compose
+} from 'react-apollo';
+const getRcus = gql`
+   query Rcus {
+     rcus {
+        process
+        risk
+        processStep
+        riskStep
+        controls
+        workpaper
+        MRMVResponsibility
+    }
+   }
+ `;
+const getRcusValidation = gql`
+   query RcusInstance($validationId:String!) {
+     scopeAssessment(validationId:$validationId) {
+       processStep
+       riskStep
+       explanation
+       testWorkIndex
+     }
+   }
+ `;
+
+
+
 
 const Checks=[
     {

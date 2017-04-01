@@ -1,7 +1,10 @@
 'use strict';
 const express = require('express');
 const bodyParser=require('body-parser');
-
+const cors=require('cors');
+const graphExpress=require('graphql-server-express')
+const graphqlExpress=graphExpress.graphqlExpress
+const graphiqlExpress=graphExpress.graphiqlExpress
 const schema =require('./schema.js');
 
 const jsonParser = bodyParser.json();
@@ -17,7 +20,7 @@ app.use('/graphiql', graphiqlExpress({
 
 
 let port = process.env.PORT || 3001;
-let scopeData=[];
+/*let scopeData=[];
 let skillData=[];
 let selectedSkills=[];
 app.get("/currentAssociates", (req, res)=>{ 
@@ -53,6 +56,6 @@ app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation 
 app.post("/handleSelect",  (req, res)=>{ //in final state use validation id
     selectedSkills=req.body;
     res.sendStatus(200);
-})
+})*/
 app.listen(port);
 

@@ -6,6 +6,65 @@ import {ListOfPersonel, ListWithDelete} from './ListComponents.js';
 import {List, ListItem} from 'material-ui/List';
 import axios from 'axios';
 import {leftjoin} from './helperFunctions.js';
+import {
+  gql,
+  graphql,
+  compose
+} from 'react-apollo';
+
+const validationId=1;//temporary
+const getAllAssociates = gql`
+   query Associates {
+     availablePersonel {
+       id
+       name
+       skills
+     }
+   }
+ `;
+const getAllSkills = gql`
+   query Skills {
+     skills {
+       type
+       value
+    }
+   }
+ `;
+const getValidationSkillsRequired = gql`
+   query ValidationSkills($validationId:String!) {
+     selectedSkills(validationId:$validationId) {
+       type
+       value
+     }
+   }
+ `;
+const getValidationSkillsAvailable = gql`
+   query AssociateSkills($validationId:String!) {
+     skillAssessment(validationId:$validationId) {
+       id
+       requiredSkills
+     }
+   }
+ `;
+const addSkillToValidation = gql`
+    mutation addSkill(
+        $validationId:String!
+        $type:String!
+        $value:String!
+    ) {
+        addSkillToValidation(
+            validationId:$validationId
+            type:$type
+            value:$value
+        ) {
+            type
+            value
+        }
+   }
+`;
+
+
+
 
 const whoFitsSkill=(skill="", availablePersonel=[{skills:[]}])=>{
     return availablePersonel.filter((val, index)=>val.skills.filter((v)=>v===skill).length>0);
@@ -42,14 +101,39 @@ if(process.env.NODE_ENV==='test'){
     testRemoveSelectedSkill=removeSelectedSkill;
     testUpdatePersonel=updatePersonel;
 }
-export class Skills extends Component {
+
+const SkillSelect=({data:{skills}, handleSelect})=>{
+    return(
+        <Col xs={12}>
+            <SelectField
+                floatingLabelText="Skills"
+                onChange={handleSelect}
+            >
+            {skills.map((val, index)=>{
+                return <MenuItem key={index} value={val.value} primaryText={val.value} />;
+            })}
+            </SelectField>
+        </Col>
+    )
+}
+const SkillSelectGQL=graphql(getAllSkills)(SkillSelect);
+
+const Skills = ({associates, skillsByPersonel, selectedSkills})=>{
+    associates
+
+}
+
+
+
+
+class Skills extends Component {
+    availablePersonel=leftjoin(this.props.associates, this.props.skillsByPersonel, (left, right)=>left.id===right.id)
     state={
-        selectedSkills:[],
-        skillsByPersonel:[],
-        skills:[], 
+        selectedSkills:this.props.selectedSkills({variables:{validationId:validationId}}),
+        skillsByPersonel:updatePersonel(this.state.selectedSkills, this.availablePersonel)
     }
-    availablePersonel=[]
-    componentDidMount(){
+    
+    /*componentDidMount(){
         const {url}=this.props;
         axios.all([
             axios.get(`${url}/currentAssociates`), 
@@ -61,13 +145,20 @@ export class Skills extends Component {
             this.setState({selectedSkills:selectedSkills.data, skillsByPersonel:updatedPersonel});
         })).catch((err)=>console.log(err));
         axios.get(`${url}/skills`).then((response)=>this.setState({skills:response.data})).catch((err)=>console.log(err));
-    }
+    }*/
     handleSelect=(e, i, v)=>{
         this.setState((prevState, props)=>{
             const updatedSkills=addSelectedSkill(prevState.selectedSkills, v);
             this.availablePersonel=leftjoin(this.availablePersonel, prevState.skillsByPersonel, (left, right)=>left.id===right.id)
             const updatedPersonel=updatePersonel(updatedSkills, this.availablePersonel);
-            axios.post(`${props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));
+            props.addSkill({
+                variables:{
+                    validationId:validationId,
+                    type:updatedSkills.type,
+                    value:updatedSkills.value
+                }
+            }).then((response)=>console.log(response));
+            /*axios.post(`${props.url}/handleSelect`, updatedSkills).then((response)=>console.log(response)).catch((err)=>console.log(err));*/
             return {selectedSkills:updatedSkills, skillsByPersonel:updatedPersonel};
         })
     }
@@ -91,16 +182,7 @@ export class Skills extends Component {
         return(
         <Container>
             <Row>
-            <Col xs={12}>
-                <SelectField
-                    floatingLabelText="Skills"
-                    onChange={this.handleSelect}
-                >
-                {skills.map((val, index)=>{
-                    return <MenuItem key={index} value={val.value} primaryText={val.value} />;
-                })}
-                </SelectField>
-            </Col>
+                <SkillSelectGQL handleSelect={this.handleSelect} />
             </Row>
             <Row>
             <Col sm={6}>
@@ -115,3 +197,19 @@ export class Skills extends Component {
         );
     }
 }
+
+export const SkillsQL=compose(
+    graphql(getAllAssociates, {name:"associates"}),
+    graphql(getValidationSkillsRequired, {options:(props)=>({
+    variables:{
+        validationId:props.validationId
+    }}),name:"selectedSkills"}),
+    graphql(getValidationSkillsAvailable, {options:(props)=>({
+    variables:{
+        validationId:props.validationId
+    }}), name:"skillsByPersonel"}),
+    graphql(addSkillToValidation, {options:(props)=>({
+    variables:{
+        validationId:props.validationId
+    }}), name:"addSkill"}),
+)(Skills);
