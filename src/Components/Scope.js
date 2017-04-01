@@ -70,13 +70,15 @@ export let testOkToSubmit;
 if(process.env.NODE_ENV==='test'){
     testOkToSubmit=isOkToSubmit;
 }
+
 export class Scope extends Component {
     state={
-        mrmvPlanning:[],
-        testSelection:[],
-        openFinalScope:false //this is temporary, for expository purposes
+        //mrmvPlanning:[],
+        //testSelection:[],
+        openFinalScope:false,
+
     }
-    componentDidMount(){
+    /*componentDidMount(){
         const {url}=this.props;
         axios.all([axios.get(`${url}/RCUS`), axios.get(`${url}/scopeAssessment`)]).then(axios.spread((rcus, scope)=>{
             this.setState({
@@ -92,12 +94,6 @@ export class Scope extends Component {
             return prevState;
         })
     }
-    handleExplanation=(i, v)=>{
-        this.setState((prevState, props)=>{
-            prevState.mrmvPlanning[i].explanation=v;
-            return prevState;
-        })
-    }
     handleSelect=(i, index, value)=>{
         this.setState((prevState, props)=>{
             prevState.mrmvPlanning[i].testWork=index;
@@ -105,33 +101,41 @@ export class Scope extends Component {
             return prevState;
         })
     }
+    
+    handleExplanation=(i, v)=>{
+        this.setState((prevState, props)=>{
+            prevState.mrmvPlanning[i].explanation=v;
+            return prevState;
+        })
+    }*/
     handleCloseFinalScope=(v)=>{
         this.setState({
             openFinalScope:false
         })
     }
     handleOpenFinalScope=(v)=>{
-        this.setState((prevState, props)=>{
-            prevState.openFinalScope=true;
-            prevState.filteredData=prevState.mrmvPlanning.concat().sort((a, b)=>a.workpaper<b.workpaper?-1:1);
-            return prevState;
-        });
+        this.setState({
+            openFinalScope:true
+        })
     }
     render(){
-        const {mrmvPlanning, testSelection, openFinalScope, filteredData}=this.state;
+        const {rawRCUS, plans, rawTestSelection, handleTestSubmit, handleExplanation, handleSelect}=this.props;
+        const {openFinalScope}=this.state;
+        const mrmvPlanning=leftjoin(rawRCUS, plans, (left, right)=>left.processStep===right.processStep&&left.riskStep===right.riskStep, (left, right)=>right?{...left, submitted:right.submitted, testWork:right.testWork, explanation:right.explanation}:{...left, submitted:false, testWork:null, explanation:""})
+        const filteredData=mrmvPlanning.concat().sort((a, b)=>a.workpaper<b.workpaper?-1:1);
         return <Container>
             <div style={{maxHeight:500, overflowY:"auto"}}>
             <FourColHead style={tableStyle} first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
-            {mrmvPlanning.map((rcusItem, index)=>{
-                return <FourColBody style={tableStyle} key={index} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
-                    <SelectTesting notAllowedToSubmit={!isOkToSubmit(rcusItem)} isSubmitted={rcusItem.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
+            {mrmvPlanning.map((rcusItem, rcusIndex)=>{
+                return <FourColBody style={tableStyle} key={rcusIndex} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
+                    <SelectTesting notAllowedToSubmit={!isOkToSubmit(rcusItem)} isSubmitted={rcusItem.submitted}  handleSubmit={()=>handleTestSubmit(rcusItem.submitted, rcusIndex, rcusItem)}>
                         <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
                         <EnterTestingPlan 
-                            testSelection={testSelection}
+                            testSelection={rawTestSelection}
                             requiresExplanation={rcusItem.explanation} 
                             selectedItem={rcusItem.testWork} 
-                            handleExplanation={(v)=>this.handleExplanation(index, v)} 
-                            handleSelect={(i, v)=>this.handleSelect(index, i, v)}
+                            handleExplanation={(v)=>handleExplanation(rcusIndex, v)} 
+                            handleSelect={(selectIndex, v)=>handleSelect(rcusIndex, selectIndex)}
                         />
                     </SelectTesting>
                 </FourColBody>

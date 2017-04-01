@@ -1,14 +1,23 @@
-const initialState = {
-  step:0
-}
+import {combineReducers} from 'redux'
+import step from './StepReducer'
+import skills from './SkillsReducer'
+import rawSkills from './RawSkillsReducer'
+import associates from './AssociateReducer'
+import rawAssociates from './RawAssociatesReducer'
+import validationID from './ValidationIDReducer'
+import rawRCUS from './RawRCUSReducer'
+import plans from './PlansReducer'
+import rawTest from './RawTestSelectionReducer'
 
-const workflowApp=(state=initialState, action)=>{
-    console.log(action);
-    switch(action.type){
-        case "SET_STEP":
-            return {...state, step:action.step}
-        default:
-            return state;
-    }
-}
+const workflowApp=combineReducers({
+    rawSkills,
+    validationID,
+    rawAssociates,
+    step,
+    skills,
+    rawRCUS,
+    plans,
+    rawTest, 
+    associates
+})
 export default workflowApp;

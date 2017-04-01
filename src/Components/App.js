@@ -16,8 +16,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container, Row, Col} from 'react-grid-system';
-import {Scope} from './Scope.js'
-import {Skills} from './Skills.js'
+import ScopeContainer from '../Containers/ScopeContainer.js'
+import SkillsContainer from '../Containers/SkillsContainer.js'
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
@@ -98,8 +98,8 @@ const handleStepChangeHelper=(step)=>step>=0&&step<=contents.length
 
 const App =({step, handleStepChange}) => {
   const componentPerItem=[
-    <Skills url={url}/>,
-    <Scope url={url}/>,
+    <SkillsContainer url={url}/>,
+    <ScopeContainer url={url}/>,
     <p>
       On step {step}
     </p>,
