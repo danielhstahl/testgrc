@@ -94,48 +94,43 @@ const contents=[
   }
 ]
 const url="http://localhost:3001";
-class App extends Component {
-  state={
-    step:0
-  }
-  handleStepChange=(step)=>{
-    if(step>=0 &&step<=contents.length){
-      this.setState({step:step});
-    }
-  }
-  render() { //{renderSomethingOnPageTemp(step)}
-    const {step}=this.state;
-    const componentPerItem=[
-      <Skills url={url}/>,
-      <Scope url={url}/>,
-      <p>
-        On step {step}
-      </p>,
-      <p>
-        On step {step}
-      </p>
-    ];
-    return (
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-        <Container>
-          <Row style={FlowStyles}>
-            <Col xs={12}>
-              <ValidationFlow contents={contents}  handleStepChange={this.handleStepChange} step={step}/>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-                <ValidationWork 
-                  step={step} 
-                  nodeArray={componentPerItem} 
-                />
-            </Col>
+const handleStepChangeHelper=(step)=>step>=0&&step<=contents.length
 
-          </Row>
-        </Container>
-      </MuiThemeProvider>
-    );
-  }
+const App =({step, handleStepChange}) => {
+  const componentPerItem=[
+    <Skills url={url}/>,
+    <Scope url={url}/>,
+    <p>
+      On step {step}
+    </p>,
+    <p>
+      On step {step}
+    </p>
+  ];
+  return (
+    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <Container>
+        <Row style={FlowStyles}>
+          <Col xs={12}>
+            <ValidationFlow contents={contents}  handleStepChange={(step)=>              handleStepChangeHelper(step)&&handleStepChange(step)}
+               step={step}/>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+              <ValidationWork 
+                step={step} 
+                nodeArray={componentPerItem} 
+              />
+          </Col>
+
+        </Row>
+      </Container>
+    </MuiThemeProvider>
+  );
 }
-
+App.propTypes={
+    step:React.PropTypes.number.isRequired,
+    handleStepChange:React.PropTypes.func.isRequired
+}
 export default App;

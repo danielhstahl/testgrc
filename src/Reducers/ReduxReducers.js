@@ -1,12 +1,12 @@
-import {SET_STEP} from './ReduxActions';
 const initialState = {
   step:0
 }
 
-function workflowApp(state=initialState, action) {
+const workflowApp=(state=initialState, action)=>{
+    console.log(action);
     switch(action.type){
-        case SET_STEP:
-            return [...state, {step:action.filter}]
+        case "SET_STEP":
+            return {...state, step:action.step}
         default:
             return state;
     }
