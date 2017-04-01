@@ -10,7 +10,9 @@ import SubmitButtonProgress from './SubmitProgress.js'
 import axios from 'axios';
 import {leftjoin} from './helperFunctions.js'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'; //temporary
-
+import {FourColHead, FourColBody, RiskTestExplanation} from './ScopeUtils'
+import EnterTestingPlan from './EnterTestingPlan'
+import SelectTesting from './SelectTesting'
 const Checks=[
     {
         title:"Audit issues/regulatory findings",
@@ -18,126 +20,8 @@ const Checks=[
     }
 ]
 
-class SelectTesting extends Component {
-    state={
-        open:false
-    }
-    handleOpen = () => {
-        this.setState({open: true});
-    };
-    handleClose = () => {
-        this.setState({open: false});
-    };
-    render(){
-        const {handleSubmit, isSubmitted, children, notAllowedToSubmit}=this.props;
-        const actions = [
-            <FlatButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={this.handleClose}
-            />,
-            <RaisedButton
-                label="Submit"
-                primary={true}
-                disabled={notAllowedToSubmit}
-                onTouchTap={()=>{this.handleClose();handleSubmit();}}
-            />,
-        ];
-        return(
-            <div >
-                {isSubmitted?
-                    <RaisedButton  primary label="Submitted!" onTouchTap={this.handleOpen} />:
-                <RaisedButton  label="Enter Plan" onTouchTap={this.handleOpen} />}
-                <Dialog
-                    title="Testing Plan"
-                    actions={actions}
-                    modal={false}
-                    open={this.state.open}
-                    onRequestClose={this.handleClose}
-                    >
-                    {children}
-                </Dialog>
-            </div>
-        )
-    }
-}
-const FourColHead=({first, second, third, fourth, style})=>
-<Row style={style}>
-    <Col xs={3} >
-        <h3>{first}</h3>
-    </Col>
-    <Col xs={3}>
-        <h3>{second}</h3>
-    </Col>
-    <Col xs={3}>
-        <h3>{third}</h3>
-    </Col>
-    <Col xs={3}>
-        <h3>{fourth}</h3>
-    </Col>
-</Row>
-const FourColBody=({first, second, third, fourth,children, style})=>
-<Row style={style}>
-    <Col xs={3} >
-        <p>{first}</p>
-    </Col>
-    <Col xs={3}>
-        <p>{second}</p>
-    </Col>
-    <Col xs={3}>
-        <p>{third}</p>
-    </Col>
-    <Col xs={3}>
-        {children}
-    </Col>
-</Row>
-const RiskTestExplanation=({risk, control, responsibility})=>
-<div>
-    <p>In testing this risk, consider the following:</p>
-    <ul>
-        <li>The risk is "{risk}"</li>
-        <li>The control is "{control}"</li>
-        <li>MRMV's responsibility for this risk and control is "{responsibility}"</li>
-        <li>Testing may be excluded based off relevance or risk.  Excluded tests must have an explanation.</li>
-    </ul>
-</div>
-class TestTypes extends Component {
-    state={
-        requiresExplanation:this.props.requiresExplanation
-    }
-    handleSelect=(v)=>{
-        this.setState({
-            requiresExplanation:this.props.testSelection.filter((val)=>val.index===v)[0].requiresExplanation
-        });
-    }
-    render(){
-        const {handleSelect, handleExplanation, selectedItem, testSelection}=this.props;
-        return(
-        <Container>
-            <Row>
-                <Col xs={12} sm={6}>
-                    <SelectField
-                        floatingLabelText="Select Test Type"
-                        value={selectedItem}
-                        onChange={(e, i, v)=>{handleSelect(v, testSelection.filter((val)=>val.index===v)[0].description);this.handleSelect(v)}}
-                    >
-                        {testSelection.map((val, index)=>{
-                            return <MenuItem key={index} value={val.index} primaryText={val.description} />;
-                        })}
-                    </SelectField>
-                </Col>
-                <Col xs={12} sm={6}>
-                    {this.state.requiresExplanation?<TextField 
-                        defaultValue={this.props.requiresExplanation}
-                        floatingLabelText="Explanation for Lack of Testing"
-                        onChange={(e,v)=>handleExplanation(v)}
-                    />:""}
-                </Col>
-            </Row>
-        </Container>
-        )
-    }
-}
+
+
 const TmpTable=({dataObj, columnTitles, height, title})=>{
     return (
     <Table selectable={false} height={height?height:"inherit"}>
@@ -242,7 +126,7 @@ export class Scope extends Component {
                 return <FourColBody style={tableStyle} key={index} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
                     <SelectTesting notAllowedToSubmit={!isOkToSubmit(rcusItem)} isSubmitted={rcusItem.isSubmitted}  handleSubmit={()=>this.handleTestSubmit(index)}>
                         <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
-                        <TestTypes 
+                        <EnterTestingPlan 
                             testSelection={testSelection}
                             requiresExplanation={rcusItem.explanation} 
                             selectedItem={rcusItem.testWork} 
@@ -265,4 +149,7 @@ export class Scope extends Component {
             </Dialog>
         </Container>
     }
+}
+Scope.propTypes={
+    url:React.PropTypes.string.isRequired
 }

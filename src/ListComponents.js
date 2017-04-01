@@ -17,6 +17,12 @@ export const ListOfPersonel=({ArrayOfPersons, onCheck})=>
         />
     })}
 </List>
+ListOfPersonel.propTypes={
+    ArrayOfPersons:React.PropTypes.arrayOf((propValue, key, componentName, location, propFullName)=>{
+        return !(propValue[key].name&&propValue[key].id&&propValue[key].requiredSkills)&& new Error(`Invalid prop ${propFullName} supplied to ${componentName}. Validation failed.`)
+    }).isRequired,
+    onCheck:React.PropTypes.func.isRequired
+}
 
 export const ListWithDelete=({selectedSkills, onDelete})=>
 <List>
@@ -33,3 +39,7 @@ export const ListWithDelete=({selectedSkills, onDelete})=>
         })
     }
 </List>
+ListWithDelete.propTypes={
+    selectedSkills:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    onDelete:React.PropTypes.func.isRequired
+}
