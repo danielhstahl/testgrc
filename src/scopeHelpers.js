@@ -20,3 +20,15 @@ export const isOkToSubmit=(testWork=0, explanation="", rawTestSelection=[{index:
             return true;
     }
 }
+
+export const filterAndSortPlan=(planResults, rawTestSelection)=>{
+    return planResults.map(plan=>{
+        return {
+            workpaper:plan.workpaper, 
+            risk:plan.risk,
+            controls:plan.controls,
+            testWorkDescription:plan.testWork?rawTestSelection.filter(val=>val.index===plan.testWork)[0].description:"",
+            explanation:plan.explanation
+        }
+    }).sort((a, b)=>a.workpaper<b.workpaper?-1:1)
+}

@@ -25,6 +25,7 @@ it('renders ScopeDisplay without crashing', () => {
               }
           ]
       }
+      rawTestSelection={[{index:0, description:"hello"}]}
     />
   </MuiThemeProvider>, div);
 });

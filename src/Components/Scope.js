@@ -27,7 +27,7 @@ const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, maxHeight=500
             return <SelectAndEnter tableStyle={tableStyle} key={rcusIndex} rcusItem={rcusItem} rawTestSelection={rawTestSelection} handleTestSubmit={handleTestSubmit}/>
         })}
         </div>
-        <ScopeDisplay mrmvPlanning={mrmvPlanning}/>
+        <ScopeDisplay mrmvPlanning={mrmvPlanning} rawTestSelection={rawTestSelection}/>
     </Container>
 }
 Scope.propTypes={

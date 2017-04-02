@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'; 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import {filterAndSortPlan} from '../scopeHelpers'
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
 const defaultHeight="500px"
 const DisplayTable=({dataObj, columnTitles, height, title})=>{
+    const tableKeys=dataObj.length>0?Object.keys(dataObj[0]):[];
     return (
     <Table selectable={false} height={height?height:"inherit"}>
       <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -26,7 +28,7 @@ const DisplayTable=({dataObj, columnTitles, height, title})=>{
         {dataObj.map((val, index)=>{
           return(
             <TableRow key={index}>
-              {columnTitles.map((keys, index)=>{
+              {tableKeys.map((keys, index)=>{
                 return <TableRowColumn key={index}>{val[keys]}</TableRowColumn>
               })}
             </TableRow>
@@ -38,16 +40,11 @@ const DisplayTable=({dataObj, columnTitles, height, title})=>{
 }
 DisplayTable.propTypes={
     dataObj:React.PropTypes.arrayOf(React.PropTypes.shape({
-        process:React.PropTypes.string.isRequired,
         risk:React.PropTypes.string.isRequired,
-        processStep:React.PropTypes.number.isRequired,
-        riskStep:React.PropTypes.number.isRequired,
         controls:React.PropTypes.string.isRequired,
         workpaper:React.PropTypes.number.isRequired,
-        MRMVResponsibility:React.PropTypes.string.isRequired,
         explanation:React.PropTypes.string.isRequired,
-        testWork:React.PropTypes.number,
-        submitted:React.PropTypes.bool.isRequired
+        testWorkDescription:React.PropTypes.string.isRequired
     })).isRequired, 
     columnTitles:React.PropTypes.arrayOf(React.PropTypes.string), 
     height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
@@ -68,7 +65,7 @@ class ScopeDisplay extends Component {
         })
     }
     render(){
-        const {mrmvPlanning, height}=this.props;
+        const {mrmvPlanning, height, rawTestSelection}=this.props;
         const {openFinalScope}=this.state;
         return(
             <div>
@@ -80,7 +77,7 @@ class ScopeDisplay extends Component {
                     open={openFinalScope}
                     onRequestClose={this.handleCloseFinalScope}
                 >
-                    <DisplayTable dataObj={mrmvPlanning.concat().sort((a, b)=>a.workpaper<b.workpaper?-1:1)} columnTitles={["workpaper", "risk", "controls", "testWorkDescription", "explanation"]} height={height?height:defaultHeight}/>
+                    {openFinalScope?<DisplayTable dataObj={filterAndSortPlan(mrmvPlanning, rawTestSelection)} columnTitles={["workpaper", "risk", "controls", "testwork", "explanation"]} height={height?height:defaultHeight}/>:null}
                 </Dialog>
             </div>
         )
@@ -98,6 +95,10 @@ ScopeDisplay.propTypes={
         explanation:React.PropTypes.string.isRequired,
         testWork:React.PropTypes.number,
         submitted:React.PropTypes.bool.isRequired
+    })).isRequired,
+    rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
+        index: React.PropTypes.number.isRequired,
+        description: React.PropTypes.string.isRequired
     })).isRequired,
     height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
 }
