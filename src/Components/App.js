@@ -38,7 +38,7 @@ const contents=[
 const url="http://localhost:3001";
 const handleStepChangeHelper=(step)=>step>=0&&step<=contents.length
 const arrowColor=lightBaseTheme.palette.primary1Color;
-const App =({step, handleStepChange}) => {
+const App =({step, handleStepChange, getRawAssociates, getRawSkills, getRawRCUS, getRawTestSelection}) => {
   const componentPerItem=[
     <SkillsContainer url={url}/>,
     <ScopeContainer url={url}/>,
@@ -49,6 +49,10 @@ const App =({step, handleStepChange}) => {
       On step {step}
     </p>
   ];
+  getRawAssociates();
+  getRawSkills();
+  getRawRCUS();
+  getRawTestSelection();
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
       <Container>

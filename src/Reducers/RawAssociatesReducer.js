@@ -1,24 +1,10 @@
-const rawAssociates=(state=[
-    {
-        name:"Name 1",
-        id:"123",
-        skills:[
-            "R",
-            "FAS 114",
-            "Time Series"
-        ]
-    },
-    {
-        name:"Name 2",
-        id:"345",
-        skills:[
-            "Stochastic Calculus",
-            "R",
-            "C++",
-            "Time Series"
-        ]
+const rawAssociates=(state=[], action)=>{
+    switch(action.type){
+        case "SET_RAW_ASSOCIATES":
+            return action.associates
+        default:
+            return state
     }
-], action)=>{
-    return state
+    //return state
 }
 export default rawAssociates;

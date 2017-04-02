@@ -1,5 +1,5 @@
 import {joinHelper} from '../scopeHelpers'
-const plan=(state={}, action, i=0)=>{
+const plan=(state={}, action)=>{
     switch(action.type){
         case "ADD_VALIDATION_PLAN":
             return {

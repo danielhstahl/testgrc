@@ -1,25 +1,10 @@
-//this is a helper function that may be deleted once I've got the server set up
-const rawSkills=(state=[
-    {
-        type:"programming",
-        value:"Matlab"
-    },{
-        type:"programming",
-        value:"R"
-    },{
-        type:"programming",
-        value:"C++"
-    },{
-        type:"math",
-        value:"Stochastic Calculus"
-    },{
-        type:"statistics",
-        value:"Time Series"
-    },{
-        type:"accounting",
-        value:"FAS 114"
+
+const rawSkills=(state=[], action)=>{
+    switch(action.type){
+        case "SET_RAW_SKILLS":
+            return action.skills
+        default:
+            return state;
     }
-], action)=>{
-    return state
 }
 export default rawSkills;
