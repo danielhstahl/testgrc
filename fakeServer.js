@@ -11,16 +11,62 @@ app.use((req, res, next)=>{
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+const transformNormalizedToKey=(associates)=>{
+    associates.sort((a, b)=>a.id<b.id?-1:1);
+    return associates.reduce((aggr, curr, index, arr)=>{
+        const aggrLength=aggr.length;
+        if(index>0&&arr[index-1].id===curr.id){
+            aggr[aggrLength-1].skills.push(curr.skill)
+        }
+        else{
+            aggr.push({name:`Name ${aggrLength+1}`, id:curr.id, skills:[curr.skill]})
+        }
+        return aggr
+    }, [])
+}
+/*console.log(transformNormalizedToKey([
+    {name:"Name 1", id:"123", skill:"R"},
+    {name:"Name 1", id:"123", skill:"FAS 114"},
+    {name:"Name 1", id:"123", skill:"Time Series"},
+    {name:"Name 2", id:"456", skill:"Stochastic Calculus"},
+    {name:"Name 2", id:"456", skill:"R"},
+    {name:"Name 2", id:"456", skill:"C++"},
+    {name:"Name 2", id:"456", skill:"Time Series"},
+]))*/
+
+const pg=require('pg');
+const config={
+    user:'gvjnbkho',
+    database:'gvjnbkho',
+    password:'ANxXJwEDc_RPPEFea3NbhP1EGYO-J4oy',
+    host:'stampy.db.elephantsql.com',
+    port:5432,
+    max:10,
+    idleTimeoutMillis: 30000, 
+}
+const pool = new pg.Pool(config);
+pool.on('error', (err, client)=>{
+    console.log(err);
+})
+
+
+
+
 
 let port = process.env.PORT || 3001;
 let scopeData=[];
 let skillData=[];
 let selectedSkills=[];
 app.get("/currentAssociates", (req, res)=>{ 
-    res.send(availablePersonel)
+    pool.query("SELECT * FROM associateskills", (err, result)=>{
+        res.send(transformNormalizedToKey(result.rows))
+    })
 })
 app.get("/skills", (req, res)=>{//these are "static"
-    res.send(skills)
+    pool.query("SELECT * FROM skills", (err, result)=>{
+        res.send(result.rows)
+    })
+    //res.send(skills)
 })
 app.get("/RCUS", (req, res)=>{//these are "static"
     res.send(RCUS)
@@ -41,10 +87,14 @@ app.get("/selectedSkills", (req, res)=>{ //in final state use validation id.  Th
 app.post("/handleTestSubmit",  (req, res)=>{ //in final state use validation id
     scopeData=req.body;
     res.sendStatus(200);
+    
 })
 app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation id
-    skillData=req.body;
-    res.sendStatus(200);
+    //skillData=req.body;
+    pool.query("INSERT  FROM skills", (err, result)=>{
+        res.sendStatus(200);
+    })
+    //res.sendStatus(200);
 })
 app.post("/handleSelect",  (req, res)=>{ //in final state use validation id
     selectedSkills=req.body;
