@@ -3,8 +3,6 @@ import { addSkillsRequiredForValidation, addAssociateForValidation, removeSkillR
 import {Skills} from '../Components/Skills'
 
 const mapStateToProps=(state, ownProps)=>{
-    console.log(state);
-    console.log(ownProps);
     return {url:ownProps.url, validationSkills:state.skills, validationAssociates:state.associates, rawSkills:state.rawSkills, rawAssociates:state.rawAssociates}
 }
 const mapDispatchToProps=(dispatch)=>{

@@ -8,6 +8,9 @@ export const getSkillsByAssociate=(skills=[], rawAssociates=[{name:"", id:"", sk
         return {name:person.name, requiredSkills:requiredSkills, skills:person.skills, id:person.id};
     })
 }
+
+export const getUniqueArray=Array.from?(array)=>[...new Set(array)]:(array)=>array.sort().filter((val, index, arr)=>!index||val!==arr[index-1])//ensure unique values
+
 export const sortSkillsByAssociate=(updatedSkills=[""], rawAssociates=[{name:"", id:"", skills:[""]}])=>{
     const updatedPersonel=getSkillsByAssociate(updatedSkills, rawAssociates);
     updatedPersonel.sort((a, b)=>a.requiredSkills.length>b.requiredSkills.length?-1:1);

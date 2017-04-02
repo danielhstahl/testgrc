@@ -49,3 +49,6 @@ export default class SubmitButtonProgress extends Component{
     )
   }
 }
+SubmitButtonProgress.propTypes={
+  handleSubmit:React.PropTypes.func.isRequired
+}

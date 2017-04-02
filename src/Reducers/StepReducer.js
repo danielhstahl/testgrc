@@ -1,5 +1,4 @@
 const step=(state=0, action)=>{
-    console.log(action)
     switch(action.type){
         case "SET_STEP":
             return action.step

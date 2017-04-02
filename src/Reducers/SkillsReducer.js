@@ -1,3 +1,4 @@
+import {getUniqueArray} from '../skillsHelpers'
 const skill=(state="", action)=>{
     switch(action.type){
         case "ADD_VALIDATION_SKILL":
@@ -9,10 +10,9 @@ const skill=(state="", action)=>{
     }
 }
 const skills=(state=[], action)=>{
-    console.log(state);
     switch(action.type){
         case "ADD_VALIDATION_SKILL":
-            return [...state, skill(undefined, action)]
+            return getUniqueArray([...state, skill(undefined, action)])
         case "REMOVE_VALIDATION_SKILL":
             return state.filter((skl)=>skill(skl, action))
         default:

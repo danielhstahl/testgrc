@@ -1,12 +1,9 @@
-//export const SET_STEP='SET_STEP';
-
 export const setStep=(step)=>{
     return {
         type:'SET_STEP',
         step
     };
 }
-
 export const addSkillsRequiredForValidation=(skill)=>{
     return {
         type:"ADD_VALIDATION_SKILL",
@@ -31,31 +28,16 @@ export const removeAssociateForValidation=(associate)=>{
         associate
     }
 }
-
 export const addPlanningToValidation=(plan)=>{
     return {
         type:"ADD_VALIDATION_PLAN",
         plan
     }
 }
-export const editPlan=(i, plan)=>{
+export const editPlan=(plan)=>{
     return {
         type:"EDIT_VALIDATION_PLAN",
-        index:i, 
         plan
     }
 }
-export const updateTestType=(i, testIndex)=>{
-    return {
-        type:"EDIT_TEST_INDEX",
-        index:i,
-        testIndex
-    }
-}
-export const updateExplanation=(i, explanation)=>{
-    return {
-        type:"EDIT_TEST_EXPLANATION",
-        index:i,
-        explanation
-    }
-}
+

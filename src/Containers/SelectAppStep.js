@@ -4,7 +4,6 @@ import App from '../Components/App'
 
 
 const mapStateToProps=(state, ownProps)=>{
-    console.log(state);
     return {step:state.step}
 }
 const mapDispatchToProps=(dispatch)=>{
