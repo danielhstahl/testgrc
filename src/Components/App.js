@@ -7,7 +7,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Container, Row, Col} from 'react-grid-system';
 import ScopeContainer from '../Containers/ScopeContainer'
 import SkillsContainer from '../Containers/SkillsContainer'
-import {ValidationFlow, ValidationWork} from './ValidationFlow'
+import {ValidationFlow, ValidationWork} from './ValidationWorkFlow'
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();

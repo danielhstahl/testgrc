@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container} from 'react-grid-system';
 import {leftjoin} from './../helperFunctions.js'
-import {ScopeDisplay} from './ScopeDisplay'
-import {SelectAndEnter} from './SelectAndEnter'
+import ScopeDisplay from './ScopeDisplay'
+import SelectAndEnter from './SelectAndEnter'
 import {joinHelper, mergeHelper} from '../scopeHelpers'
 import {FourColHead} from './ScopeUtils'
 /*const Checks=[
@@ -18,7 +18,7 @@ const computePlan=(rawRCUS, plans)=>{
     return leftjoin(rawRCUS, plans, joinHelper, mergeHelper);
 }
 
-export const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, maxHeight=500})=> {
+const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, maxHeight=500})=> {
     const mrmvPlanning=computePlan(rawRCUS, plans, rawTestSelection)
     return <Container>
         <div style={{maxHeight:maxHeight, overflowY:"auto"}}>
@@ -53,3 +53,4 @@ Scope.propTypes={
     handleTestSubmit:React.PropTypes.func.isRequired,
     maxHeight:React.PropTypes.number
 }
+export default Scope

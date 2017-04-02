@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {SelectTesting} from './SelectTesting';
+import SelectTesting from './SelectTesting';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-it('renders without crashing', () => {
+it('renders SelectTesting without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<MuiThemeProvider>
-    <ScopeDisplay 
+    <SelectTesting 
       handleSubmit={()=>{}}
       isSubmitted={true}
       children={<p></p>}

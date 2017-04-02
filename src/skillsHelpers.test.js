@@ -1,4 +1,4 @@
-import {whoFitsSkill, getSkillsByAssociate, sortSkillsByAssociate, joinedAssociates, getUniqueArray} from './skillHelpers'
+import {whoFitsSkill, getSkillsByAssociate, sortSkillsByAssociate, joinedAssociates, getUniqueArray} from './skillsHelpers'
 it('returns both associates', ()=>{
     const obj=[{
         skills:[1, 2, 3]
@@ -34,30 +34,24 @@ it('returns both skills per associate', ()=>{
     const obj=[{
         skills:[1, 2, 3],
         name:"Person1",
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2],
         name:"Person2",
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     const expectedResult=[{
         skills:[1, 2, 3],
         name:"Person1",
-        numberOfRequiredSkills:2,
         requiredSkills:[1, 2],
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2],
         name:"Person2",
-        numberOfRequiredSkills:2,
         requiredSkills:[1, 2],
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     expect(getSkillsByAssociate(skills, obj)).toEqual(expectedResult);
 })
@@ -66,30 +60,24 @@ it('returns only 1 skill for one associate', ()=>{
     const obj=[{
         skills:[1, 2, 3],
         name:"Person1",
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2],
         name:"Person2",
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     const expectedResult=[{
         skills:[1, 2, 3],
         name:"Person1",
-        numberOfRequiredSkills:1,
         requiredSkills:[3],
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2],
         name:"Person2",
-        numberOfRequiredSkills:0,
         requiredSkills:[],
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     expect(getSkillsByAssociate(skills, obj)).toEqual(expectedResult);
 })
@@ -98,30 +86,24 @@ it('returns partial skills per associate', ()=>{
     const obj=[{
         skills:[1, 2, 3],
         name:"Person1",
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2],
         name:"Person2",
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     const expectedResult=[{
         skills:[1, 2, 3],
         name:"Person1",
-        numberOfRequiredSkills:2,
         requiredSkills:[2, 3],
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2],
         name:"Person2",
-        numberOfRequiredSkills:1,
         requiredSkills:[2],
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     expect(getSkillsByAssociate(skills, obj)).toEqual(expectedResult);
 })
@@ -142,30 +124,24 @@ it('updates personel then returns sorted', ()=>{
     const obj=[{
         skills:[1, 2],
         name:"Person1",
-        id:1,
-        selectedForTeam:false
+        id:1
     },
     {
         skills:[1, 2, 3],
         name:"Person2",
-        id:2,
-        selectedForTeam:true
+        id:2
     }]
     const expectedResult=[{
         skills:[1, 2, 3],
         name:"Person2",
-        numberOfRequiredSkills:2,
         requiredSkills:[2, 3],
-        id:2,
-        selectedForTeam:true
+        id:2
     },
     {
         skills:[1, 2],
         name:"Person1",
-        numberOfRequiredSkills:1,
         requiredSkills:[2],
-        id:1,
-        selectedForTeam:false
+        id:1
     }]
     expect(sortSkillsByAssociate(skills, obj)).toEqual(expectedResult);
 })

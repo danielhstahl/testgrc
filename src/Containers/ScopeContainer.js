@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { addPlanningToValidation, editPlan} from '../Actions/ReduxActions'
-import {Scope} from '../Components/Scope'
+import Scope from '../Components/Scope'
 
 const mapStateToProps=(state, ownProps)=>{
     return {rawRCUS:state.rawRCUS, plans:state.plans,rawTestSelection:state.rawTest}

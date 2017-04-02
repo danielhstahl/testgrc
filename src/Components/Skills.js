@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {ListOfPersonel, ListWithDelete} from './ListComponents.js';
 import {joinedAssociates} from '../skillsHelpers'
 
-export const Skills=({url, rawSkills, rawAssociates, validationSkills, validationAssociates,  handleSelect, handleToggleAssociate, handleRemoveSkill})=> {
+const Skills=({rawSkills, rawAssociates, validationSkills, validationAssociates,  handleSelect, handleToggleAssociate, handleRemoveSkill})=> {
     const associatesForDisplay=joinedAssociates(validationSkills, rawAssociates, validationAssociates);
     return(
         <Container>
@@ -29,3 +29,21 @@ export const Skills=({url, rawSkills, rawAssociates, validationSkills, validatio
         </Container>
     );
 }
+Skills.propTypes={
+    rawSkills:React.PropTypes.arrayOf(React.PropTypes.shape({
+        value:React.PropTypes.string.isRequired
+    })).isRequired, 
+    rawAssociates:React.PropTypes.arrayOf(React.PropTypes.shape({
+        name:React.PropTypes.string.isRequired,
+        id:React.PropTypes.string.isRequired,
+        skills:React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    })).isRequired, 
+    validationSkills:React.PropTypes.arrayOf(React.PropTypes.string).isRequired, validationAssociates:React.PropTypes.arrayOf(React.PropTypes.shape({
+        id:React.PropTypes.string.isRequired,
+        skills:React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    })).isRequired,  
+    handleSelect:React.PropTypes.func.isRequired, 
+    handleToggleAssociate:React.PropTypes.func.isRequired,
+    handleRemoveSkill:React.PropTypes.func.isRequired
+}
+export default Skills

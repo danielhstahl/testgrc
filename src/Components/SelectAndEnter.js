@@ -3,7 +3,7 @@ import {FourColBody, RiskTestExplanation} from './ScopeUtils'
 import EnterTestingPlan from './EnterTestingPlan'
 import SelectTesting from './SelectTesting'
 import {isOkToSubmit} from '../scopeHelpers'
-export class SelectAndEnter extends Component{
+class SelectAndEnter extends Component{
     state={
         explanation:"",//holder for current "Plan"
         testWork:null//holder for current "Plan"
@@ -64,3 +64,4 @@ SelectAndEnter.propTypes={
     handleTestSubmit:React.PropTypes.func.isRequired,
     tableStyle:React.PropTypes.object
 }
+export default SelectAndEnter

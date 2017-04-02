@@ -6,6 +6,7 @@ const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
+const defaultHeight="500px"
 const DisplayTable=({dataObj, columnTitles, height, title})=>{
     return (
     <Table selectable={false} height={height?height:"inherit"}>
@@ -48,10 +49,11 @@ DisplayTable.propTypes={
         testWork:React.PropTypes.number,
         submitted:React.PropTypes.bool.isRequired
     })).isRequired, 
-    columnTitles:React.PropTypes.arrayOf(React.PropTypes.string), height:React.PropTypes.number,
+    columnTitles:React.PropTypes.arrayOf(React.PropTypes.string), 
+    height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
     title:React.PropTypes.string
 }
-export class ScopeDisplay extends Component {
+class ScopeDisplay extends Component {
     state={
         openFinalScope:false,
     }
@@ -66,7 +68,7 @@ export class ScopeDisplay extends Component {
         })
     }
     render(){
-        const {mrmvPlanning}=this.props;
+        const {mrmvPlanning, height}=this.props;
         const {openFinalScope}=this.state;
         return(
             <div>
@@ -78,7 +80,7 @@ export class ScopeDisplay extends Component {
                     open={openFinalScope}
                     onRequestClose={this.handleCloseFinalScope}
                 >
-                    <DisplayTable dataObj={mrmvPlanning.concat().sort((a, b)=>a.workpaper<b.workpaper?-1:1)} columnTitles={["workpaper", "risk", "controls", "testWorkDescription", "explanation"]} height="500px"/>
+                    <DisplayTable dataObj={mrmvPlanning.concat().sort((a, b)=>a.workpaper<b.workpaper?-1:1)} columnTitles={["workpaper", "risk", "controls", "testWorkDescription", "explanation"]} height={height?height:defaultHeight}/>
                 </Dialog>
             </div>
         )
@@ -96,5 +98,7 @@ ScopeDisplay.propTypes={
         explanation:React.PropTypes.string.isRequired,
         testWork:React.PropTypes.number,
         submitted:React.PropTypes.bool.isRequired
-    })).isRequired
+    })).isRequired,
+    height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
 }
+export default ScopeDisplay

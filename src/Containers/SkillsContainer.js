@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { addSkillsRequiredForValidation, addAssociateForValidation, removeSkillRequiredForValidation, removeAssociateForValidation } from '../Actions/ReduxActions'
-import {Skills} from '../Components/Skills'
+import Skills from '../Components/Skills'
 
 const mapStateToProps=(state, ownProps)=>{
     return {url:ownProps.url, validationSkills:state.skills, validationAssociates:state.associates, rawSkills:state.rawSkills, rawAssociates:state.rawAssociates}

@@ -11,7 +11,7 @@ export const mergeHelper=(left, right, testDescriptions)=>{
 }
 export const isOkToSubmit=(testWork=0, explanation="", rawTestSelection=[{index:0, description:""}])=>{
     const description=rawTestSelection.filter(test=>test.index===testWork);
-    switch(description.length>0?description[0].description:"None"){
+    switch(description.length>0?description[0].description:undefined){
         case "None":
             return explanation?true:false
         case undefined:

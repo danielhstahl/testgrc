@@ -6,8 +6,7 @@ const rawAssociates=(state=[
             "R",
             "FAS 114",
             "Time Series"
-        ],
-        selected:false
+        ]
     },
     {
         name:"Name 2",
@@ -17,8 +16,7 @@ const rawAssociates=(state=[
             "R",
             "C++",
             "Time Series"
-        ],
-        selected:false
+        ]
     }
 ], action)=>{
     return state

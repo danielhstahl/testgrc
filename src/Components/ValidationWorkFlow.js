@@ -29,7 +29,7 @@ export const ValidationFlow=({handleStepChange, step, contents, arrowColor})=>{
           activeStep={step}
           linear={false}
         >
-        {contents.map((val, index, arr)=>{
+        {contents.map((val, index)=>{
           const {title}=val;
           return(
             <Step key={index}>
@@ -40,7 +40,7 @@ export const ValidationFlow=({handleStepChange, step, contents, arrowColor})=>{
           );
         })}
         </Stepper>
-        <ValidationFlowDescription arrowColor={arrowColor} contents={contents} step={step} maxStep={contents.length} handleStepChange={handleStepChange}/>
+        <ValidationFlowDescription arrowColor={arrowColor} text={contents[step].text} step={step} maxStep={contents.length} handleStepChange={handleStepChange}/>
       </div>
   );
 }
@@ -53,24 +53,20 @@ ValidationFlow.propTypes={
         text:React.PropTypes.string.isRequired
     })).isRequired
 }
-const ValidationFlowDescription=({contents, step, maxStep, handleStepChange, arrowColor})=>
+const ValidationFlowDescription=({text, step, maxStep, handleStepChange, arrowColor})=>
 <div>
-    <p style={FlowDescriptionStyles}>
-      {contents[step].text}</p>
-      <IconButton disabled={step===0} onTouchTap={()=>{return handleStepChange(step-1);}}>
+    <p style={FlowDescriptionStyles}>{text}</p>
+    <IconButton disabled={step===0} onTouchTap={()=>{return handleStepChange(step-1);}}>
         <ArrowBack color={arrowColor}/>
-      </IconButton> 
-      <IconButton disabled={step===maxStep-1} onTouchTap={()=>{return handleStepChange(step+1);}}>
+    </IconButton> 
+    <IconButton disabled={step===maxStep-1} onTouchTap={()=>{return handleStepChange(step+1);}}>
         <ArrowForward color={arrowColor}/>
-      </IconButton>
+    </IconButton>
 </div>
 ValidationFlowDescription.propTypes={
     handleStepChange:React.PropTypes.func.isRequired,
     step:React.PropTypes.number.isRequired,
     maxStep:React.PropTypes.number.isRequired,
-    contents:React.PropTypes.arrayOf(React.PropTypes.shape({
-        title:React.PropTypes.string.isRequired,
-        text:React.PropTypes.string.isRequired
-    })).isRequired,
+    text:React.PropTypes.string.isRequired,
     arrowColor:React.PropTypes.string
 }
