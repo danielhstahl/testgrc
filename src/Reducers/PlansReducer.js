@@ -25,6 +25,8 @@ const plans=(state=[], action)=>{
             return [...state, plan(undefined, action)]
         case "EDIT_VALIDATION_PLAN":
             return state.map((priorPlan)=>joinHelper(priorPlan, action.plan)?plan(priorPlan, action):priorPlan)
+        case "LOAD_VALIDATION_PLAN":
+            return action.plans
         default:
             return state;
     }

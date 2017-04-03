@@ -17,6 +17,8 @@ const associates=(state=[], action)=>{
             return [...state, associate(undefined, action)]
         case "REMOVE_VALIDATION_ASSOCIATE":
             return state.filter((skl)=>associate(skl, action))
+        case "LOAD_VALIDATION_ASSOCIATES":
+            return action.associates
         default:
             return state;
     }

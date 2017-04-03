@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
-import { addPlanningToValidation, editPlan} from '../Actions/ReduxActions'
+
+import {addPlanningToValidation, editPlan} from '../Actions/RcusActions'
 import Scope from '../Components/Scope'
 
 const mapStateToProps=(state, ownProps)=>{
-    return {rawRCUS:state.rawRCUS, plans:state.plans,rawTestSelection:state.rawTest}
+    return {validationId:ownProps.validationId, rawRCUS:state.rawRCUS, plans:state.plans,rawTestSelection:state.rawTest}
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
-        handleTestSubmit:(plan)=>{
-            return plan.submitted?dispatch(editPlan(plan)):dispatch(addPlanningToValidation(plan))
+        handleTestSubmit:(plan, validationId)=>{
+            return plan.submitted?dispatch(editPlan(plan, validationId)):dispatch(addPlanningToValidation(plan, validationId))
         }
     }
 }

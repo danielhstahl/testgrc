@@ -18,13 +18,14 @@ const computePlan=(rawRCUS, plans)=>{
     return leftjoin(rawRCUS, plans, joinHelper, mergeHelper);
 }
 
-const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, maxHeight=500})=> {
+const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, validationId,maxHeight=500})=> {
     const mrmvPlanning=computePlan(rawRCUS, plans, rawTestSelection)
+    const handleTestSubmitCurried=(plan)=>handleTestSubmit(plan, validationId);
     return <Container>
         <div style={{maxHeight:maxHeight, overflowY:"auto"}}>
         <FourColHead style={tableStyle} first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
         {mrmvPlanning.map((rcusItem, rcusIndex)=>{
-            return <SelectAndEnter tableStyle={tableStyle} key={rcusIndex} rcusItem={rcusItem} rawTestSelection={rawTestSelection} handleTestSubmit={handleTestSubmit}/>
+            return <SelectAndEnter tableStyle={tableStyle} key={rcusIndex} rcusItem={rcusItem} rawTestSelection={rawTestSelection} handleTestSubmit={handleTestSubmitCurried}/>
         })}
         </div>
         <ScopeDisplay mrmvPlanning={mrmvPlanning} rawTestSelection={rawTestSelection}/>

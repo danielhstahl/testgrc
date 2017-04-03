@@ -16,7 +16,7 @@ export const sortSkillsByAssociate=(updatedSkills=[""], rawAssociates=[{name:"",
     updatedPersonel.sort((a, b)=>a.requiredSkills.length>b.requiredSkills.length?-1:1);
     return updatedPersonel;
 }
-export const joinedAssociates=(skills=[""], rawAssociates=[{name:"", id:"", skills:[""]}], validationAssociates=[{id:"", requiredSkills:[""]}])=>{
+export const joinedAssociates=(skills=[""], rawAssociates=[{name:"", id:"", skills:[""]}], validationAssociates=[{id:""/*, requiredSkills:[""]*/}])=>{
     return leftjoin(sortSkillsByAssociate(skills, rawAssociates), validationAssociates, (left, right)=>left.id===right.id, (left, right)=>right?{...left, selected:true}:{...left, selected:false});
 }
 

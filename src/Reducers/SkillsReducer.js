@@ -15,6 +15,8 @@ const skills=(state=[], action)=>{
             return getUniqueArray([...state, skill(undefined, action)])
         case "REMOVE_VALIDATION_SKILL":
             return state.filter((skl)=>skill(skl, action))
+        case "LOAD_VALIDATION_SKILLS":
+            return action.skills
         default:
             return state;
     }

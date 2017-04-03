@@ -24,16 +24,6 @@ const transformNormalizedToKey=(associates)=>{
         return aggr
     }, [])
 }
-/*console.log(transformNormalizedToKey([
-    {name:"Name 1", id:"123", skill:"R"},
-    {name:"Name 1", id:"123", skill:"FAS 114"},
-    {name:"Name 1", id:"123", skill:"Time Series"},
-    {name:"Name 2", id:"456", skill:"Stochastic Calculus"},
-    {name:"Name 2", id:"456", skill:"R"},
-    {name:"Name 2", id:"456", skill:"C++"},
-    {name:"Name 2", id:"456", skill:"Time Series"},
-]))*/
-
 const pg=require('pg');
 const config={
     user:'gvjnbkho',
@@ -42,7 +32,7 @@ const config={
     host:'stampy.db.elephantsql.com',
     port:5432,
     max:10,
-    idleTimeoutMillis: 30000, 
+    idleTimeoutMillis: 30000
 }
 const pool = new pg.Pool(config);
 pool.on('error', (err, client)=>{
@@ -50,7 +40,7 @@ pool.on('error', (err, client)=>{
 })
 
 
-
+const validationId=1;
 
 
 let port = process.env.PORT || 3001;
@@ -81,17 +71,26 @@ app.get("/testSelection", (req, res)=>{//these are "static"
     res.send(testSelection)
 })
 app.get("/skillAssessment", (req, res)=>{//in final state use validation id.  This is the "instantiated" version of "currentAssociates"
-    res.send(skillData);
+    console.log(req.query);
+    pool.query("SELECT id FROM ValidationAssociates WHERE validationId=$1 AND include=True;", [req.query.validationId], (err, result)=>{
+        if(err){
+            return console.log(err);
+        }
+        res.send(result.rows)
+    })
+    //res.send(skillData);
 })
 app.get("/scopeAssessment", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
     res.send(scopeData);
 })
 app.get("/selectedSkills", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
+    console.log(req.query);
     res.send(selectedSkills);
 })
 
-app.post("/handleTestSubmit",  (req, res)=>{ //in final state use validation id
-    scopeData=req.body;
+app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
+    console.log(req.body);
+    scopeData=req.body.plan;
     res.sendStatus(200);
     
 })
@@ -99,21 +98,19 @@ app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation 
     //skillData=req.body;
     const id=req.body.id;
     const include=req.body.include;
-    const validationId=1;
-    console.log( [validationId, id, include])
+    const validationId=req.body.validationId;
     const sql=`insert into ValidationAssociates (validationId, id, include)  values ($1, $2, $3)
     on conflict (validationId, id)
     do update set (include) = ($3)
     where ValidationAssociates.validationID = $1 AND ValidationAssociates.id=$2;`
-    pool.query(sql, [validationId, id, include], (err, result)=>{
+    pool.query(sql, [validationId,id, include], (err, result)=>{
         console.log(err)
         console.log(result)
         res.sendStatus(200);
     })
-    //res.sendStatus(200);
 })
-app.post("/handleSelect",  (req, res)=>{ //in final state use validation id
-    selectedSkills=req.body;
+app.post("/handleAddSkill",  (req, res)=>{ //in final state use validation id
+    selectedSkills=req.body.skill;
     res.sendStatus(200);
 })
 app.listen(port);
