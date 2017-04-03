@@ -73,3 +73,5 @@ INSERT INTO AssociateSkills (id, skill, dateAdded) VALUES ('456', 'R', current_d
 INSERT INTO AssociateSkills (id, skill, dateAdded) VALUES ('456', 'Stochastic Calculus', current_date);
 INSERT INTO AssociateSkills (id, skill, dateAdded) VALUES ('456', 'C++', current_date);
 INSERT INTO AssociateSkills (id, skill, dateAdded) VALUES ('456', 'Time Series', current_date);
+
+INSERT INTO Validations (validationId, beginDate) VALUES ('1', current_date);
