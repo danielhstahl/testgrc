@@ -58,12 +58,18 @@ let scopeData=[];
 let skillData=[];
 let selectedSkills=[];
 app.get("/currentAssociates", (req, res)=>{ 
-    pool.query("SELECT * FROM associateskills", (err, result)=>{
+    pool.query("SELECT * FROM associateskills;", (err, result)=>{
+        if(err){
+            return console.log(err);
+        }
         res.send(transformNormalizedToKey(result.rows))
     })
 })
 app.get("/skills", (req, res)=>{//these are "static"
-    pool.query("SELECT * FROM skills", (err, result)=>{
+    pool.query("SELECT * FROM skills;", (err, result)=>{
+        if(err){
+            return console.log(err);
+        }
         res.send(result.rows)
     })
     //res.send(skills)
@@ -91,7 +97,14 @@ app.post("/handleTestSubmit",  (req, res)=>{ //in final state use validation id
 })
 app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation id
     //skillData=req.body;
-    pool.query("INSERT  FROM skills", (err, result)=>{
+    const id=req.body.id;
+    const include=req.body.id;
+    const validationId=1;
+    const sql=`insert into ValidationAssociates (validationId, id, include)  values ($1, $2, $3)
+    on conflict (validationId, id)
+    do update set (include) = ($3)
+    where ValidationAssociates.validationID = $1 AND ValidationAssociates.id=$2;`
+    pool.query(sql, [validationId, id, include], (err, result)=>{
         res.sendStatus(200);
     })
     //res.sendStatus(200);

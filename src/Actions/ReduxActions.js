@@ -66,6 +66,7 @@ export const addSkillsRequiredForValidation=(skill)=>{
     }
 }
 export const addAssociateForValidation=(associate)=>{
+    axios.post(`${url}/handleAddTeamMember`, {id:associate.id, include:true}).then((response)=>console.log(response));
     return {
         type:"ADD_VALIDATION_ASSOCIATE",
         associate
@@ -78,6 +79,7 @@ export const removeSkillRequiredForValidation=(skill)=>{
     }
 }
 export const removeAssociateForValidation=(associate)=>{
+    axios.post(`${url}/handleAddTeamMember`, {id:associate.id, include:false}).then((response)=>console.log(response));
     return {
         type:"REMOVE_VALIDATION_ASSOCIATE",
         associate

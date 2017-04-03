@@ -10,7 +10,6 @@ const mapDispatchToProps=(dispatch)=>{
     
     return {
         getRawAssociates:()=>getRawAssociates(dispatch),
-        getRawAssociates:()=>getRawAssociates(dispatch),
         getRawSkills:()=>getRawSkills(dispatch),
         getRawRCUS:()=>getRawRCUS(dispatch),
         getRawTestSelection:()=>getRawTestSelection(dispatch),
