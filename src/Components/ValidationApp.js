@@ -29,8 +29,10 @@ const contents=[
 ]
 
 const handleStepChangeHelper=(step)=>step>=0&&step<=contents.length
-const ValidationApp=({step, match, arrowColor, handleStepChange})=>{
+const ValidationApp=({step, match, arrowColor, handleStepChange, getValidationSkills, getValidationAssociates})=>{
     const {validationId}=match.params;
+    getValidationSkills(validationId);
+    getValidationAssociates(validationId);
     const componentPerItem=[
         <SkillsContainer validationId={validationId}/>,
         <ScopeContainer validationId={validationId}/>,
@@ -62,6 +64,8 @@ const ValidationApp=({step, match, arrowColor, handleStepChange})=>{
 ValidationApp.propTypes={
     step:React.PropTypes.number.isRequired,
     arrowColor:React.PropTypes.string,
-    handleStepChange:React.PropTypes.func.isRequired
+    handleStepChange:React.PropTypes.func.isRequired,
+    getValidationSkills:React.PropTypes.func.isRequired,
+    getValidationAssociates:React.PropTypes.func.isRequired,
 }
 export default ValidationApp;

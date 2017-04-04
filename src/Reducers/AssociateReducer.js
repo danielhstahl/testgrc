@@ -3,7 +3,7 @@ const associate=(state={}, action)=>{
         case "ADD_VALIDATION_ASSOCIATE":
             return {
                 id:action.associate.id,
-                skills:action.associate.requiredSkills
+                //skills:action.associate.requiredSkills
             }
         case "REMOVE_VALIDATION_ASSOCIATE":
             return state.id!==action.associate.id

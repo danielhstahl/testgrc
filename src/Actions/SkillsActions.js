@@ -8,19 +8,18 @@ export const setRawSkills=(skills)=>{
 }
 export const getRawSkills=(dispatch)=>{
     return axios.get(`${url}/skills`).then((response)=>{
-        console.log(response);
         dispatch(setRawSkills(response.data))
     })
 }
 export const addSkillsRequiredForValidation=(skill, validationId)=>{
-    axios.post(`${url}/handleAddSkill`, {skill, validationId, include:true}).then((response)=>console.log(response));
+    axios.post(`${url}/writeValidationSkill`, {skill, validationId, include:true}).then((response)=>console.log(response));
     return {
         type:"ADD_VALIDATION_SKILL",
         skill
     }
 }
 export const getValidationSkills=(dispatch, validationId)=>{
-    return axios.get(`${url}/selectedSkills`, {validationId}).then((response)=>{
+    return axios.get(`${url}/validationSkills`, {params:{validationId}}).then((response)=>{
         console.log(response);
         dispatch(loadSkillsRequiredForValidation(response.data))
     })

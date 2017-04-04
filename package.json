@@ -10,11 +10,13 @@
     "redux-devtools": "^3.3.2"
   },
   "dependencies": {
+    "activedirectory2": "^1.2.1",
     "axios": "^0.15.3",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "material-ui": "^0.17.1",
     "pg": "^6.1.5",
+    "prompt": "^1.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-grid-system": "^2.7.0",
@@ -22,7 +24,8 @@
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
     "react-tap-event-plugin": "^2.0.1",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "sqlite3": "^3.1.8"
   },
   "scripts": {
     "start": "concurrently --kill-others \"react-scripts start\" \"npm run test-serv\"",

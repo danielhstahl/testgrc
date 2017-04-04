@@ -27,6 +27,7 @@ export const editPlan=(plan, validationId)=>{
         plan
     }
 }
+
 export const getValidationPlan=(dispatch, validationId)=>{
     return axios.get(`${url}/scopeAssessment`, {validationId}).then((response)=>{
         console.log(response);

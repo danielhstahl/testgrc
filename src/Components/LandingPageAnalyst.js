@@ -29,6 +29,7 @@ const LandingPageAnalyst=({activities, todos})=>{
     console.log(todos);
     return(
         <Container>
+            
             <Row>
                 <Col xs={12} md={6}>
                     <ListWithLinks list={activities} title="Validation Activities"/>

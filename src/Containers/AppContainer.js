@@ -9,7 +9,9 @@ import App from '../Components/App'
 
 
 const mapStateToProps=(state, ownProps)=>{
-    return {};//{step:state.step}
+    return {
+        user:state.user
+    };//{step:state.step}
 }
 const mapDispatchToProps=(dispatch)=>{
     

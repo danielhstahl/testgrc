@@ -33,7 +33,8 @@ CREATE TABLE Validations(
 CREATE TABLE ValidationSkills(
     validationId varchar(10) not null,
     skill varchar(20) not null,
-    include boolean not null
+    include boolean not null,
+    dateAdded date not null
 );
 
 ALTER TABLE ValidationSkills ADD CONSTRAINT validationSkillsId PRIMARY KEY(validationId, skill);
@@ -45,7 +46,8 @@ ALTER TABLE ValidationSkills ADD CONSTRAINT ValidationSkillstoSkills FOREIGN KEY
 CREATE TABLE ValidationAssociates(
     validationId varchar(10) not null,
     id varchar(10) not null, 
-    include boolean not null
+    include boolean not null,
+    dateAdded date not null
 );
 
 ALTER TABLE ValidationAssociates ADD CONSTRAINT validationAssociatesId PRIMARY KEY(validationId, id);

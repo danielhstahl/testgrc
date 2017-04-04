@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser=require('body-parser');
 const data =require('./tmpData.js');
+const sql=require('./fakeSql.js')
 const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePersonel, testSelection=data.testSelection;
 const jsonParser = bodyParser.json();
 let app = express();
@@ -24,43 +25,26 @@ const transformNormalizedToKey=(associates)=>{
         return aggr
     }, [])
 }
-const pg=require('pg');
-const config={
-    user:'gvjnbkho',
-    database:'gvjnbkho',
-    password:'ANxXJwEDc_RPPEFea3NbhP1EGYO-J4oy',
-    host:'stampy.db.elephantsql.com',
-    port:5432,
-    max:10,
-    idleTimeoutMillis: 30000
-}
-const pool = new pg.Pool(config);
-pool.on('error', (err, client)=>{
-    console.log(err);
-})
 
-
-const validationId=1;
-
-
-let port = process.env.PORT || 3001;
+const port='3001';
 let scopeData=[];
-let skillData=[];
-let selectedSkills=[];
-app.get("/currentAssociates", (req, res)=>{ 
-    pool.query("SELECT * FROM associateskills;", (err, result)=>{
+
+app.get("/associates", (req, res)=>{ 
+    sql.getAssociateSkills((err, result)=>{
         if(err){
             return console.log(err);
         }
-        res.send(transformNormalizedToKey(result.rows))
+        console.log("at line 37")
+        res.send(transformNormalizedToKey(result))
     })
 })
 app.get("/skills", (req, res)=>{//these are "static"
-    pool.query("SELECT category as type, skill as value FROM skills;", (err, result)=>{
+    sql.getSkills((err, result)=>{
         if(err){
             return console.log(err);
         }
-        res.send(result.rows)
+        console.log("at line 46")
+        res.send(result)
     })
     //res.send(skills)
 })
@@ -70,22 +54,30 @@ app.get("/RCUS", (req, res)=>{//these are "static"
 app.get("/testSelection", (req, res)=>{//these are "static"
     res.send(testSelection)
 })
-app.get("/skillAssessment", (req, res)=>{//in final state use validation id.  This is the "instantiated" version of "currentAssociates"
-    console.log(req.query);
-    pool.query("SELECT id FROM ValidationAssociates WHERE validationId=$1 AND include=True;", [req.query.validationId], (err, result)=>{
+app.get("/validationAssociates", (req, res)=>{//in final state use validation id.  This is the "instantiated" version of "currentAssociates"
+    
+    sql.getValidationAssociates(req.query.validationId, (err, result)=>{
         if(err){
             return console.log(err);
         }
-        res.send(result.rows)
+        console.log("at line 64")
+        res.send(result)
     })
     //res.send(skillData);
 })
 app.get("/scopeAssessment", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
     res.send(scopeData);
 })
-app.get("/selectedSkills", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
-    console.log(req.query);
-    res.send(selectedSkills);
+app.get("/validationSkills", (req, res)=>{ 
+    console.log(req.query)
+    sql.getValidationSkills(req.query.validationId, (err, result)=>{
+        if(err){
+            return console.log(err);
+        }
+        console.log("at line 77")
+        console.log(result);
+        res.send(result)
+    })
 })
 
 app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
@@ -94,24 +86,33 @@ app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
     res.sendStatus(200);
     
 })
-app.post("/handleAddTeamMember",  (req, res)=>{ //in final state use validation id
+app.post("/writeValidationAssociate",  (req, res)=>{ //in final state use validation id
     //skillData=req.body;
     const id=req.body.id;
     const include=req.body.include;
     const validationId=req.body.validationId;
-    const sql=`insert into ValidationAssociates (validationId, id, include)  values ($1, $2, $3)
-    on conflict (validationId, id)
-    do update set (include) = ($3)
-    where ValidationAssociates.validationID = $1 AND ValidationAssociates.id=$2;`
-    pool.query(sql, [validationId,id, include], (err, result)=>{
-        console.log(err)
-        console.log(result)
+    sql.writeValidationAssociate(validationId, id, include, (err)=>{
+        if(err){
+            console.log(err)
+        }
+        sql.getAllFromTable("ValidationAssociates")
         res.sendStatus(200);
+        
     })
 })
-app.post("/handleAddSkill",  (req, res)=>{ //in final state use validation id
-    selectedSkills=req.body.skill;
-    res.sendStatus(200);
+app.post("/writeValidationSkill",  (req, res)=>{ //in final state use validation id
+    //console.log(req.body);
+    const skill=req.body.skill;
+    const include=req.body.include;
+    const validationId=req.body.validationId;
+    sql.writeValidationSkill(validationId, skill, include, (err)=>{
+        if(err){
+            console.log(err)
+        }
+        sql.getAllFromTable("ValidationSkills")
+        //console.log(result)
+        res.sendStatus(200);
+    })
 })
 app.listen(port);
 
