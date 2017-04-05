@@ -13,6 +13,9 @@ class SelectAndEnter extends Component{
             explanation:v
         })
     }
+    shouldComponentUpdate(nextProps){
+        return nextProps.rcusItem!==this.props.rcusItem
+    }
     handleSelect=(index, value)=>{
         this.setState({
             testWork:index

@@ -7,10 +7,13 @@ export default class EnterTestingPlan extends Component {
     state={
         requiresExplanation:this.props.requiresExplanation
     }
-    handleSelect=(v)=>{
+    localHandleSelect=(v)=>{
         this.setState({
             requiresExplanation:this.props.testSelection.filter((val)=>val.index===v)[0].requiresExplanation
         });
+    }
+    shouldComponentUpdate(nextProps, nextState){
+        return nextProps.selectedItem!==this.props.selectedItem
     }
     render(){
         const {handleSelect, handleExplanation, selectedItem, testSelection}=this.props;
@@ -21,7 +24,7 @@ export default class EnterTestingPlan extends Component {
                     <SelectField
                         floatingLabelText="Select Test Type"
                         value={selectedItem}
-                        onChange={(e, i, v)=>{handleSelect(v, testSelection.filter((val)=>val.index===v)[0].description);this.handleSelect(v)}}
+                        onChange={(e, i, v)=>{handleSelect(v, testSelection.filter((val)=>val.index===v)[0].description);this.localHandleSelect(v)}}
                     >
                         {testSelection.map((val, index)=>{
                             return <MenuItem key={index} value={val.index} primaryText={val.description} />;

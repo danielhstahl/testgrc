@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LandingPageAnalyst from '../Components/LandingPageAnalyst'
 
 const mapStateToProps=(state, ownProps)=>{
-    return {activities:state.activities, todos:state.todos, user:state.user}
+    return {activities:state.activities, todos:state.todos, user:state.user.user}
 }
 const mapDispatchToProps=(dispatch)=>{
     return{

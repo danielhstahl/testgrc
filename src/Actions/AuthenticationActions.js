@@ -6,6 +6,12 @@ export const setLogIn=(user)=>{
         user
     }
 }
+export const setLogInError=(err)=>{
+    return {
+        type:"LOGIN_ERROR",
+        err
+    }
+}
 export const setLogOut=()=>{
     return {
         type:"LOGOUT",
@@ -13,8 +19,12 @@ export const setLogOut=()=>{
     }
 }
 export const getLogIn=(dispatch, user, password)=>{
-    return axios.post(`${url}/login`, {user, password}).then((response)=>{
-        console.log(response);
-        dispatch(setLogIn(response.data))
+    axios.post(`${url}/login`, {user, password}).then((response)=>{
+        const {err, user}=response.data;
+        if(err){
+            dispatch(setLogInError(err))
+        }else{
+            dispatch(setLogIn(user))
+        }
     })
 }

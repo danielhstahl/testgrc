@@ -12,19 +12,20 @@ const schema = {
 };
 prompt.start();
 prompt.get(schema, (err, results)=>{
-    userAttributes.authenticate(results.username, results.password, (ad, user)=>{
-        if(ad===null){
+    userAttributes.authenticate(results.username, results.password, (err, user)=>{
+        console.log(user);
+        /*if(ad===null){
             return console.log(user);
-        }
+        }*/
         //console.log(username);
         //userAttributes.genericQuery(ad, `CN=*Stahl*`)
         //userAttributes.getUser(ad, username);
        // userAttributes.findAllGroups(ad, user.sAMAccountName);
         //userAttributes.getUsersForGroup(ad, 'MVGMembers')
         //userAttributes.genericQuery(ad, '(&(objectCategory=computer)(memberOf=CN=ML_QRMAudit,OU=Restricted Groups,DC=corp,DC=rgbk,DC=com))')
-        userAttributes.isUserMemberOfMRMV(ad, user.userPrincipalName, (isMember)=>{
+        /*userAttributes.isUserMemberOfMRMV(ad, user.userPrincipalName, (isMember)=>{
             console.log(isMember);
-        });
+        });*/
 
     })
 })

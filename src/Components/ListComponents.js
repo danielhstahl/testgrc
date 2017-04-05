@@ -3,7 +3,14 @@ import Checkbox from 'material-ui/Checkbox';
 import Subheader from 'material-ui/Subheader';
 import {List, ListItem} from 'material-ui/List';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-export const ListOfPersonel=({arrayOfPersons, onCheck})=>
+//import pure from 'recompose/pure';
+
+import shouldUpdate from 'recompose/shouldUpdate'
+
+const checkListOfPersonelProps=(props, nextProps)=>{
+    return nextProps.arrayOfPersons!==props.arrayOfPersons
+}
+export const ListOfPersonel=shouldUpdate(checkListOfPersonelProps)(({arrayOfPersons, onCheck})=>
 <List style={{marginTop:14}}>
     <Subheader>List of Available Associates</Subheader>
     {arrayOfPersons.map((person, index)=>{
@@ -16,17 +23,22 @@ export const ListOfPersonel=({arrayOfPersons, onCheck})=>
             })}
         />
     })}
-</List>
-ListOfPersonel.propTypes={
+</List>);
+
+/*ListOfPersonel.propTypes={
     arrayOfPersons:React.PropTypes.arrayOf(React.PropTypes.shape({
         name: React.PropTypes.string.isRequired,
         id: React.PropTypes.string.isRequired,
         requiredSkills: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
     })).isRequired,
     onCheck:React.PropTypes.func.isRequired
+}*/
+
+const checkListOfDeleteProps=(props, nextProps)=>{
+    return nextProps.selectedItems!==props.selectedItems
 }
 
-export const ListWithDelete=({selectedItems, onDelete})=>
+export const ListWithDelete=shouldUpdate(checkListOfDeleteProps)(({selectedItems, onDelete})=>
 <List>
     {
         selectedItems.map((val, index)=>{
@@ -40,8 +52,8 @@ export const ListWithDelete=({selectedItems, onDelete})=>
             />
         })
     }
-</List>
-ListWithDelete.propTypes={
+</List>)
+/*ListWithDelete.propTypes={
     selectedItems:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     onDelete:React.PropTypes.func.isRequired
-}
+}*/

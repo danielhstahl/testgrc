@@ -1,8 +1,11 @@
-import React from 'react';
-import Paper from 'material-ui/paper'
+import React, {Component} from 'react';
+import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
+import {Container} from 'react-grid-system'
 import RaisedButton from 'material-ui/RaisedButton'
-
+const paperStyle={maxWidth:500, margin:"0 auto"}
+const formStyle={padding:50}
+const containerStyle={marginTop:50}
 export default class Login extends Component {
     state={
         user:"",
@@ -10,31 +13,37 @@ export default class Login extends Component {
     }
     handleLoginWrapper=(e)=>{
         e.preventDefault();
-        return this.props.handleLogin(user, password);
+        const {user, password}=this.state;
+        this.props.handleLogin(user, password);
     }
-    handleUser=(user)=>{
+    handleUser=(e, user)=>{
         this.setState({user})
     }
-    handlePassword=(password)=>{
+    handlePassword=(e, password)=>{
         this.setState({password})
     }
     render(){
+        const {user}=this.props;
         return(
-            <Paper zDepth={2}>
-                <form onSubmit={this.handleLoginWrapper}>
-                    <TextField                        
-                        floatingLabelText="username"
-                        onChange={this.handleUser}
-                    />
-                    <br/>
-                    <TextField                        
-                        floatingLabelText="password"
-                        type="password"
-                        onChange={this.handlePassword}
-                    />
-                    <RaisedButton primary label="Login" type="submit"/>
-                </form>
-            </Paper>
+            <Container style={containerStyle}>
+                <Paper zDepth={2} style={paperStyle}>
+                    <form onSubmit={this.handleLoginWrapper} style={formStyle}>
+                        {user.err?<h4>Login Failed!</h4>:null}
+                        <TextField                        
+                            floatingLabelText="username"
+                            onChange={this.handleUser}
+                        />
+                        <br/>
+                        <TextField                        
+                            floatingLabelText="password"
+                            type="password"
+                            onChange={this.handlePassword}
+                        />
+                        <br/>
+                        <RaisedButton primary label="Login" type="submit"/>
+                    </form>
+                </Paper>
+            </Container>
         )
        
     }

@@ -1,11 +1,13 @@
-const authenticate=(state=false, action)=>{
+const user=(state=false, action)=>{
     switch(action.type){
         case "LOGIN":
-            return action.user
+            return {user:action.user, err:null}
         case "LOGOUT":
-            return action.user
+            return {user:null, err:null}
+        case "LOGIN_ERROR":
+            return {user:null, err:action.err}
         default:
             return state;
     }
 }
-export default authenticate;
+export default user;

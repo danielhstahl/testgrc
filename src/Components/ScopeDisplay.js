@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'; 
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import pure from 'recompose/pure';
 import {filterAndSortPlan} from '../scopeHelpers'
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
 const defaultHeight="500px"
-const DisplayTable=({dataObj, columnTitles, height, title})=>{
+const DisplayTable=pure(({dataObj, columnTitles, height, title})=>{
     const tableKeys=dataObj.length>0?Object.keys(dataObj[0]):[];
     return (
     <Table selectable={false} height={height?height:"inherit"}>
@@ -37,8 +38,8 @@ const DisplayTable=({dataObj, columnTitles, height, title})=>{
       </TableBody>
     </Table>
     )
-}
-DisplayTable.propTypes={
+})
+/*DisplayTable.propTypes={
     dataObj:React.PropTypes.arrayOf(React.PropTypes.shape({
         risk:React.PropTypes.string.isRequired,
         controls:React.PropTypes.string.isRequired,
@@ -49,7 +50,7 @@ DisplayTable.propTypes={
     columnTitles:React.PropTypes.arrayOf(React.PropTypes.string), 
     height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
     title:React.PropTypes.string
-}
+}*/
 class ScopeDisplay extends Component {
     state={
         openFinalScope:false,
@@ -58,6 +59,9 @@ class ScopeDisplay extends Component {
         this.setState({
             openFinalScope:false
         })
+    }
+    shouldComponentUpdate(nextProps, nextState){
+        return nextProps.mrmvPlanning!==this.props.mrmvPlanning
     }
     handleOpenFinalScope=(v)=>{
         this.setState({

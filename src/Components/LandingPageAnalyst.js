@@ -6,11 +6,12 @@ import AutoRenew from 'material-ui/svg-icons/action/autorenew'//ongoing monitori
 import FeedBack from 'material-ui/svg-icons/action/feedback' //issue
 import Functions from 'material-ui/svg-icons/editor/functions' //validation
 import Poll from 'material-ui/svg-icons/social/poll' //review
+import pure from 'recompose/pure';
 import {
   Link
 } from 'react-router-dom'
 
-const ListWithLinks=({list, title})=>
+const ListWithLinks=pure(({list, title})=>
 <List style={{marginTop:14}}>
 <Subheader>{title}</Subheader>
     {list.map((listItem, index)=>{
@@ -21,20 +22,17 @@ const ListWithLinks=({list, title})=>
             containerElement={<Link to={`/${listItem.type}/${listItem.id}`} />}
         />
     })}
-</List>
+</List>)
 
 
-const LandingPageAnalyst=({activities, todos})=>{
-    console.log(activities);
-    console.log(todos);
+const LandingPageAnalyst=({activities, todos, user})=>{
     return(
         <Container>
-            
+            <h2>Welcome {user.cn}!</h2>
             <Row>
                 <Col xs={12} md={6}>
                     <ListWithLinks list={activities} title="Validation Activities"/>
                 </Col>
-
                 <Col xs={12} md={6}>
                     <ListWithLinks list={todos} title="Todos"/>
                 </Col>

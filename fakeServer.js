@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser=require('body-parser');
 const data =require('./tmpData.js');
+const userAttributes=require('./userAttributes')
 const sql=require('./fakeSql.js')
 const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePersonel, testSelection=data.testSelection;
 const jsonParser = bodyParser.json();
@@ -85,6 +86,12 @@ app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
     scopeData=req.body.plan;
     res.sendStatus(200);
     
+})
+app.post('/login', (req, res)=>{
+    userAttributes.authenticate(req.body.user, req.body.password, (err, user)=>{
+        console.log(err);
+        res.send({err, user})
+    })
 })
 app.post("/writeValidationAssociate",  (req, res)=>{ //in final state use validation id
     //skillData=req.body;

@@ -18,18 +18,16 @@ export const addSkillsRequiredForValidation=(skill, validationId)=>{
         skill
     }
 }
-export const getValidationSkills=(dispatch, validationId)=>{
-    return axios.get(`${url}/validationSkills`, {params:{validationId}}).then((response)=>{
-        console.log(response);
-        dispatch(loadSkillsRequiredForValidation(response.data))
-    })
-}
-//this is getting complicated...
 export const loadSkillsRequiredForValidation=(skills)=>{
     return {
         type:"LOAD_VALIDATION_SKILLS",
         skills
     }
+}
+export const getValidationSkills=(dispatch, validationId)=>{
+    return axios.get(`${url}/validationSkills`, {params:{validationId}}).then((response)=>{
+        dispatch(loadSkillsRequiredForValidation(response.data))
+    })
 }
 export const removeSkillRequiredForValidation=(skill)=>{
     return {

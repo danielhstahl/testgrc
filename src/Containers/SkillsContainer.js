@@ -1,22 +1,23 @@
 import { connect } from 'react-redux'
+import {joinedAssociates} from '../skillsHelpers'
 import { addSkillsRequiredForValidation,removeSkillRequiredForValidation} from '../Actions/SkillsActions'
 import{addAssociateForValidation, removeAssociateForValidation } from '../Actions/AssociateActions'
 
 import Skills from '../Components/Skills'
 
-const mapStateToProps=(state, ownProps)=>{
-    return {validationId:ownProps.validationId, validationSkills:state.skills, validationAssociates:state.associates, rawSkills:state.rawSkills, rawAssociates:state.rawAssociates}
+const mapStateToProps=(state)=>{
+    return {validationSkills:state.skills, rawSkills:state.rawSkills, associatesForDisplay:joinedAssociates(state.skills, state.rawAssociates, state.associates)}
 }
-const mapDispatchToProps=(dispatch)=>{
+const mapDispatchToProps=(dispatch, ownProps)=>{
     return {
-        handleSelect:(v, validationId)=>{
-            dispatch(addSkillsRequiredForValidation(v, validationId));
+        handleSelect:(e, i, v)=>{
+            dispatch(addSkillsRequiredForValidation(v, ownProps.validationId));
         },
-        handleToggleAssociate:(associate, isChecked, validationId)=>{
-            return isChecked?dispatch(addAssociateForValidation(associate, validationId)):dispatch(removeAssociateForValidation(associate, validationId))
+        handleToggleAssociate:(associate, isChecked)=>{
+            return isChecked?dispatch(addAssociateForValidation(associate, ownProps.validationId)):dispatch(removeAssociateForValidation(associate, ownProps.validationId))
         },
-        handleRemoveSkill:(skill, validationId)=>{
-            dispatch(removeSkillRequiredForValidation(skill, validationId));
+        handleRemoveSkill:(skill)=>{
+            dispatch(removeSkillRequiredForValidation(skill, ownProps.validationId));
         }
     }
 }

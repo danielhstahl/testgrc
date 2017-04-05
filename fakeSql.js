@@ -33,7 +33,7 @@ const CreateValidationSkills=`CREATE TABLE ValidationSkills(
     skill varchar(20) not null,
     include boolean not null,
     dateAdded DATETIME not null,
-CONSTRAINT validationSkillsId PRIMARY KEY(validationId, skill),
+CONSTRAINT validationSkillsId PRIMARY KEY(validationId, skill, dateAdded),
 CONSTRAINT ValidationSkillsToValidation FOREIGN KEY(validationId) REFERENCES Validations(validationId),
 CONSTRAINT ValidationSkillstoSkills FOREIGN KEY(skill) REFERENCES Skills(skill))`
 
@@ -42,7 +42,7 @@ const CreateValidationAssociates=`CREATE TABLE ValidationAssociates(
     id varchar(10) not null, 
     include boolean not null,
     dateAdded DATETIME not null,
-CONSTRAINT validationAssociatesId PRIMARY KEY(validationId, id),
+CONSTRAINT validationAssociatesId PRIMARY KEY(validationId, id, dateAdded),
 CONSTRAINT ValidationAssociatesToValidation FOREIGN KEY(validationId) REFERENCES Validations(validationId),
 CONSTRAINT ValidationAssociatestoAssociates FOREIGN KEY(id) REFERENCES Associates(id))`
 

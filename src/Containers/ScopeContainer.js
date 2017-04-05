@@ -1,15 +1,18 @@
 import { connect } from 'react-redux'
-
+import {joinHelper, mergeHelper} from '../scopeHelpers'
+import {leftjoin} from './../helperFunctions.js'
 import {addPlanningToValidation, editPlan} from '../Actions/RcusActions'
 import Scope from '../Components/Scope'
-
-const mapStateToProps=(state, ownProps)=>{
-    return {validationId:ownProps.validationId, rawRCUS:state.rawRCUS, plans:state.plans,rawTestSelection:state.rawTest}
+const computePlan=(rawRCUS, plans)=>{
+    return leftjoin(rawRCUS, plans, joinHelper, mergeHelper);
 }
-const mapDispatchToProps=(dispatch)=>{
+const mapStateToProps=(state, ownProps)=>{
+    return {rawTestSelection:state.rawTest, mrmvPlanning:computePlan(state.rawRCUS, state.plans, state.rawTest)}
+}
+const mapDispatchToProps=(dispatch, ownProps)=>{
     return {
-        handleTestSubmit:(plan, validationId)=>{
-            return plan.submitted?dispatch(editPlan(plan, validationId)):dispatch(addPlanningToValidation(plan, validationId))
+        handleTestSubmit:(plan)=>{
+            return plan.submitted?dispatch(editPlan(plan, ownProps.validationId)):dispatch(addPlanningToValidation(plan, ownProps.validationId))
         }
     }
 }

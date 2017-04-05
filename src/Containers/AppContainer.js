@@ -10,11 +10,9 @@ import App from '../Components/App'
 
 const mapStateToProps=(state, ownProps)=>{
     return {
-        user:state.user
-    };//{step:state.step}
+    };
 }
 const mapDispatchToProps=(dispatch)=>{
-    
     return {
         getRawAssociates:()=>getRawAssociates(dispatch),
         getRawSkills:()=>getRawSkills(dispatch),

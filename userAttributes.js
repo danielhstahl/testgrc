@@ -1,27 +1,34 @@
 'use strict'
-const AD = require('activedirectory2');
+const AD = require('activedirectory2').promiseWrapper;
 const config = { url: 'ldap://corp.rgbk.com',
                baseDN: 'dc=domain,dc=com'}
-const authenticate=(user, password, cb)=>{
-    const username=`CORP\\${user}`;
+const authenticate=(userid, password, cb)=>{
+    const username=`CORP\\${userid}`;
     let ad = new AD(config);
-    ad.getRootDSE(function(err, result) {
-        const defaultDN=result.defaultNamingContext
-        const domainPartition=result.namingContexts[2];
-        ad.authenticate(username, password, (err, auth)=>{
-            if(!err&&auth){
-                ad=new AD(Object.assign({}, config, {baseDN:domainPartition, username, password}));
-                ad.findUser(user, (err, user)=>{
-                    return cb(ad, user)
-                })
-            }
-            else{
-                return cb(null, "Login Failed");
-            }
-            
-        })
-    });
+    let domainPartition;
+    let defaultDN;
+    let user;
+    ad.getRootDSE().then((dse)=>{
+        defaultDN=dse.defaultNamingContext
+        domainPartition=dse.namingContexts[2];
+        return ad.authenticate(username, password);
+    }).then((auth)=>{
+        if(!auth){
+            throw new Error("Login Failed")
+        }
+        ad=new AD(Object.assign({}, config, {baseDN:domainPartition, username, password}));
+        return ad.findUser(userid)
+    }).then((userObject)=>{
+        user=userObject;
+        return ad.isUserMemberOf(userid, 'MVGMembers')
+    }).then((isWithMRMV)=>{
+        user.userType=isWithMRMV?"MRMVAnalyst":"";
+        return cb(null, user)
+    }).catch((err)=>{
+        return cb(err, null);
+    })
 }
+
 const genericQuery=(ad, query)=>{
     ad.find(query, (err, results)=>{
         console.log(err);

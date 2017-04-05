@@ -7,6 +7,9 @@ export default class SubmitButtonProgress extends Component{
     success:"",
     waitingResponse:false
   }
+  shouldComponentUpdate(nextProps){
+    return nextProps.handleSubmit!==this.props.handleSubmit
+  }
   submit=()=>{
     const {handleSubmit}=this.props;
     const msToWait=3000;

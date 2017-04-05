@@ -27,16 +27,15 @@ export const removeAssociateForValidation=(associate, validationId)=>{
     }
 }
 
-export const getValidationAssociates=(dispatch, validationId)=>{
-    return axios.get(`${url}/validationAssociates`, {params:{validationId}}).then((response)=>{
-        console.log(response);
-        dispatch(loadAssociatesRequiredForValidation(response.data))
-    })
-}
-//this is getting complicated...
 export const loadAssociatesRequiredForValidation=(associates)=>{
     return {
         type:"LOAD_VALIDATION_ASSOCIATES",
         associates
     }
+}
+export const getValidationAssociates=(dispatch, validationId)=>{
+    return axios.get(`${url}/validationAssociates`, {params:{validationId}}).then((response)=>{
+        console.log(response);
+        dispatch(loadAssociatesRequiredForValidation(response.data))
+    })
 }

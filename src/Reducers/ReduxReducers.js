@@ -9,7 +9,7 @@ import plans from './PlansReducer'
 import rawTest from './RawTestSelectionReducer'
 import todos from './TodoReducer'
 import activities from './ActivityReducer'
-import authentication from './AuthenticationReducer'
+import user from './AuthenticationReducer'
 
 const workflowApp=combineReducers({
     rawSkills,
@@ -21,7 +21,7 @@ const workflowApp=combineReducers({
     rawTest, 
     associates,
     todos,
-    authentication,
+    user,
     activities
 })
 export default workflowApp;

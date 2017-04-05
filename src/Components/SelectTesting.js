@@ -12,6 +12,9 @@ export default class SelectTesting extends Component {
     handleClose = () => {
         this.setState({open: false});
     };
+    shouldComponentUpdate(nextProps){
+        return nextProps.isSubmitted!==this.props.isSubmitted||nextProps.notAllowedToSubmit!==this.props.notAllowedToSubmit
+    }
     render(){
         const {handleSubmit, isSubmitted, children, notAllowedToSubmit}=this.props;
         const actions = [
