@@ -1,16 +1,20 @@
 import { connect } from 'react-redux'
 //import { getRawTodos, getRawActivities } from '../Actions/ReduxActions'
 import LandingPageAnalyst from '../Components/LandingPageAnalyst'
-
+import {getRawTodos} from '../Actions/TodoActions'
+import {getRawActivities} from '../Actions/ActivityActions'
 const mapStateToProps=(state, ownProps)=>{
-    return {activities:state.activities, todos:state.todos, user:state.user.user}
+    return {activities:state.activities, todos:state.todos}
 }
 const mapDispatchToProps=(dispatch)=>{
+    getRawTodos(dispatch);
+    getRawActivities(dispatch);
     return{
+        
     };
 }
 const LandingPageAnalystContainer = connect(
-  mapStateToProps,
+  mapStateToProps, 
   mapDispatchToProps
 )(LandingPageAnalyst)
 export default LandingPageAnalystContainer;

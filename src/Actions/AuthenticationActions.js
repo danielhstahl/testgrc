@@ -1,5 +1,6 @@
 import axios from 'axios'
 import url from './url'
+import {setStorage} from '../localStorageHelper'
 export const setLogIn=(user)=>{
     return {
         type:"LOGIN",
@@ -25,6 +26,7 @@ export const getLogIn=(dispatch, user, password)=>{
             dispatch(setLogInError(err))
         }else{
             dispatch(setLogIn(user))
+            setStorage(user)            
         }
     })
 }

@@ -3,13 +3,34 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import pure from 'recompose/pure';
+import withState from 'recompose/withState';
+import compose from 'recompose/compose';
+import withHandlers from 'recompose/withHandlers';
+import setPropTypes from 'recompose/setPropTypes';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import {filterAndSortPlan} from '../scopeHelpers'
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
 const defaultHeight="500px"
-const DisplayTable=pure(({dataObj, columnTitles, height, title})=>{
+const enhanceTable=compose(
+    pure,
+    setPropTypes({
+        dataObj:React.PropTypes.arrayOf(React.PropTypes.shape({
+            risk:React.PropTypes.string.isRequired,
+            controls:React.PropTypes.string.isRequired,
+            workpaper:React.PropTypes.number.isRequired,
+            explanation:React.PropTypes.string.isRequired,
+            testWorkDescription:React.PropTypes.string.isRequired
+        })).isRequired, 
+        columnTitles:React.PropTypes.arrayOf(React.PropTypes.string), 
+        height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
+        title:React.PropTypes.string
+    })
+)
+
+const DisplayTable=enhanceTable(({dataObj, columnTitles, height, title})=>{
     const tableKeys=dataObj.length>0?Object.keys(dataObj[0]):[];
     return (
     <Table selectable={false} height={height?height:"inherit"}>
@@ -39,71 +60,48 @@ const DisplayTable=pure(({dataObj, columnTitles, height, title})=>{
     </Table>
     )
 })
-/*DisplayTable.propTypes={
-    dataObj:React.PropTypes.arrayOf(React.PropTypes.shape({
-        risk:React.PropTypes.string.isRequired,
-        controls:React.PropTypes.string.isRequired,
-        workpaper:React.PropTypes.number.isRequired,
-        explanation:React.PropTypes.string.isRequired,
-        testWorkDescription:React.PropTypes.string.isRequired
-    })).isRequired, 
-    columnTitles:React.PropTypes.arrayOf(React.PropTypes.string), 
-    height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
-    title:React.PropTypes.string
-}*/
-class ScopeDisplay extends Component {
-    state={
-        openFinalScope:false,
-    }
-    handleCloseFinalScope=(v)=>{
-        this.setState({
-            openFinalScope:false
-        })
-    }
-    shouldComponentUpdate(nextProps, nextState){
-        return nextProps.mrmvPlanning!==this.props.mrmvPlanning
-    }
-    handleOpenFinalScope=(v)=>{
-        this.setState({
-            openFinalScope:true
-        })
-    }
-    render(){
-        const {mrmvPlanning, height, rawTestSelection}=this.props;
-        const {openFinalScope}=this.state;
-        return(
-            <div>
-                <RaisedButton label="View final scope" onTouchTap={(e, v)=>this.handleOpenFinalScope(v)}/>
-                <Dialog
-                    contentStyle={customContentStyle}
-                    title="Final Scope"
-                    modal={false}
-                    open={openFinalScope}
-                    onRequestClose={this.handleCloseFinalScope}
-                >
-                    {openFinalScope?<DisplayTable dataObj={filterAndSortPlan(mrmvPlanning, rawTestSelection)} columnTitles={["workpaper", "risk", "controls", "testwork", "explanation"]} height={height?height:defaultHeight}/>:null}
-                </Dialog>
-            </div>
-        )
-    }
-}
-ScopeDisplay.propTypes={
-    mrmvPlanning:React.PropTypes.arrayOf(React.PropTypes.shape({
-        process:React.PropTypes.string.isRequired,
-        risk:React.PropTypes.string.isRequired,
-        processStep:React.PropTypes.number.isRequired,
-        riskStep:React.PropTypes.number.isRequired,
-        controls:React.PropTypes.string.isRequired,
-        workpaper:React.PropTypes.number.isRequired,
-        MRMVResponsibility:React.PropTypes.string.isRequired,
-        explanation:React.PropTypes.string.isRequired,
-        testWork:React.PropTypes.number,
-        submitted:React.PropTypes.bool.isRequired
-    })).isRequired,
-    rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
-        index: React.PropTypes.number.isRequired,
-        description: React.PropTypes.string.isRequired
-    })).isRequired,
-    height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
-}
+
+const enhance=compose(
+    withState('openFinalScope', 'handleUpdate', false),
+    onlyUpdateForKeys(['openFinalScope', 'mrmvPlanning']),
+    withHandlers({
+        handleCloseFinalScope:props=>v=>props.handleUpdate(false),
+        handleOpenFinalScope:props=>v=>props.handleUpdate(true),
+    }),
+    setPropTypes({
+        openFinalScope:React.PropTypes.bool.isRequired,
+        handleCloseFinalScope:React.PropTypes.func.isRequired,
+        handleOpenFinalScope:React.PropTypes.func.isRequired,
+        mrmvPlanning:React.PropTypes.arrayOf(React.PropTypes.shape({
+            process:React.PropTypes.string.isRequired,
+            risk:React.PropTypes.string.isRequired,
+            processStep:React.PropTypes.number.isRequired,
+            riskStep:React.PropTypes.number.isRequired,
+            controls:React.PropTypes.string.isRequired,
+            workpaper:React.PropTypes.number.isRequired,
+            MRMVResponsibility:React.PropTypes.string.isRequired,
+            explanation:React.PropTypes.string.isRequired,
+            testWork:React.PropTypes.number,
+            submitted:React.PropTypes.bool.isRequired
+        })).isRequired,
+        rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
+            index: React.PropTypes.number.isRequired,
+            description: React.PropTypes.string.isRequired
+        })).isRequired,
+        height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
+    })
+)
+const ScopeDisplay=enhance(({openFinalScope, handleCloseFinalScope, handleOpenFinalScope, mrmvPlanning, height, rawTestSelection})=>
+<div>
+    <RaisedButton label="View final scope" onTouchTap={(e, v)=>handleOpenFinalScope(v)}/>
+    <Dialog
+        contentStyle={customContentStyle}
+        title="Final Scope"
+        modal={false}
+        open={openFinalScope}
+        onRequestClose={handleCloseFinalScope}
+    >
+        {openFinalScope?<DisplayTable dataObj={filterAndSortPlan(mrmvPlanning, rawTestSelection)} columnTitles={["workpaper", "risk", "controls", "testwork", "explanation"]} height={height?height:defaultHeight}/>:null}
+    </Dialog>
+</div>)
 export default ScopeDisplay

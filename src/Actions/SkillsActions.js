@@ -12,7 +12,7 @@ export const getRawSkills=(dispatch)=>{
     })
 }
 export const addSkillsRequiredForValidation=(skill, validationId)=>{
-    axios.post(`${url}/writeValidationSkill`, {skill, validationId, include:true}).then((response)=>console.log(response));
+    axios.post(`${url}/writeValidationSkill`, {skill, validationId, include:true}).then().catch(err=>console.log(err))
     return {
         type:"ADD_VALIDATION_SKILL",
         skill

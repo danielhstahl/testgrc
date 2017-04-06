@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import {joinedAssociates} from '../skillsHelpers'
 import { addSkillsRequiredForValidation,removeSkillRequiredForValidation} from '../Actions/SkillsActions'
 import{addAssociateForValidation, removeAssociateForValidation } from '../Actions/AssociateActions'
-
 import Skills from '../Components/Skills'
 
 const mapStateToProps=(state)=>{

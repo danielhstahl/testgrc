@@ -8,7 +8,6 @@ export const setRawTestSelection=(testSelection)=>{
 }
 export const getRawTestSelection=(dispatch)=>{
     return axios.get(`${url}/testSelection`).then((response)=>{
-        console.log(response);
         dispatch(setRawTestSelection(response.data))
     })
 }

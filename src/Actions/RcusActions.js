@@ -8,20 +8,19 @@ export const setRawRCUS=(rcus)=>{
 }
 export const getRawRCUS=(dispatch)=>{
     return axios.get(`${url}/RCUS`).then((response)=>{
-        console.log(response);
         dispatch(setRawRCUS(response.data))
     })
 }
 
 export const addPlanningToValidation=(plan, validationId)=>{
-    axios.post(`${url}/handlePlanSubmit`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then((response)=>console.log(response));
+    axios.post(`${url}/handlePlanSubmit`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then().catch(err=>console.log(err))
     return {
         type:"ADD_VALIDATION_PLAN",
         plan
     }
 }
 export const editPlan=(plan, validationId)=>{
-    axios.post(`${url}/handlePlanSubmit`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then((response)=>console.log(response));
+    axios.post(`${url}/handlePlanSubmit`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then().catch(err=>console.log(err))
     return {
         type:"EDIT_VALIDATION_PLAN",
         plan
@@ -35,7 +34,6 @@ export const loadPlanRequiredForValidation=(plans)=>{
 }
 export const getValidationPlan=(dispatch, validationId)=>{
     return axios.get(`${url}/scopeAssessment`, {validationId}).then((response)=>{
-        console.log(response);
         dispatch(loadPlanRequiredForValidation(response.data))
     })
 }

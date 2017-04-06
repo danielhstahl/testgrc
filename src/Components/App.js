@@ -10,14 +10,9 @@ import RouterHolderContainer from '../Containers/RouterHolderContainer'
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
+
 const arrowColor=lightBaseTheme.palette.primary1Color;
-const App =({getRawAssociates, getRawSkills, getRawRCUS, getRawTestSelection, getRawTodos, getRawActivities}) => {
-  getRawAssociates();
-  getRawSkills();
-  getRawRCUS();
-  getRawTestSelection();
-  getRawTodos();
-  getRawActivities();
+const App =() => {
   return (
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
          <RouterHolderContainer arrowColor={arrowColor}/>
@@ -25,10 +20,5 @@ const App =({getRawAssociates, getRawSkills, getRawRCUS, getRawTestSelection, ge
     
   );
 }
-App.propTypes={
-    getRawAssociates:React.PropTypes.func.isRequired,
-    getRawSkills:React.PropTypes.func.isRequired,
-    getRawRCUS:React.PropTypes.func.isRequired,
-    getRawTestSelection:React.PropTypes.func.isRequired,
-}
+
 export default App;

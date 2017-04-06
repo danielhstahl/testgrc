@@ -1,8 +1,29 @@
 import React from 'react';
-import pure from 'recompose/pure';
 import shouldUpdate from 'recompose/shouldUpdate'
 import { Row, Col} from 'react-grid-system';
-export const FourColHead=pure(({first, second, third, fourth, style})=>
+
+
+import compose from 'recompose/compose';
+import setPropTypes from 'recompose/setPropTypes';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+
+
+
+
+
+
+const enhanceHead=compose(
+    onlyUpdateForKeys(['first', 'second', 'third', 'fourth']),
+    setPropTypes({
+        first:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        second:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        third:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        fourth:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        style:React.PropTypes.object
+    })
+)
+
+export const FourColHead=enhanceHead(({first, second, third, fourth, style})=>
 <Row style={style}>
     <Col xs={3} >
         <h3>{first}</h3>
@@ -17,17 +38,19 @@ export const FourColHead=pure(({first, second, third, fourth, style})=>
         <h3>{fourth}</h3>
     </Col>
 </Row>)
-/*FourColHead.propTypes={
-    first:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    second:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    third:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    fourth:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    style:React.PropTypes.object
-}*/
-const checkFourColBody=(props, nextProps)=>{
-    return nextProps.first!==props.first||nextProps.second!==props.second||nextProps.third!==props.third
-}
-export const FourColBody=shouldUpdate(checkFourColBody)(({first, second, third, children, style})=>
+
+
+const enhanceBody=compose(
+    onlyUpdateForKeys(['first', 'second', 'third', 'children']),
+    setPropTypes({
+        first:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        second:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        third:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        children:React.PropTypes.node.isRequired,
+        style:React.PropTypes.object
+    })
+)
+export const FourColBody=enhanceBody(({first, second, third, children, style})=>
 <Row style={style}>
     <Col xs={3} >
         <p>{first}</p>
@@ -42,15 +65,16 @@ export const FourColBody=shouldUpdate(checkFourColBody)(({first, second, third, 
         {children}
     </Col>
 </Row>)
-/*FourColBody.propTypes={
-    first:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    second:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    third:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
-    children:React.PropTypes.node.isRequired,
-    style:React.PropTypes.object
-}*/
 
-export const RiskTestExplanation=pure(({risk, control, responsibility})=>
+const enhanceRisk=compose(
+    onlyUpdateForKeys(['risk', 'control', 'responsibility']),
+    setPropTypes({
+        risk:React.PropTypes.string.isRequired,
+        control:React.PropTypes.string.isRequired,
+        responsibility:React.PropTypes.string.isRequired
+    })
+)
+export const RiskTestExplanation=enhanceRisk(({risk, control, responsibility})=>
 <div>
     <p>In testing this risk, consider the following:</p>
     <ul>
@@ -60,8 +84,3 @@ export const RiskTestExplanation=pure(({risk, control, responsibility})=>
         <li>Testing may be excluded based off relevance or risk.  Excluded tests must have an explanation.</li>
     </ul>
 </div>)
-/*RiskTestExplanation.propTypes={
-    risk:React.PropTypes.string.isRequired,
-    control:React.PropTypes.string.isRequired,
-    responsibility:React.PropTypes.string.isRequired
-}*/

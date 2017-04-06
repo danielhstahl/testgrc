@@ -8,8 +8,6 @@ import {FourColHead} from './ScopeUtils'
 
 const tableStyle={marginLeft:0, marginRight:0};
 
-
-
 const Scope =({mrmvPlanning, rawTestSelection, handleTestSubmit, maxHeight=500})=> {
     return <Container>
         <div style={{maxHeight:maxHeight, overflowY:"auto"}}>

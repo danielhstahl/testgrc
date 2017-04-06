@@ -3,68 +3,69 @@ import {FourColBody, RiskTestExplanation} from './ScopeUtils'
 import EnterTestingPlan from './EnterTestingPlan'
 import SelectTesting from './SelectTesting'
 import {isOkToSubmit} from '../scopeHelpers'
-class SelectAndEnter extends Component{
-    state={
-        explanation:"",//holder for current "Plan"
-        testWork:null//holder for current "Plan"
-    }
-    handleExplanation=(v)=>{
-        this.setState({
-            explanation:v
-        })
-    }
-    shouldComponentUpdate(nextProps){
-        return nextProps.rcusItem!==this.props.rcusItem
-    }
-    handleSelect=(index, value)=>{
-        this.setState({
-            testWork:index
-        })
-    }
-    clearState=()=>{
-        this.setState({
-            testWork:null,
-            explanation:""
-        })
-    }
-    render(){
-        const {rcusItem, rawTestSelection, handleTestSubmit, tableStyle}=this.props
-        const {testWork, explanation}=this.state
-        return <FourColBody style={tableStyle} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
-            <SelectTesting notAllowedToSubmit={!isOkToSubmit(testWork, explanation, rawTestSelection)} isSubmitted={rcusItem.submitted}  handleSubmit={()=>{
-                handleTestSubmit({...rcusItem, explanation:explanation, testWork:testWork});
-                this.clearState();
-            }}>
-                <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
-                <EnterTestingPlan 
-                    testSelection={rawTestSelection}
-                    requiresExplanation={explanation||rcusItem.explanation} 
-                    selectedItem={testWork!==null?testWork:rcusItem.testWork} 
-                    handleExplanation={this.handleExplanation} 
-                    handleSelect={this.handleSelect}
-                />
-            </SelectTesting>
-        </FourColBody>
-    }
-}
-SelectAndEnter.propTypes={
-    rcusItem:React.PropTypes.shape({
-        process:React.PropTypes.string.isRequired,
-        risk:React.PropTypes.string.isRequired,
-        processStep:React.PropTypes.number.isRequired,
-        riskStep:React.PropTypes.number.isRequired,
-        controls:React.PropTypes.string.isRequired,
-        workpaper:React.PropTypes.number.isRequired,
-        MRMVResponsibility:React.PropTypes.string.isRequired,
+
+import pure from 'recompose/pure'
+import withState from 'recompose/withState';
+import compose from 'recompose/compose';
+import withHandlers from 'recompose/withHandlers';
+import setPropTypes from 'recompose/setPropTypes';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+
+const ifFirstIsNullThenSecond=(first, second)=>first!==null?first:second
+const enhance=compose(
+    withState('explanation', 'updateExplanation', ''),
+    withState('testWork', 'updateTestWork', null),
+    withHandlers({
+        handleExplanation:({updateExplanation})=>v=>updateExplanation(v),
+        handleSelect:({updateTestWork})=>i=>updateTestWork(i),
+        clearState:({updateExplanation, updateTestWork})=>()=>{
+            updateExplanation(""),
+            updateTestWork(null)
+        }
+    }),
+    onlyUpdateForKeys(['rcusItem', 'explanation', 'testWork']),
+    setPropTypes({
+        rcusItem:React.PropTypes.shape({
+            process:React.PropTypes.string.isRequired,
+            risk:React.PropTypes.string.isRequired,
+            processStep:React.PropTypes.number.isRequired,
+            riskStep:React.PropTypes.number.isRequired,
+            controls:React.PropTypes.string.isRequired,
+            workpaper:React.PropTypes.number.isRequired,
+            MRMVResponsibility:React.PropTypes.string.isRequired,
+            explanation:React.PropTypes.string.isRequired,
+            testWork:React.PropTypes.number,
+            submitted:React.PropTypes.bool.isRequired
+        }),
+        rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
+            index:React.PropTypes.number.isRequired,
+            description:React.PropTypes.string.isRequired
+        })),
+        handleTestSubmit:React.PropTypes.func.isRequired,
+        tableStyle:React.PropTypes.object,
         explanation:React.PropTypes.string.isRequired,
         testWork:React.PropTypes.number,
-        submitted:React.PropTypes.bool.isRequired
-    }),
-    rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
-        index:React.PropTypes.number.isRequired,
-        description:React.PropTypes.string.isRequired
-    })),
-    handleTestSubmit:React.PropTypes.func.isRequired,
-    tableStyle:React.PropTypes.object
-}
+        handleExplanation:React.PropTypes.func.isRequired,
+        handleSelect:React.PropTypes.func.isRequired,
+        clearState:React.PropTypes.func.isRequired
+    })
+)
+
+const SelectAndEnter=enhance(({tableStyle, rcusItem, explanation, rawTestSelection, testWork, handleSelect, handleExplanation, clearState, handleTestSubmit})=>
+<FourColBody style={tableStyle} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
+    <SelectTesting notAllowedToSubmit={!isOkToSubmit(testWork, explanation, rawTestSelection)} isSubmitted={rcusItem.submitted}  handleSubmit={()=>{
+        handleTestSubmit({...rcusItem, explanation:explanation, testWork:testWork});
+        clearState();
+    }}>
+        <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
+        <EnterTestingPlan 
+            testSelection={rawTestSelection}
+            initExplanation={explanation||rcusItem.explanation} 
+            selectedItem={ifFirstIsNullThenSecond(testWork, rcusItem.testWork)}
+            handleExplanation={handleExplanation} 
+            handleSelect={handleSelect}
+        />
+    </SelectTesting>
+</FourColBody>)
+
 export default SelectAndEnter
