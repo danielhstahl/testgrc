@@ -19,6 +19,18 @@ export const setLogOut=()=>{
         user:null
     }
 }
+export const attemptLogin=(dispatch, user)=>{
+    axios.get(`${url}/checkLogin`).then((response)=>{
+        const {id}=response.data;
+        console.log(id);
+        if(!id||user.id===id){
+            dispatch(setLogOut())
+        }
+        else{
+            dispatch(setLogIn(user))
+        }
+    })
+}
 export const getLogIn=(dispatch, user, password)=>{
     axios.post(`${url}/login`, {user, password}).then((response)=>{
         const {err, user}=response.data;

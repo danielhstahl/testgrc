@@ -1,16 +1,8 @@
 import React from 'react';
-import shouldUpdate from 'recompose/shouldUpdate'
 import { Row, Col} from 'react-grid-system';
-
-
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-
-
-
-
-
 
 const enhanceHead=compose(
     onlyUpdateForKeys(['first', 'second', 'third', 'fourth']),

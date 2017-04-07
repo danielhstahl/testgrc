@@ -7,11 +7,8 @@ import FeedBack from 'material-ui/svg-icons/action/feedback' //issue
 import Functions from 'material-ui/svg-icons/editor/functions' //validation
 import Poll from 'material-ui/svg-icons/social/poll' //review
 import pure from 'recompose/pure'
-import withState from 'recompose/withState';
 import compose from 'recompose/compose';
-import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
-import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 import {
   Link

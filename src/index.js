@@ -5,11 +5,13 @@ import workflowApp from './Reducers/ReduxReducers';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import './index.css';
-import {setLogIn} from './Actions/AuthenticationActions'
+import {attemptLogin, setLogOut} from './Actions/AuthenticationActions'
+//import {attemptLogin} from '../Actions/AuthenticationActions'
 import {checkLogin} from './localStorageHelper'
 
 let store = createStore(workflowApp)
-checkLogin(store, setLogIn)
+
+checkLogin(store, attemptLogin, setLogOut)
 
 ReactDOM.render(
   <Provider store={store}>

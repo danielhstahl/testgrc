@@ -2,7 +2,11 @@ import React from 'react';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import IconButton from 'material-ui/IconButton';
-import shouldUpdate from 'recompose/shouldUpdate';
+
+import compose from 'recompose/compose';
+import setPropTypes from 'recompose/setPropTypes';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+
 import {
   Step,
   Stepper,
@@ -22,10 +26,21 @@ ValidationWork.propTypes={
     step:React.PropTypes.number.isRequired,
     nodeArray:React.PropTypes.arrayOf(React.PropTypes.node).isRequired
 }
-const checkValidationFlow=(props, nextProps)=>{
-    return nextProps.step!==props.step
-}
-export const ValidationFlow=shouldUpdate(checkValidationFlow)(({handleStepChange, step, contents, arrowColor})=>{
+
+const enhanceFlow=compose(
+  onlyUpdateForKeys(['step']),
+  setPropTypes({
+    handleStepChange:React.PropTypes.func.isRequired,
+    step:React.PropTypes.number.isRequired,
+    arrowColor:React.PropTypes.string,
+    contents:React.PropTypes.arrayOf(React.PropTypes.shape({
+        title:React.PropTypes.string.isRequired,
+        text:React.PropTypes.string.isRequired
+    })).isRequired
+  })
+)
+
+export const ValidationFlow=enhanceFlow(({handleStepChange, step, contents, arrowColor})=>{
   return (
       <div >
         <Stepper
@@ -47,19 +62,19 @@ export const ValidationFlow=shouldUpdate(checkValidationFlow)(({handleStepChange
       </div>
   );
 })
-/*ValidationFlow.propTypes={
+
+const enhanceFlowDescription=compose(
+  onlyUpdateForKeys(['step', 'text']),
+  setPropTypes({
     handleStepChange:React.PropTypes.func.isRequired,
     step:React.PropTypes.number.isRequired,
-    arrowColor:React.PropTypes.string,
-    contents:React.PropTypes.arrayOf(React.PropTypes.shape({
-        title:React.PropTypes.string.isRequired,
-        text:React.PropTypes.string.isRequired
-    })).isRequired
-}*/
-const checkValidationDescription=(props, nextProps)=>{
-  return nextProps.step!==props.step||nextProps.text!==props.text
-}
-const ValidationFlowDescription=shouldUpdate(checkValidationDescription)(({text, step, maxStep, handleStepChange, arrowColor})=>
+    maxStep:React.PropTypes.number.isRequired,
+    text:React.PropTypes.string.isRequired,
+    arrowColor:React.PropTypes.string
+  })
+)
+
+const ValidationFlowDescription=enhanceFlowDescription(({text, step, maxStep, handleStepChange, arrowColor})=>
 <div>
     <p style={FlowDescriptionStyles}>{text}</p>
     <IconButton disabled={step===0} onTouchTap={()=>{return handleStepChange(step-1);}}>
@@ -69,10 +84,3 @@ const ValidationFlowDescription=shouldUpdate(checkValidationDescription)(({text,
         <ArrowForward color={arrowColor}/>
     </IconButton>
 </div>)
-/*ValidationFlowDescription.propTypes={
-    handleStepChange:React.PropTypes.func.isRequired,
-    step:React.PropTypes.number.isRequired,
-    maxStep:React.PropTypes.number.isRequired,
-    text:React.PropTypes.string.isRequired,
-    arrowColor:React.PropTypes.string
-}*/

@@ -1,57 +1,57 @@
 import React, { Component } from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
-export default class SubmitButtonProgress extends Component{
-  state={
-    err:"",
-    success:"",
-    waitingResponse:false
-  }
-  shouldComponentUpdate(nextProps){
-    return nextProps.handleSubmit!==this.props.handleSubmit
-  }
-  submit=()=>{
-    const {handleSubmit}=this.props;
-    const msToWait=3000;
-    this.setState({waitingResponse:true});
-    handleSubmit((err, res)=>{
-      if(err){
-        this.setState({
-          err:"Error!",
-          success:"",
-          waitingResponse:false
-        }, ()=>{
-          setTimeout(()=>{
-            this.setState({
-              err:""
-            })
-          }, msToWait)
-        })
-      }
-      else{
-        this.setState({
-          success:"Success!",
-          err:"",
-          waitingResponse:false
-        }, ()=>{
-          setTimeout(()=>{
-            this.setState({
-              success:""
-            })
-          }, msToWait)
-        })
-      }
-    })
-  }
-  render(){
-    const {success, err, waitingResponse}=this.state;
-    return(
-      err?<RaisedButton secondary onTouchTap={this.submit} label={err}/>:
-      success?<RaisedButton primary onTouchTap={this.submit} label={success}/>:
-      waitingResponse?<CircularProgress/>:<RaisedButton primary onTouchTap={this.submit} label="Submit"/>
-    )
+
+import withState from 'recompose/withState';
+import compose from 'recompose/compose';
+import withHandlers from 'recompose/withHandlers';
+import setPropTypes from 'recompose/setPropTypes';
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
+
+
+const cb=(msToWait, updateErr, updateSuccess, updateResponse)=>{
+  return (err, res)=>{
+    if(err){
+      updateErr("Error!")
+      updateSuccess("")
+      updateResponse(false)
+      setTimeout(()=>{
+        updateErr("")
+      }, msToWait)
+    }
+    else{
+      updateErr("")
+      updateSuccess("Success!")
+      updateResponse(false)
+      setTimeout(()=>{
+        updateSuccess("")
+      }, msToWait)
+    }
   }
 }
-SubmitButtonProgress.propTypes={
-  handleSubmit:React.PropTypes.func.isRequired
-}
+
+const enhance=compose(
+  withState('err', 'updateErr', ""),
+  withState('success', 'updateSuccess', ""),
+  withState('waitingForResponse', 'updateResponse', false),
+  withHandlers({
+    submit:({msToWait, handleSubmit, updateErr, updateSuccess, updateResponse})=>{
+      updateResponse(true)
+      handleSubmit(cb(msToWait, updateErr, updateSuccess, updateResponse))
+    }
+  }),
+  onlyUpdateForKeys(['handleSubmit']),
+  setPropTypes({
+    handleSubmit:React.PropTypes.func.isRequired,
+    err:React.PropTypes.string.isRequired,
+    success:React.PropTypes.string.isRequired,
+    waitingForResponse:React.PropTypes.bool.isRequired,
+  })
+)
+
+const SubmitButtonProgress=enhance(({submit, err, success, waitingResponse})=>
+    err?<RaisedButton secondary onTouchTap={submit} label={err}/>:
+    success?<RaisedButton primary onTouchTap={submit} label={success}/>:
+    waitingResponse?<CircularProgress/>:<RaisedButton primary onTouchTap={submit} label="Submit"/>
+)
+export default SubmitButtonProgress

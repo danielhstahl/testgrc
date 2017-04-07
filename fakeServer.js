@@ -1,13 +1,23 @@
 'use strict';
 const express = require('express');
 const bodyParser=require('body-parser');
+//const cookieParser = require('cookie-parser')
+const session = require('cookie-session')
 const data =require('./tmpData.js');
 const userAttributes=require('./userAttributes')
 const sql=require('./fakeSql.js')
+const uuidV4=require('uuid/v4')
 const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePersonel, testSelection=data.testSelection;
+
 const jsonParser = bodyParser.json();
 let app = express();
 app.use(bodyParser.json());
+const timeAllowedLogin=86400
+app.use(session({
+    name:'session',
+    secret:uuidV4(),
+    maxAge:timeAllowedLogin
+}));
 app.use((req, res, next)=>{
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -47,7 +57,10 @@ app.get("/skills", (req, res)=>{//these are "static"
         console.log("at line 46")
         res.send(result)
     })
-    //res.send(skills)
+})
+app.get('/checkLogin', (req, res)=>{
+    console.log(req.session);
+    res.send({id:req.session.id})
 })
 app.get("/RCUS", (req, res)=>{//these are "static"
     res.send(RCUS)
@@ -89,7 +102,10 @@ app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
 })
 app.post('/login', (req, res)=>{
     userAttributes.authenticate(req.body.user, req.body.password, (err, user)=>{
-        console.log(err);
+        if(!err){
+            req.session.id=uuidV4()
+            user.sessionId=req.session.id;
+        }
         res.send({err, user})
     })
 })

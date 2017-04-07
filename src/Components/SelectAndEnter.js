@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {FourColBody, RiskTestExplanation} from './ScopeUtils'
 import EnterTestingPlan from './EnterTestingPlan'
 import SelectTesting from './SelectTesting'
 import {isOkToSubmit} from '../scopeHelpers'
-
-import pure from 'recompose/pure'
 import withState from 'recompose/withState';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
@@ -19,7 +17,7 @@ const enhance=compose(
         handleExplanation:({updateExplanation})=>v=>updateExplanation(v),
         handleSelect:({updateTestWork})=>i=>updateTestWork(i),
         clearState:({updateExplanation, updateTestWork})=>()=>{
-            updateExplanation(""),
+            updateExplanation("")
             updateTestWork(null)
         }
     }),

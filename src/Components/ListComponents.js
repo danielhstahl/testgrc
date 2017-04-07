@@ -3,10 +3,8 @@ import Checkbox from 'material-ui/Checkbox';
 import Subheader from 'material-ui/Subheader';
 import {List, ListItem} from 'material-ui/List';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import pure from 'recompose/pure'
-import withState from 'recompose/withState';
+
 import compose from 'recompose/compose';
-import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 

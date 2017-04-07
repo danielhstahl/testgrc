@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import { Container, Row, Col} from 'react-grid-system';
-import pure from 'recompose/pure';
 import withState from 'recompose/withState';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';

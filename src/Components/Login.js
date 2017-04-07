@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import {Container} from 'react-grid-system'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import pure from 'recompose/pure'
 import withState from 'recompose/withState';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
@@ -39,17 +38,17 @@ const enhance=compose(
 const Login=enhance(({user, password, handleLoginWrapper, handleUser, handlePassword})=>
 <Container style={containerStyle}>
     <Paper zDepth={2} style={paperStyle}>
-        <form onSubmit={this.handleLoginWrapper} style={formStyle}>
+        <form onSubmit={handleLoginWrapper} style={formStyle}>
             {user.err?<h4>Login Failed!</h4>:null}
             <TextField                        
                 floatingLabelText="username"
-                onChange={this.handleUser}
+                onChange={handleUser}
             />
             <br/>
             <TextField                        
                 floatingLabelText="password"
                 type="password"
-                onChange={this.handlePassword}
+                onChange={handlePassword}
             />
             <br/>
             <RaisedButton primary label="Login" type="submit"/>
