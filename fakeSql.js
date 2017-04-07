@@ -1,6 +1,35 @@
 'use strict';
 const sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database(':memory:');
+const RCUS=require('./tmpData').RCUS
+const testSelection=require('./tmpData').testSelection
+
+const CreateRCUS=`CREATE TABLE RCUS(
+    process varchar(20) not null,
+    risk varchar(255) not null,
+    processStep int not null, 
+    riskStep int not null,
+    controls varchar(20) not null,
+    workpaper int not null,
+    MRMVResponsibility varchar(255) not null,
+    CONSTRAINT riskprocess PRIMARY KEY(processStep, riskStep)
+    );`
+
+
+
+
+const InsertRCUS=()=>{
+    RCUS.map((item)=>{
+        db.run(`INSERT INTO RCUS (process, risk, processStep, riskStep, controls, workpaper, MRMVResponsibility) VALUES (?, ?, ?, ?, ?, ?, ?);`, [item.process, item.risk, item.processStep, item.riskStep, item.controls, item.workpaper, item.MRMVResponsibility])
+    })
+}
+const CreateTestSelection=`CREATE TABLE testSelection([index] int not null constraint testSElID primary key, description varchar(25) not null, requiresExplanation bool not null);`;
+
+const TestSelection=()=>{
+    testSelection.map((item)=>{
+        db.run(`INSERT INTO testSelection ([index], description, requiresExplanation) VALUES (?, ?, ?);`, [item.index, item.description, item.requiresExplanation])
+    })
+}
 
 const CreateAssociates=`CREATE TABLE Associates(
 id varchar(10) constraint associateId primary key
@@ -27,6 +56,21 @@ const CreateValidations=`CREATE TABLE Validations(
     validationId varchar(10) constraint validationID primary key,
     beginDate DATETIME not null
 );`
+
+const CreateRcusValidation=`CREATE TABLE ValidationRcus (
+    testWork int not null, 
+    explanation varchar(255) not null, 
+    processStep int not null, 
+    riskStep int not null, validationId varchar(10), 
+    dateAdded datetime not null, 
+    constraint validationrcuspk 
+    PRIMARY KEY(processStep, riskStep, 
+    dateAdded, validationId),
+    constraint validationRcusFk 
+    FOREIGN KEY(processStep, riskStep) 
+    REFERENCES RCUS(processStep, riskStep), 
+    constraint validationRcusValidation FOREIGN KEY(ValidationID)
+    REFERENCES Validations(ValidationId));`
 
 const CreateValidationSkills=`CREATE TABLE ValidationSkills(
     validationId varchar(10) not null,
@@ -114,7 +158,28 @@ const getValidationSkills=(validationId, cb)=>{
         cb(err, valSkills)
     })
 }
-
+const getValidationRcus=(validationId, cb)=>{
+    db.all(
+    `
+    SELECT testWork, explanation, t1.processStep as processStep, t1.riskStep as riskStep FROM
+        (SELECT processStep, riskStep, MAX(dateAdded) as mxDate FROM
+           ValidationRcus WHERE validationId=?
+        GROUP BY processStep, riskStep) t1
+    INNER JOIN
+        (SELECT processStep, riskStep, dateAdded, testWork, explanation FROM ValidationRcus WHERE validationId=?) t2
+    ON t1.riskStep=t2.riskStep AND t1.mxDate=t2.dateAdded
+    and t1.processStep=t2.processStep
+    `,
+    [validationId, validationId], cb)
+}
+const writeValidationRcus=(validationId, testWork, explanation, processStep, riskStep, cb)=>{
+    db.run(`
+       insert into ValidationRcus (testWork, explanation, processStep, riskStep, validationId, dateAdded)  
+       values (?, ?, ?, ?, ?, datetime('now')) 
+    `,[
+        testWork, explanation, processStep, riskStep, validationId
+    ], cb)
+}
 const writeValidationAssociate=(validationId, id, include, cb)=>{
     db.run(`
        insert into ValidationAssociates (validationId, id, include, dateAdded)  
@@ -137,6 +202,12 @@ const getAllFromTable=(table)=>{
         console.log(row);
     })
 }
+const getRcus=(cb)=>{
+    db.all(`SELECT * FROM RCUS;`, cb)
+}
+const getTestSelection=(cb)=>{
+    db.all(`SELECT * FROM testSelection;`, cb)
+}
 
 
 db.serialize(()=>{
@@ -152,6 +223,11 @@ db.serialize(()=>{
   db.exec(InsertSkills);
   db.exec(InsertAssociateSkills);
   db.exec(InsertValidations);
+  db.exec(CreateRCUS);
+  db.exec(CreateTestSelection);
+  db.exec(CreateRcusValidation)
+  InsertRCUS();
+  TestSelection();
   /*db.each("SELECT id FROM Associates", (err, row)=>{
       console.log( row.id);
   });*/
@@ -159,10 +235,7 @@ db.serialize(()=>{
 
 
 ///TBD!
-const getRcus=(cb)=>{
-}
-const getTestSelection=(cb)=>{
-}
+
 module.exports.getAssociateSkills=getAssociateSkills
 module.exports.getSkills=getSkills
 module.exports.getValidationAssociates=getValidationAssociates
@@ -170,6 +243,7 @@ module.exports.getValidationSkills=getValidationSkills
 module.exports.writeValidationAssociate=writeValidationAssociate
 module.exports.writeValidationSkill=writeValidationSkill
 module.exports.getAllFromTable=getAllFromTable
-
-
-//db.close();
+module.exports.getRcus=getRcus
+module.exports.getTestSelection=getTestSelection
+module.exports.getValidationRcus=getValidationRcus
+module.exports.writeValidationRcus=writeValidationRcus

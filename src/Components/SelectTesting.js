@@ -13,8 +13,8 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 const enhance=compose(
     withState('open', 'updateOpen', false),
     withHandlers({
-        handleOpen:({updateOpen})=>updateOpen(true),
-        handleClose:({updateOpen})=>updateOpen(false)
+        handleOpen:({updateOpen})=>()=>updateOpen(true),
+        handleClose:({updateOpen})=>()=>updateOpen(false)
     }),
     onlyUpdateForKeys(['isSubmitted', 'notAllowedToSubmit', 'open']),
     setPropTypes({
@@ -37,21 +37,24 @@ const buttonHelper=(handleClose, handleSubmit, notAllowedToSubmit)=>[
         label="Submit"
         primary={true}
         disabled={notAllowedToSubmit}
-        onTouchTap={()=>{handleClose();handleSubmit();}}
+        onTouchTap={()=>{
+            handleClose();
+            handleSubmit();
+        }}
     />
 ];
 
 const SelectTesting=enhance(({handleSubmit, isSubmitted, children, notAllowedToSubmit, open, handleOpen, handleClose})=>
-<div >
+<div>
     {isSubmitted?
-        <RaisedButton  primary label="Submitted!" onTouchTap={this.handleOpen} />:
-    <RaisedButton  label="Enter Plan" onTouchTap={this.handleOpen} />}
+        <RaisedButton  primary label="Submitted!" onTouchTap={handleOpen} />:
+    <RaisedButton  label="Enter Plan" onTouchTap={handleOpen} />}
     <Dialog
         title="Testing Plan"
-        actions={buttonHelper(handleClose, handleOpen, notAllowedToSubmit)}
+        actions={buttonHelper(handleClose, handleSubmit, notAllowedToSubmit)}
         modal={false}
-        open={this.state.open}
-        onRequestClose={this.handleClose}
+        open={open}
+        onRequestClose={handleClose}
         >
         {children}
     </Dialog>

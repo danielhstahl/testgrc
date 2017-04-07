@@ -39,7 +39,6 @@ const transformNormalizedToKey=(associates)=>{
 }
 
 const port='3001';
-let scopeData=[];
 
 app.get("/associates", (req, res)=>{ 
     sql.getAssociateSkills((err, result)=>{
@@ -64,23 +63,30 @@ app.get('/checkLogin', (req, res)=>{
     res.send({hashPassword:getFromSession(req.query.sessionId)})
 })
 app.get("/RCUS", (req, res)=>{//these are "static"
-    res.send(RCUS)
+    sql.getRcus((err, result)=>{
+        res.send(result)
+    })
 })
 app.get("/testSelection", (req, res)=>{//these are "static"
-    res.send(testSelection)
+    sql.getTestSelection((err, result)=>{
+        res.send(result)
+    })
 })
 app.get("/validationAssociates", (req, res)=>{//in final state use validation id.  This is the "instantiated" version of "currentAssociates"
     sql.getValidationAssociates(req.query.validationId, (err, result)=>{
         if(err){
             return console.log(err);
         }
-        //console.log("at line 64")
         res.send(result)
     })
-    //res.send(skillData);
 })
-app.get("/scopeAssessment", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
-    res.send(scopeData);
+app.get("/validationRcus", (req, res)=>{ //in final state use validation id.  This is the "instantiated" version of "RCUS"
+    sql.getValidationRcus(req.query.validationId, (err, result)=>{
+        if(err){
+            return console.log(err);
+        }
+        res.send(result)
+    })
 })
 app.get("/validationSkills", (req, res)=>{ 
     console.log(req.query)
@@ -94,10 +100,16 @@ app.get("/validationSkills", (req, res)=>{
     })
 })
 
-app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
-    console.log(req.body);
-    scopeData=req.body.plan;
-    res.sendStatus(200);
+app.post("/writeValidationRcus",  (req, res)=>{ //in final state use validation id
+    const obj=req.body;
+    console.log(obj);
+    sql.writeValidationRcus(obj.validationId, obj.testWork, obj.explanation, obj.processStep, obj.riskStep, (err, result)=>{
+        if(err){
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    })
+    
     
 })
 app.post('/login', (req, res)=>{
@@ -117,7 +129,6 @@ app.post("/writeValidationAssociate",  (req, res)=>{ //in final state use valida
         if(err){
             console.log(err)
         }
-        sql.getAllFromTable("ValidationAssociates")
         res.sendStatus(200);
         
     })
@@ -131,7 +142,6 @@ app.post("/writeValidationSkill",  (req, res)=>{ //in final state use validation
         if(err){
             console.log(err)
         }
-        sql.getAllFromTable("ValidationSkills")
         res.sendStatus(200);
     })
 })

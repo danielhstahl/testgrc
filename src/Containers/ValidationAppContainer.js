@@ -5,6 +5,7 @@ import { getValidationAssociates} from '../Actions/AssociateActions'
 import {getRawAssociates} from '../Actions/AssociateActions'
 import {getRawSkills} from '../Actions/SkillsActions'
 import {getRawRCUS} from '../Actions/RcusActions'
+import {getValidationPlan} from '../Actions/RcusActions'
 import {getRawTestSelection} from '../Actions/TestSelectionActions'
 import ValidationApp from '../Components/ValidationApp'
 
@@ -19,6 +20,7 @@ const mapDispatchToProps=(dispatch, ownProps)=>{
     getRawSkills(dispatch); 
     getRawTestSelection(dispatch); 
     getRawRCUS(dispatch); 
+    getValidationPlan(dispatch, validationId);
     return {
         handleStepChange:(step)=>{
             dispatch(setStep(step));

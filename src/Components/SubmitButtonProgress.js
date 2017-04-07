@@ -35,7 +35,7 @@ const enhance=compose(
   withState('success', 'updateSuccess', ""),
   withState('waitingForResponse', 'updateResponse', false),
   withHandlers({
-    submit:({msToWait, handleSubmit, updateErr, updateSuccess, updateResponse})=>{
+    submit:({msToWait, handleSubmit, updateErr, updateSuccess, updateResponse})=>()=>{
       updateResponse(true)
       handleSubmit(cb(msToWait, updateErr, updateSuccess, updateResponse))
     }

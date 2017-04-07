@@ -264,7 +264,7 @@ const RCUS=[
         process:"Implementation Structure",
         risk:"Code errors",
         processStep:3,
-        riskStep:2,
+        riskStep:3,
         controls:"Unit Testing (run every time pushed to production)",
         workpaper:4,
         MRMVResponsibility:"Assess unit tests, view logs to ensure that tests are run every time"
@@ -273,7 +273,7 @@ const RCUS=[
         process:"Implementation Structure",
         risk:"Code errors",
         processStep:3,
-        riskStep:3,
+        riskStep:4,
         controls:"N/A",
         workpaper:4,
         MRMVResponsibility:"MRMV independently replicates the model output"
@@ -282,7 +282,7 @@ const RCUS=[
         process:"Implementation Structure",
         risk:"Key person risk/lack of transparency/unmaintainable code",
         processStep:3,
-        riskStep:4,
+        riskStep:5,
         controls:"Documentation of code (comments, organized code, etc)",
         workpaper:4,
         MRMVResponsibility:"Assess quality of code (eg assessing comments, legibility)"
@@ -291,7 +291,7 @@ const RCUS=[
         process:"Implementation Structure",
         risk:"Inefficient code or algorithms",
         processStep:3,
-        riskStep:5,
+        riskStep:6,
         controls:"N/A",
         workpaper:4,
         MRMVResponsibility:"MRMV assesses alternative algorithms"
@@ -300,7 +300,7 @@ const RCUS=[
         process:"Implementation Structure",
         risk:"Implementation different than dev/test",
         processStep:3,
-        riskStep:6,
+        riskStep:7,
         controls:"Hash of code, Docker, anything that proves that the two environments are the same",
         workpaper:4,
         MRMVResponsibility:"Ensure that controls exist (should be self auditing)"
@@ -309,7 +309,7 @@ const RCUS=[
         process:"Implementation Structure",
         risk:"Infrastructure inappropriate for demonstrating continued accuracy of output",
         processStep:3,
-        riskStep:6,
+        riskStep:8,
         controls:"N/A",
         workpaper:4,
         MRMVResponsibility:"Assess infrastructure.  Must answer \"yes\" to the question of \"can I trust the OGM results that I receive in 1 year with no additional testing\" to avoid writing issue"
@@ -503,15 +503,18 @@ const availablePersonel=[
 const testSelection=[
     {
         index:0,
-        description:"Verification"
+        description:"Verification",
+        requiresExplanation:false
     },
     {
         index:1,
-        description:"Independent Replication"
+        description:"Independent Replication",
+        requiresExplanation:false
     },
     {
         index:2,
-        description:"Qualitative"
+        description:"Qualitative",
+        requiresExplanation:false
     },
     {
         index:3,
