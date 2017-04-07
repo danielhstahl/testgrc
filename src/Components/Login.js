@@ -17,25 +17,26 @@ const containerStyle={marginTop:50}
 
 
 const enhance=compose(
-    withState('user', 'updateUser', ''),
+    withState('username', 'updateUser', ''),
     withState('password', 'updatePswd', ''),
     withHandlers({
-        handleLoginWrapper:({user, password, handleLogin})=>e=>{
+        handleLoginWrapper:({username, password, handleLogin})=>e=>{
             e.preventDefault();
-            handleLogin(user, password);
+            handleLogin(username, password);
         },
         handleUser:({updateUser})=>(e, user)=>updateUser(user),
         handlePassword:({updatePswd})=>(e, password)=>updatePswd(password)
     }),
-    onlyUpdateForKeys(['user', 'password']),
+    onlyUpdateForKeys(['user', 'username', 'password']),
     setPropTypes({
-        user:React.PropTypes.string.isRequired,
+        username:React.PropTypes.string.isRequired,
+        user:React.PropTypes.object.isRequired,
         password:React.PropTypes.string.isRequired
     })
 )
 
 
-const Login=enhance(({user, password, handleLoginWrapper, handleUser, handlePassword})=>
+const Login=enhance(({user, username, password, handleLoginWrapper, handleUser, handlePassword})=>
 <Container style={containerStyle}>
     <Paper zDepth={2} style={paperStyle}>
         <form onSubmit={handleLoginWrapper} style={formStyle}>

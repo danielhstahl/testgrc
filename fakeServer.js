@@ -1,8 +1,13 @@
 'use strict';
 const express = require('express');
 const bodyParser=require('body-parser');
-//const cookieParser = require('cookie-parser')
-const session = require('cookie-session')
+const cryptojs=require('crypto-js');
+const SHA256 = require('crypto-js/SHA256');
+const inRamDb=require('./inRamDb');
+const addToSession=inRamDb.addToSession
+const removeFromSession=inRamDb.removeFromSession
+const getFromSession=inRamDb.getFromSession
+
 const data =require('./tmpData.js');
 const userAttributes=require('./userAttributes')
 const sql=require('./fakeSql.js')
@@ -12,12 +17,8 @@ const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePerson
 const jsonParser = bodyParser.json();
 let app = express();
 app.use(bodyParser.json());
-const timeAllowedLogin=86400
-app.use(session({
-    name:'session',
-    secret:uuidV4(),
-    maxAge:timeAllowedLogin
-}));
+//const timeAllowedLogin=86400000;
+
 app.use((req, res, next)=>{
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -59,8 +60,8 @@ app.get("/skills", (req, res)=>{//these are "static"
     })
 })
 app.get('/checkLogin', (req, res)=>{
-    console.log(req.session);
-    res.send({id:req.session.id})
+    console.log(req.query);
+    res.send({hashPassword:getFromSession(req.query.sessionId)})
 })
 app.get("/RCUS", (req, res)=>{//these are "static"
     res.send(RCUS)
@@ -69,12 +70,11 @@ app.get("/testSelection", (req, res)=>{//these are "static"
     res.send(testSelection)
 })
 app.get("/validationAssociates", (req, res)=>{//in final state use validation id.  This is the "instantiated" version of "currentAssociates"
-    
     sql.getValidationAssociates(req.query.validationId, (err, result)=>{
         if(err){
             return console.log(err);
         }
-        console.log("at line 64")
+        //console.log("at line 64")
         res.send(result)
     })
     //res.send(skillData);
@@ -103,8 +103,7 @@ app.post("/handlePlanSubmit",  (req, res)=>{ //in final state use validation id
 app.post('/login', (req, res)=>{
     userAttributes.authenticate(req.body.user, req.body.password, (err, user)=>{
         if(!err){
-            req.session.id=uuidV4()
-            user.sessionId=req.session.id;
+            user.sessionId=addToSession(SHA256(req.body.password).toString(cryptojs.enc.Base64))
         }
         res.send({err, user})
     })
@@ -133,7 +132,6 @@ app.post("/writeValidationSkill",  (req, res)=>{ //in final state use validation
             console.log(err)
         }
         sql.getAllFromTable("ValidationSkills")
-        //console.log(result)
         res.sendStatus(200);
     })
 })

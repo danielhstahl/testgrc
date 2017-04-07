@@ -8,6 +8,7 @@ export const setRawAssociates=(associates)=>{
 }
 export const getRawAssociates=(dispatch)=>{
     return axios.get(`${url}/associates`).then((response)=>{
+        console.log(response);
         dispatch(setRawAssociates(response.data))
     })
 }

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import url from './url'
+import {SHA256, enc} from 'crypto-js'
 import {setStorage} from '../localStorageHelper'
 export const setLogIn=(user)=>{
     return {
@@ -14,16 +15,17 @@ export const setLogInError=(err)=>{
     }
 }
 export const setLogOut=()=>{
+    //axios.post(`${url}/logout`)
     return {
         type:"LOGOUT",
         user:null
     }
 }
 export const attemptLogin=(dispatch, user)=>{
-    axios.get(`${url}/checkLogin`).then((response)=>{
-        const {id}=response.data;
-        console.log(id);
-        if(!id||user.id===id){
+    axios.get(`${url}/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
+        console.log(response.data);
+        const {hashPassword}=response.data;
+        if(!hashPassword||user.hashPassword!==hashPassword){
             dispatch(setLogOut())
         }
         else{
@@ -37,7 +39,10 @@ export const getLogIn=(dispatch, user, password)=>{
         if(err){
             dispatch(setLogInError(err))
         }else{
+            user.hashPassword=SHA256(password).toString(enc.Base64);
+            console.log(user);
             dispatch(setLogIn(user))
+            console.log(user);
             setStorage(user)            
         }
     })

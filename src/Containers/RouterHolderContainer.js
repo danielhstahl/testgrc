@@ -3,6 +3,7 @@ import  RouterHolder  from '../Components/RouterHolder'
 
 const mapStateToProps=(state, ownProps)=>{
     console.log("Should only get here once per session");
+    console.log(state.user);
     return {
         userObj:state.user,
         arrowColor:ownProps.arrowColor

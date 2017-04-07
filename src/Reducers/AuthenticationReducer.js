@@ -1,4 +1,4 @@
-const user=(state=false, action)=>{
+const user=(state={user:null, err:null}, action)=>{
     switch(action.type){
         case "LOGIN":
             return {user:action.user, err:null}
