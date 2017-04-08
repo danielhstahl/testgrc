@@ -206,7 +206,13 @@ const getRcus=(cb)=>{
     db.all(`SELECT * FROM RCUS;`, cb)
 }
 const getTestSelection=(cb)=>{
-    db.all(`SELECT * FROM testSelection;`, cb)
+    let testSelection=[]
+    db.each(`SELECT * FROM testSelection;`, (err, res)=>{
+        testSelection.push({index:res.index, description:res.description, requiresExplanation:res.requiresExplanation===1?true:false})
+    }, (err)=>{
+        cb(err, testSelection);
+    })
+
 }
 
 

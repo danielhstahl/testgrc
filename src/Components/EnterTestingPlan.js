@@ -10,14 +10,18 @@ import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 
-const convertUndefinedToString=(val)=>val?val:""
+const convertToBool=(val)=>{
+    return val?true:false
+}
 
 const enhance=compose(
-    withState('requiresExplanation', 'setExplanation', ({initExplanation})=>convertUndefinedToString(initExplanation)),
+    withState('requiresExplanation', 'setRequiresExplanation', ({explanation})=>convertToBool(explanation)),
     withHandlers({
-        localHandleSelect:({testSelection, setExplanation})=>v=>setExplanation(convertUndefinedToString(testSelection.filter((val)=>val.index===v)[0].requiresExplanation))
+        localHandleSelect:({testSelection, setRequiresExplanation})=>v=>setRequiresExplanation(
+            testSelection.filter((val)=>val.index===v)[0].requiresExplanation
+        )
     }),
-    onlyUpdateForKeys(['selectedItem', 'requiresExplanation']),
+    onlyUpdateForKeys(['selectedItem', 'explanation', 'requiresExplanation']),
     setPropTypes({
         handleSelect:React.PropTypes.func.isRequired,
         handleExplanation:React.PropTypes.func.isRequired,
@@ -26,19 +30,20 @@ const enhance=compose(
             index: React.PropTypes.number.isRequired,
             description: React.PropTypes.string.isRequired
         })).isRequired,
-        requiresExplanation:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool]),
+        setRequiresExplanation:React.PropTypes.func.isRequired,
+        requiresExplanation:React.PropTypes.bool,
         localHandleSelect:React.PropTypes.func.isRequired,
-        initExplanation:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
+        explanation:React.PropTypes.string
     })
 )
-const EnterTestingPlan=enhance(({handleSelect, handleExplanation, selectedItem, testSelection, localHandleSelect, initExplanation, requiresExplanation})=>
+const EnterTestingPlan=enhance(({handleSelect, handleExplanation, selectedItem, testSelection, localHandleSelect, explanation, setRequiresExplanation, requiresExplanation})=>
 <Container>
     <Row>
         <Col xs={12} sm={6}>
             <SelectField
                 floatingLabelText="Select Test Type"
                 value={selectedItem}
-                onChange={(e, i, testIndex)=>{handleSelect(testIndex);localHandleSelect(testIndex)}}
+                onChange={(e, i, testIndex)=>{localHandleSelect(testIndex);handleSelect(testIndex)}}
             >
                 {testSelection.map((val, index)=>{
                     return <MenuItem key={index} value={val.index} primaryText={val.description} />;
@@ -47,12 +52,11 @@ const EnterTestingPlan=enhance(({handleSelect, handleExplanation, selectedItem, 
         </Col>
         <Col xs={12} sm={6}>
             {requiresExplanation?<TextField 
-                defaultValue={initExplanation}
+                value={explanation}
                 floatingLabelText="Explanation for Lack of Testing"
                 onChange={(e,v)=>handleExplanation(v)}
             />:""}
         </Col>
     </Row>
-</Container>
-)
+</Container>)
 export default EnterTestingPlan

@@ -58,12 +58,14 @@ const SelectAndEnter=enhance(({tableStyle, rcusItem, explanation, rawTestSelecti
         <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
         <EnterTestingPlan 
             testSelection={rawTestSelection}
-            initExplanation={explanation||rcusItem.explanation} 
+            explanation={explanation||rcusItem.explanation} 
             selectedItem={ifFirstIsNullThenSecond(testWork, rcusItem.testWork)}
             handleExplanation={handleExplanation} 
             handleSelect={handleSelect}
         />
     </SelectTesting>
-</FourColBody>)
+</FourColBody>
+)
+
 
 export default SelectAndEnter
