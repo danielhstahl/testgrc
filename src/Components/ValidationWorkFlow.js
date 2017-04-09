@@ -34,7 +34,6 @@ const enhanceFlow=compose(
   setPropTypes({
     handleStepChange:React.PropTypes.func.isRequired,
     step:React.PropTypes.number.isRequired,
-    arrowColor:React.PropTypes.string,
     contents:React.PropTypes.arrayOf(React.PropTypes.shape({
         title:React.PropTypes.string.isRequired,
         text:React.PropTypes.string.isRequired
@@ -42,7 +41,7 @@ const enhanceFlow=compose(
   })
 )
 
-export const ValidationFlow=enhanceFlow(({handleStepChange, step, contents, arrowColor})=>{
+export const ValidationFlow=enhanceFlow(({handleStepChange, step, contents})=>{
   return (
       <div >
         <Stepper
@@ -75,7 +74,7 @@ const enhanceFlowDescription=compose(
   })
 )
 
-const ValidationFlowDescription=enhanceFlowDescription(({text, step, maxStep, handleStepChange, arrowColor})=>
+const ValidationFlowDescription=enhanceFlowDescription(({text, step, maxStep, handleStepChange})=>
 <div>
     <p style={FlowDescriptionStyles}>{text}</p>
     <IconButton disabled={step===0} onTouchTap={()=>{return handleStepChange(step-1);}}>

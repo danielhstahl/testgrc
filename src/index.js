@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import AppContainer from './Containers/AppContainer';
 import App from './Components/App';
 import workflowApp from './Reducers/ReduxReducers';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import './index.css';
 import {attemptLogin, setLogOut} from './Actions/AuthenticationActions'
-//import {attemptLogin} from '../Actions/AuthenticationActions'
 import {checkLogin} from './localStorageHelper'
 
 let store = createStore(workflowApp)

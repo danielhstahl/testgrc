@@ -1,14 +1,20 @@
 import React from 'react';
-import {Container} from 'react-grid-system'
 import RefreshIndicator from 'material-ui/RefreshIndicator'; 
-const progressStyle={maxWidth:500, margin:"0 auto"}
 
+const refreshSize=100;
+const top=200;
+const progressStyle={maxWidth:refreshSize, margin:"0 auto"}
+const refreshStyle= {
+    display: 'inline-block',
+    position: 'relative',
+  }
 const PageLoad = () =>
 <div style={progressStyle}>
     <RefreshIndicator
-        size={70}
+        style={refreshStyle}
+        size={refreshSize}
         left={0}
-        top={0}
+        top={200}
         status="loading"
     />
 </div>
