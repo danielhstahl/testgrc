@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setStep} from '../Actions/StepActions'
+//import { setStep} from '../Actions/StepActions'
 import { getValidationSkills} from '../Actions/SkillsActions'
 import { getValidationAssociates} from '../Actions/AssociateActions'
 import {getRawAssociates} from '../Actions/AssociateActions'
@@ -9,26 +9,27 @@ import {getValidationPlan} from '../Actions/RcusActions'
 import {getRawTestSelection} from '../Actions/TestSelectionActions'
 import ValidationApp from '../Components/ValidationApp'
 
-const mapStateToProps=(state, ownProps)=>{
-    return {step:state.step, match:ownProps.match, arrowColor:ownProps.arrowColor}
+const mapStateToProps=(state)=>{
+    return {}
 }
-const mapDispatchToProps=(dispatch, ownProps)=>{
-    const {validationId}=ownProps.match.params;
-    getValidationSkills(dispatch, validationId);
-    getValidationAssociates(dispatch, validationId);
-    getRawAssociates(dispatch);
-    getRawSkills(dispatch); 
-    getRawTestSelection(dispatch); 
-    getRawRCUS(dispatch); 
-    getValidationPlan(dispatch, validationId);
+const mapDispatchToProps=(dispatch)=>{
     return {
-        handleStepChange:(step)=>{
-            dispatch(setStep(step));
+        loadInit:()=>{
+            getRawAssociates(dispatch);
+            getRawSkills(dispatch); 
+            getRawTestSelection(dispatch); 
+            getRawRCUS(dispatch); 
         },
+        loadOnValidationChange:(validationId)=>{
+            getValidationSkills(dispatch, validationId);
+            getValidationAssociates(dispatch, validationId);
+            getValidationPlan(dispatch, validationId);
+        }
     }
 }
+
 const ValidationAppContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ValidationApp)
 export default ValidationAppContainer;

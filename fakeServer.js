@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser=require('body-parser');
 const cryptojs=require('crypto-js');
-const SHA256 = require('crypto-js/SHA256');
+//const SHA256 = require('crypto-js/SHA256');
 const inRamDb=require('./inRamDb');
 const addToSession=inRamDb.addToSession
 const removeFromSession=inRamDb.removeFromSession
@@ -115,7 +115,7 @@ app.post("/writeValidationRcus",  (req, res)=>{ //in final state use validation 
 app.post('/login', (req, res)=>{
     userAttributes.authenticate(req.body.user, req.body.password, (err, user)=>{
         if(!err){
-            user.sessionId=addToSession(SHA256(req.body.password).toString(cryptojs.enc.Base64))
+            user.sessionId=addToSession(cryptojs.SHA256(req.body.password).toString(cryptojs.enc.Base64))
         }
         res.send({err, user})
     })

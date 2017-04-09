@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import workflowTheme from '../workflowTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import RouterHolderContainer from '../Containers/RouterHolderContainer'
 
@@ -11,14 +11,9 @@ import RouterHolderContainer from '../Containers/RouterHolderContainer'
 injectTapEventPlugin();
 
 
-const arrowColor=lightBaseTheme.palette.primary1Color;
-const App =() => {
-  return (
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-         <RouterHolderContainer arrowColor={arrowColor}/>
-      </MuiThemeProvider>
-    
-  );
-}
+const App =() => 
+<MuiThemeProvider muiTheme={getMuiTheme(workflowTheme)}>
+    <RouterHolderContainer/>
+</MuiThemeProvider>
 
 export default App;

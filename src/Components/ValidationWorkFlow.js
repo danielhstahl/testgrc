@@ -2,7 +2,7 @@ import React from 'react';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import IconButton from 'material-ui/IconButton';
-
+import workflowTheme from '../workflowTheme';
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
@@ -12,6 +12,8 @@ import {
   Stepper,
   StepButton,
 } from 'material-ui/Stepper';
+
+const arrowColor=workflowTheme.palette.primary1Color;
 
 const FlowDescriptionStyles={
   fontSize:'.75em', 
@@ -58,7 +60,7 @@ export const ValidationFlow=enhanceFlow(({handleStepChange, step, contents, arro
           );
         })}
         </Stepper>
-        <ValidationFlowDescription arrowColor={arrowColor} text={contents[step].text} step={step} maxStep={contents.length} handleStepChange={handleStepChange}/>
+        <ValidationFlowDescription text={contents[step].text} step={step} maxStep={contents.length} handleStepChange={handleStepChange}/>
       </div>
   );
 })
@@ -69,8 +71,7 @@ const enhanceFlowDescription=compose(
     handleStepChange:React.PropTypes.func.isRequired,
     step:React.PropTypes.number.isRequired,
     maxStep:React.PropTypes.number.isRequired,
-    text:React.PropTypes.string.isRequired,
-    arrowColor:React.PropTypes.string
+    text:React.PropTypes.string.isRequired
   })
 )
 

@@ -10,6 +10,7 @@ import rawTest from './RawTestSelectionReducer'
 import todos from './TodoReducer'
 import activities from './ActivityReducer'
 import user from './AuthenticationReducer'
+import isLoading from './LoadingReducer'
 
 const workflowApp=combineReducers({
     rawSkills,
@@ -22,6 +23,7 @@ const workflowApp=combineReducers({
     associates,
     todos,
     user,
+    isLoading,
     activities
 })
 export default workflowApp;

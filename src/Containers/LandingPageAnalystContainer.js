@@ -7,9 +7,12 @@ const mapStateToProps=(state, ownProps)=>{
     return {activities:state.activities, todos:state.todos}
 }
 const mapDispatchToProps=(dispatch)=>{
-    getRawTodos(dispatch);
-    getRawActivities(dispatch);
+    
     return{
+        onLoad:()=>{
+            getRawTodos(dispatch);
+            getRawActivities(dispatch);
+        }
         
     };
 }

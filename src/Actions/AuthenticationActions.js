@@ -2,6 +2,7 @@ import axios from 'axios'
 import url from './url'
 import {SHA256, enc} from 'crypto-js'
 import {setStorage} from '../localStorageHelper'
+import {CheckLoading} from './LoadingAction'
 export const setLogIn=(user)=>{
     return {
         type:"LOGIN",
@@ -15,13 +16,13 @@ export const setLogInError=(err)=>{
     }
 }
 export const setLogOut=()=>{
-    //axios.post(`${url}/logout`)
     return {
         type:"LOGOUT",
         user:null
     }
 }
 export const attemptLogin=(dispatch, user)=>{
+    dispatch(CheckLoading(true))
     axios.get(`${url}/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
         console.log(response.data);
         const {hashPassword}=response.data;
@@ -31,19 +32,20 @@ export const attemptLogin=(dispatch, user)=>{
         else{
             dispatch(setLogIn(user))
         }
+        dispatch(CheckLoading(false))
     })
 }
 export const getLogIn=(dispatch, user, password)=>{
+    dispatch(CheckLoading(true))
     axios.post(`${url}/login`, {user, password}).then((response)=>{
         const {err, user}=response.data;
         if(err){
             dispatch(setLogInError(err))
         }else{
             user.hashPassword=SHA256(password).toString(enc.Base64);
-            console.log(user);
             dispatch(setLogIn(user))
-            console.log(user);
             setStorage(user)            
         }
+        dispatch(CheckLoading(false))
     })
 }

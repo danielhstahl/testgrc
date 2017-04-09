@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppContainer from './Containers/AppContainer';
+//import AppContainer from './Containers/AppContainer';
+import App from './Components/App';
 import workflowApp from './Reducers/ReduxReducers';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
@@ -15,7 +16,7 @@ checkLogin(store, attemptLogin, setLogOut)
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppContainer />
+    <App />
   </Provider>,
   document.getElementById('root')
 );

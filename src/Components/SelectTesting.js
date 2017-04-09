@@ -14,9 +14,12 @@ const enhance=compose(
     withState('open', 'updateOpen', false),
     withHandlers({
         handleOpen:({updateOpen})=>()=>updateOpen(true),
-        handleClose:({updateOpen})=>()=>updateOpen(false)
+        handleClose:({updateOpen, onClose})=>()=>{
+            updateOpen(false)
+            onClose?onClose():""
+        }
     }),
-    onlyUpdateForKeys(['isSubmitted', 'notAllowedToSubmit', 'open']),
+    onlyUpdateForKeys(['isSubmitted', 'notAllowedToSubmit', 'open', 'children']),
     setPropTypes({
         handleSubmit:React.PropTypes.func.isRequired,
         isSubmitted:React.PropTypes.bool,
@@ -25,9 +28,10 @@ const enhance=compose(
         open:React.PropTypes.bool.isRequired,
         handleOpen:React.PropTypes.func.isRequired,
         handleClose:React.PropTypes.func.isRequired,
+        onClose:React.PropTypes.func
     })
 )
-const buttonHelper=(handleClose, handleSubmit, notAllowedToSubmit)=>[
+const buttonHelper=(handleClose,  handleSubmit, notAllowedToSubmit)=>[
     <FlatButton
         label="Cancel"
         primary={true}
@@ -44,14 +48,14 @@ const buttonHelper=(handleClose, handleSubmit, notAllowedToSubmit)=>[
     />
 ];
 
-const SelectTesting=enhance(({handleSubmit, isSubmitted, children, notAllowedToSubmit, open, handleOpen, handleClose})=>
+const SelectTesting=enhance(({handleSubmit, isSubmitted, children, notAllowedToSubmit, open, handleOpen, handleClose, onClose})=>
 <div>
     {isSubmitted?
         <RaisedButton  primary label="Submitted!" onTouchTap={handleOpen} />:
     <RaisedButton  label="Enter Plan" onTouchTap={handleOpen} />}
     <Dialog
         title="Testing Plan"
-        actions={buttonHelper(handleClose, handleSubmit, notAllowedToSubmit)}
+        actions={buttonHelper(handleClose,  handleSubmit, notAllowedToSubmit)}
         modal={false}
         open={open}
         onRequestClose={handleClose}

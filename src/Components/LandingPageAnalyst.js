@@ -9,7 +9,7 @@ import Poll from 'material-ui/svg-icons/social/poll' //review
 import pure from 'recompose/pure'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
-
+import lifecycle from 'recompose/lifecycle';
 import {
   Link
 } from 'react-router-dom'
@@ -39,6 +39,11 @@ const ListWithLinks=enhanceLinks(({list, title})=>
 
 const enhance=compose(
     pure,
+    lifecycle({
+        componentWillMount(){
+            this.props.onLoad();
+        }
+    }),
     setPropTypes({
         activities:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,

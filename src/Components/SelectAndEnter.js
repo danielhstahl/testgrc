@@ -51,10 +51,15 @@ const enhance=compose(
 
 const SelectAndEnter=enhance(({tableStyle, rcusItem, explanation, rawTestSelection, testWork, handleSelect, handleExplanation, clearState, handleTestSubmit})=>
 <FourColBody style={tableStyle} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
-    <SelectTesting notAllowedToSubmit={!isOkToSubmit(testWork, explanation, rawTestSelection)} isSubmitted={rcusItem.submitted}  handleSubmit={()=>{
-        handleTestSubmit({...rcusItem, explanation:explanation, testWork:testWork});
-        clearState();
-    }}>
+    <SelectTesting 
+        notAllowedToSubmit={!isOkToSubmit(testWork, explanation, rawTestSelection)} 
+        isSubmitted={rcusItem.submitted}  
+        handleSubmit={()=>{
+            handleTestSubmit({...rcusItem, explanation:explanation, testWork:testWork});
+            //clearState();
+        }}
+        onClose={clearState}
+    >
         <RiskTestExplanation responsibility={rcusItem.MRMVResponsibility} risk={rcusItem.risk} control={rcusItem.controls}/>
         <EnterTestingPlan 
             testSelection={rawTestSelection}
