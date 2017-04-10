@@ -23,6 +23,7 @@ export const setLogOut=()=>{
 }
 export const attemptLogin=(dispatch, user)=>{
     if(user){
+        console.log(user)
         dispatch(CheckLoading(true))
         axios.get(`${url}/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
             console.log(response.data);

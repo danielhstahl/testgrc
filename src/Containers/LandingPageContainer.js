@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LandingPage from '../Components/LandingPage'
 //import {getRawTodos} from '../Actions/TodoActions'
 //import {getRawActivities} from '../Actions/ActivityActions'
-const mapStateToProps=(state, ownProps)=>{
+const mapStateToProps=(state)=>{
     return {user:state.user.user}
 }
 const mapDispatchToProps=(dispatch)=>{

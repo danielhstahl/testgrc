@@ -13,7 +13,7 @@ const schema = {
 prompt.start();
 prompt.get(schema, (err, results)=>{
     userAttributes.authenticate(results.username, results.password, (err, user)=>{
-        console.log(user);
+       // console.log(user);
         /*if(ad===null){
             return console.log(user);
         }*/

@@ -2,6 +2,17 @@
 const AD = require('activedirectory2').promiseWrapper;
 const config = { url: 'ldap://corp.rgbk.com',
                baseDN: 'dc=domain,dc=com'}
+
+
+const customParser=function(entry, raw, callback){
+    console.log(entry)
+    if (raw.hasOwnProperty("thumbnailPhoto")){
+        console.log(raw)
+        entry.thumbnailPhoto = raw.thumbnailPhoto;
+    }
+    //callback(entry)
+}
+
 const authenticate=(userid, password, cb)=>{
     const username=`CORP\\${userid}`;
     let ad = new AD(config);
@@ -13,16 +24,34 @@ const authenticate=(userid, password, cb)=>{
         domainPartition=dse.namingContexts[2];
         return ad.authenticate(username, password);
     }).then((auth)=>{
+        //console.log(auth)
         if(!auth){
             throw new Error("Login Failed")
         }
-        ad=new AD(Object.assign({}, config, {baseDN:domainPartition, username, password}));
-        return ad.findUser(userid)
+
+        
+
+        const authConfig={baseDN:domainPartition, url: 'ldap://corp.rgbk.com',username, password, attributes:{
+            user: [
+                'dn', 'distinguishedName',
+                'userPrincipalName', 'sAMAccountName', 'mail',
+                'lockoutTime', 'whenCreated', 'pwdLastSet', 'userAccountControl',
+                'employeeID', 'sn', 'givenName', 'initials', 'cn', 'displayName',
+                'comment', 'description', 'thumbnailPhoto'
+            ],
+                
+        }}
+
+        //authConfig.entryParser=
+        ad=new AD(authConfig);
+        return ad.findUser(customParser, userid)
     }).then((userObject)=>{
         user=userObject;
         return ad.isUserMemberOf(userid, 'MVGMembers')
     }).then((isWithMRMV)=>{
         user.userType=isWithMRMV?"MRMVAnalyst":"";
+        //user.thumbnailPhoto=new Buffer(user.thumbnailPhoto, 'ascii').toString('base64')
+        //console.log(user.thumbnailPhoto)
         return cb(null, user)
     }).catch((err)=>{
         //console.log(err.message)

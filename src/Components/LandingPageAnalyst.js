@@ -13,7 +13,7 @@ import lifecycle from 'recompose/lifecycle';
 import {
   Link
 } from 'react-router-dom'
-const ListStyle={marginTop:14}
+//const ListStyle={marginTop:14}
 const switchIcon=(type)=>{
     switch(type){
         case "Validation":
@@ -34,13 +34,11 @@ const enhanceLinks=compose(
         list:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
-        })).isRequired,
-        title:React.PropTypes.string.isRequired
+        })).isRequired
     })
 )
-const ListWithLinks=enhanceLinks(({list, title})=>
-<List style={ListStyle}>
-<Subheader>{title}</Subheader>
+const ListWithLinks=enhanceLinks(({list})=>
+<List >
     {list.map((listItem, index)=>{
         return <ListItem 
             key={index}
@@ -59,26 +57,21 @@ const enhance=compose(
         }
     }),
     setPropTypes({
-        activities:React.PropTypes.arrayOf(React.PropTypes.shape({
+        /*activities:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
         todos:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
-        })).isRequired
+        })).isRequired,
+        index:React.PropTypes.number.isRequired*/
+        list:React.PropTypes.arrayOf(React.PropTypes.shape({
+            type:React.PropTypes.string.isRequired,
+            description:React.PropTypes.string.isRequired
+        })).isRequired,
     })
 )
-const LandingPageAnalyst=enhance(({activities, todos})=>
-<Container>
-    <Row>
-        <Col xs={12} md={6}>
-            <ListWithLinks list={activities} title="Validation Activities"/>
-        </Col>
-        <Col xs={12} md={6}>
-            <ListWithLinks list={todos} title="Todos"/>
-        </Col>
-    </Row>
-</Container>)
+const LandingPageAnalyst=enhance(({list})=><ListWithLinks list={list} />)
     
 export default LandingPageAnalyst

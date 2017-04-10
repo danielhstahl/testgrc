@@ -4,7 +4,8 @@ import LandingPageAnalyst from '../Components/LandingPageAnalyst'
 import {getRawTodos} from '../Actions/TodoActions'
 import {getRawActivities} from '../Actions/ActivityActions'
 const mapStateToProps=(state, ownProps)=>{
-    return {activities:state.activities, todos:state.todos}
+    const lists=[state.activities, state.todos]
+    return {list:lists[ownProps.tab]}
 }
 const mapDispatchToProps=(dispatch)=>{
     
