@@ -13,7 +13,21 @@ import lifecycle from 'recompose/lifecycle';
 import {
   Link
 } from 'react-router-dom'
-
+const ListStyle={marginTop:14}
+const switchIcon=(type)=>{
+    switch(type){
+        case "Validation":
+            return <Functions/>
+        case "Ongoing Monitoring":
+            return <AutoRenew/>
+        case "Issue":
+            return <FeedBack/>
+        case "Annual Review":
+            return <Poll/>
+        default:
+            return <Poll/>
+    }
+}
 const enhanceLinks=compose(
     pure,
     setPropTypes({
@@ -25,13 +39,13 @@ const enhanceLinks=compose(
     })
 )
 const ListWithLinks=enhanceLinks(({list, title})=>
-<List style={{marginTop:14}}>
+<List style={ListStyle}>
 <Subheader>{title}</Subheader>
     {list.map((listItem, index)=>{
         return <ListItem 
             key={index}
             primaryText={listItem.description}
-            leftIcon={listItem.type==="Validation"?<Functions/>:<Poll/>}
+            leftIcon={switchIcon(listItem.type)}
             containerElement={<Link to={`/${listItem.type}/${listItem.id}`} />}
         />
     })}

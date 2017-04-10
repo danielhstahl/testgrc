@@ -12,7 +12,7 @@ injectTapEventPlugin();
 
 
 const App =() => 
-<MuiThemeProvider muiTheme={getMuiTheme(workflowTheme)}>
+<MuiThemeProvider className= "app" muiTheme={getMuiTheme(workflowTheme)}>
     <RouterHolderContainer/>
 </MuiThemeProvider>
 

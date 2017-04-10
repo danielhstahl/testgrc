@@ -1,2 +1,4 @@
-const url='http://localhost:3001'
+const useLocal=false;
+const url=useLocal?'http://localhost:3001':'http://albh640283b:3001'
+
 export default url

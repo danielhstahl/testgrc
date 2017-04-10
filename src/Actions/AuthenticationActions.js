@@ -22,18 +22,22 @@ export const setLogOut=()=>{
     }
 }
 export const attemptLogin=(dispatch, user)=>{
-    dispatch(CheckLoading(true))
-    axios.get(`${url}/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
-        console.log(response.data);
-        const {hashPassword}=response.data;
-        if(!hashPassword||user.hashPassword!==hashPassword){
-            dispatch(setLogOut())
-        }
-        else{
-            dispatch(setLogIn(user))
-        }
+    if(user){
+        dispatch(CheckLoading(true))
+        axios.get(`${url}/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
+            console.log(response.data);
+            const {hashPassword}=response.data;
+            if(!hashPassword||user.hashPassword!==hashPassword){
+                dispatch(setLogOut())
+            }
+            else{
+                dispatch(setLogIn(user))
+            }
+            dispatch(CheckLoading(false))
+        })
+    }else{
         dispatch(CheckLoading(false))
-    })
+    }
 }
 export const getLogIn=(dispatch, user, password)=>{
     dispatch(CheckLoading(true))

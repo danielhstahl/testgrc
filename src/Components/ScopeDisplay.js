@@ -9,10 +9,12 @@ import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import {filterAndSortPlan} from '../scopeHelpers'
+import {Container} from 'react-grid-system';
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',
 };
+const buttonStyle={marginTop:20}
 const defaultHeight="500px"
 const enhanceTable=compose(
     pure,
@@ -92,8 +94,8 @@ const enhance=compose(
     })
 )
 const ScopeDisplay=enhance(({openFinalScope, handleCloseFinalScope, handleOpenFinalScope, mrmvPlanning, height, rawTestSelection})=>
-<div>
-    <RaisedButton label="View final scope" onTouchTap={(e, v)=>handleOpenFinalScope(v)}/>
+<div style={buttonStyle}>
+    <RaisedButton primary label="View final scope" onTouchTap={(e, v)=>handleOpenFinalScope(v)}/>
     <Dialog
         contentStyle={customContentStyle}
         title="Final Scope"

@@ -10,9 +10,7 @@ import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
 
-const convertToBool=(val)=>{
-    return val?true:false
-}
+const convertToBool=(val)=>val?true:false
 
 const enhance=compose(
     withState('requiresExplanation', 'setRequiresExplanation', ({explanation})=>convertToBool(explanation)),

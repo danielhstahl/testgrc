@@ -1,5 +1,29 @@
-body {
+h2 {
+
+        margin: 0;
+        /*padding: 0;
+        border: 0;
+        outline: 0;
+        vertical-align: baseline;
+        background: transparent;*/
+    }
+html {
+    /*margin:0;*/
+    height:100%;
+}
+
+body, #root {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
 }
+#root > [data-reactroot] 
+        {height: 100vh !important;}
+
+
+        

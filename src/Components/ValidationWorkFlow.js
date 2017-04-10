@@ -6,14 +6,13 @@ import workflowTheme from '../workflowTheme';
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-
+import {arrowColor} from '../Styles/ThemeStyles'
 import {
   Step,
   Stepper,
   StepButton,
 } from 'material-ui/Stepper';
 
-const arrowColor=workflowTheme.palette.primary1Color;
 
 const FlowDescriptionStyles={
   fontSize:'.75em', 

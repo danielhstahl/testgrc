@@ -3,21 +3,20 @@ import { Container, Row, Col} from 'react-grid-system';
 import {ValidationFlow, ValidationWork} from './ValidationWorkFlow'
 import ScopeContainer from '../Containers/ScopeContainer'
 import SkillsContainer from '../Containers/SkillsContainer'
-import workflowTheme from '../workflowTheme'
+import {backgroundPrimary, backgroundAccent, headingHeight} from '../Styles/ThemeStyles'
+import Paper from 'material-ui/Paper'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import shouldUpdate from 'recompose/shouldUpdate';
 import lifecycle from 'recompose/lifecycle';
 import {Route, Switch, Redirect} from 'react-router-dom'
 import AssociateFAB from './AssociateFAB'
-
-const FlowStyles={
-  //borderBottom: "1px solid lightgrey", 
-  
-  padding: "2% 0% 2% 0%", 
-  //marginBottom: "5%"
-}
-const topStyles={backgroundColor:workflowTheme.palette.accent2Color,}
+const pageStyle={height:'100%'}
+const FlowStyles={padding: "2% 0% 0% 0%"}
+const headingStyle=Object.assign({}, backgroundPrimary, {height:headingHeight, position:'relative'})
+const headingPaperStyle={position:'absolute', bottom:0, width:'100%', left:0, right:0, margin:'0 auto'};
+const bottomPaperStyle={minHeight:300, maxHeight:500};
+const bottomStyle=Object.assign({}, backgroundAccent, {height:'100%'})
 const contents=[
   {
     title:"Skill Assessment",
@@ -67,23 +66,26 @@ const enhanceSwitch=compose(
 const ValApp=enhanceSwitch(({url, match, history, validationId})=>{
     const step=getDefaultStep(match.params.step)
     return(
-    <div>
-    <div style={topStyles}>
-        <Container> 
+    <div style={pageStyle} >
+    <div style={headingStyle}>
+        <Container style={headingPaperStyle}> 
             <Row style={FlowStyles}>
-                <Col xs={12}>
-                <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>
-                </Col>
+                <Paper rounded ={false} style={{bottom:0}}>
+                    <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>
+                    
+                </Paper>
             </Row>
         </Container> 
     </div>
     <AssociateFAB/>
-    <div>
+    <div style={bottomStyle}>
     <Container> 
         <Row>
-            <Col xs={12}>
-                {switchComponent(step, validationId)}
-            </Col>
+            <Paper rounded={false} style={bottomPaperStyle}>
+            
+              {switchComponent(step, validationId)}  
+
+            </Paper>
         </Row>
     </Container>
     </div></div>)
@@ -110,9 +112,7 @@ const enhanceVApp=compose(
     ),
     setPropTypes({
         history:React.PropTypes.object.isRequired,
-        match:React.PropTypes.object.isRequired,
-        arrowColor:React.PropTypes.string,
-        location:React.PropTypes.object.isRequired
+        match:React.PropTypes.object.isRequired
     })
 )
 

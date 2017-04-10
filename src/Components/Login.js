@@ -31,7 +31,8 @@ const enhance=compose(
     setPropTypes({
         username:React.PropTypes.string.isRequired,
         user:React.PropTypes.object.isRequired,
-        password:React.PropTypes.string.isRequired
+        password:React.PropTypes.string.isRequired,
+        handleLogin:React.PropTypes.func.isRequired
     })
 )
 

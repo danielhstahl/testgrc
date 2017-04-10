@@ -9,9 +9,10 @@ import ContentCreate from 'material-ui/svg-icons/content/create';
 import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import { withRouter } from 'react-router'
 import workflowTheme from '../workflowTheme'
-const fabStyle={height:28,width:'100%', backgroundColor:workflowTheme.palette.accent2Color}
-const butStyle={float:'right', marginRight:50}
-
+//import {backgroundPrimary} from '../Styles/ThemeStyles'
+const fabStyle={height:0,width:'100%'}
+const butStyle={float:'right', marginRight:50, top:-28}
+const fabProps={secondary:true}
 const AssociateFAB=({history})=>{
     return(
     <div style={fabStyle}>
@@ -23,7 +24,7 @@ const AssociateFAB=({history})=>{
             <NavigationClose />
         }
         style={butStyle}
-        
+        fabProps={fabProps}
     >
         <SpeedDialItem 
             label="" 
