@@ -13,7 +13,7 @@ This project uses [React](https://facebook.github.io/react/), [Redux](http://red
 ## How to contribute
 
 ### Issues
-* If there is a problem with the GUI (cosmetic or functional) please specify the browser in the issue.  
+* If there is a problem with the GUI (cosmetic or functional) please specify the browser (eg Internet Explorer or Chrome) in the issue.  
 
 ### Pull Requests
 * Pull requests must have unit tests for new functionality.  This project uses [Jest](https://facebook.github.io/jest/).

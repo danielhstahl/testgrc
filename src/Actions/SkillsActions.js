@@ -1,5 +1,5 @@
 import axios from 'axios'
-import url from './url'
+//import url from './url'
 export const setRawSkills=(skills)=>{
     return {
         type:"SET_RAW_SKILLS",
@@ -7,12 +7,12 @@ export const setRawSkills=(skills)=>{
     }
 }
 export const getRawSkills=(dispatch)=>{
-    return axios.get(`${url}/skills`).then((response)=>{
+    return axios.get(`/skills`).then((response)=>{
         dispatch(setRawSkills(response.data))
     })
 }
 export const addSkillsRequiredForValidation=(skill, validationId)=>{
-    axios.post(`${url}/writeValidationSkill`, {skill, validationId, include:true}).then().catch(err=>console.log(err))
+    axios.post(`/writeValidationSkill`, {skill, validationId, include:true}).then().catch(err=>console.log(err))
     return {
         type:"ADD_VALIDATION_SKILL",
         skill
@@ -25,7 +25,7 @@ export const loadSkillsRequiredForValidation=(skills)=>{
     }
 }
 export const getValidationSkills=(dispatch, validationId)=>{
-    return axios.get(`${url}/validationSkills`, {params:{validationId}}).then((response)=>{
+    return axios.get(`/validationSkills`, {params:{validationId}}).then((response)=>{
         dispatch(loadSkillsRequiredForValidation(response.data))
     })
 }

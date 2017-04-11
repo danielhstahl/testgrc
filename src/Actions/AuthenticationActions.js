@@ -25,7 +25,7 @@ export const attemptLogin=(dispatch, user)=>{
     if(user){
         console.log(user)
         dispatch(CheckLoading(true))
-        axios.get(`${url}/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
+        axios.get(`/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
             console.log(response.data);
             const {hashPassword}=response.data;
             if(!hashPassword||user.hashPassword!==hashPassword){
@@ -42,7 +42,7 @@ export const attemptLogin=(dispatch, user)=>{
 }
 export const getLogIn=(dispatch, user, password)=>{
     dispatch(CheckLoading(true))
-    axios.post(`${url}/login`, {user, password}).then((response)=>{
+    axios.post(`/login`, {user, password}).then((response)=>{
         const {err, user}=response.data;
         if(err){
             dispatch(setLogInError(err))

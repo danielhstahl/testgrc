@@ -10,7 +10,7 @@ it('renders Skills without crashing', () => {
   ReactDOM.render(<MuiThemeProvider>
     <Skills 
       handleSelect={()=>{}}
-      associatesForDisplay={[{id:"hello"}]}
+      associatesForDisplay={[{id:"hello", name:"Name 1", requiredSkills:["skill"]}]}
       rawSkills={[{value:"hello"}]}
       validationSkills={["hello"]}
       handleToggleAssociate={()=>{}}

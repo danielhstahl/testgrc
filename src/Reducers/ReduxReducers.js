@@ -11,6 +11,7 @@ import todos from './TodoReducer'
 import activities from './ActivityReducer'
 import user from './AuthenticationReducer'
 import isLoading from './LoadingReducer'
+import pipeline from './PipelineReducer'
 
 const workflowApp=combineReducers({
     rawSkills,
@@ -24,6 +25,7 @@ const workflowApp=combineReducers({
     todos,
     user,
     isLoading,
+    pipeline,
     activities
 })
 export default workflowApp;

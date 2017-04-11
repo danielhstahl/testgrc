@@ -8,6 +8,7 @@ import pure from 'recompose/pure'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import lifecycle from 'recompose/lifecycle';
+import Pipeline from './Pipeline';
 import {
   Link
 } from 'react-router-dom'
@@ -24,6 +25,18 @@ const switchIcon=(type)=>{
         default:
             return <Poll/>
     }
+}
+const switchList=(tab, activities, todos, pipeline)=>{
+    switch(tab){
+        case 0:
+            return <ListWithLinks list={activities} />
+        case 1:
+            return <ListWithLinks list={todos} />
+        case 2:
+            return <Pipeline list={pipeline} />
+        default:
+            return <ListWithLinks list={activities} />
+    }   
 }
 const enhanceLinks=compose(
     pure,
@@ -54,13 +67,21 @@ const enhance=compose(
         }
     }),
     setPropTypes({
-        list:React.PropTypes.arrayOf(React.PropTypes.shape({
+        activities:React.PropTypes.arrayOf(React.PropTypes.shape({
+            type:React.PropTypes.string.isRequired,
+            description:React.PropTypes.string.isRequired
+        })).isRequired,
+        todos:React.PropTypes.arrayOf(React.PropTypes.shape({
+            type:React.PropTypes.string.isRequired,
+            description:React.PropTypes.string.isRequired
+        })).isRequired,
+        pipeline:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
         onLoad:React.PropTypes.func.isRequired
     })
 )
-const LandingPageAnalyst=enhance(({list})=><ListWithLinks list={list} />)
+const LandingPageAnalyst=enhance(({activities, todos, pipeline, tab})=>switchList(tab, activities, todos, pipeline))//<ListWithLinks list={list} />)
     
 export default LandingPageAnalyst

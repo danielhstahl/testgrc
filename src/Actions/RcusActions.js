@@ -1,5 +1,5 @@
 import axios from 'axios'
-import url from './url'
+//import url from './url'
 export const setRawRCUS=(rcus)=>{
     return{
         type:"SET_RAW_RCUS",
@@ -7,20 +7,20 @@ export const setRawRCUS=(rcus)=>{
     }
 }
 export const getRawRCUS=(dispatch)=>{
-    return axios.get(`${url}/RCUS`).then((response)=>{
+    return axios.get(`/RCUS`).then((response)=>{
         dispatch(setRawRCUS(response.data))
     })
 }
 
 export const addPlanningToValidation=(plan, validationId)=>{
-    axios.post(`${url}/writeValidationRcus`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then().catch(err=>console.log(err))
+    axios.post(`/writeValidationRcus`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then().catch(err=>console.log(err))
     return {
         type:"ADD_VALIDATION_PLAN",
         plan
     }
 }
 export const editPlan=(plan, validationId)=>{
-    axios.post(`${url}/writeValidationRcus`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then().catch(err=>console.log(err))
+    axios.post(`/writeValidationRcus`, {testWork:plan.testWork, explanation:plan.explanation, processStep:plan.processStep, riskStep:plan.riskStep, validationId}).then().catch(err=>console.log(err))
     return {
         type:"EDIT_VALIDATION_PLAN",
         plan
@@ -33,7 +33,7 @@ export const loadPlanRequiredForValidation=(plans)=>{
     }
 }
 export const getValidationPlan=(dispatch, validationId)=>{
-    return axios.get(`${url}/validationRcus`, {params:{validationId}}).then((response)=>{
+    return axios.get(`/validationRcus`, {params:{validationId}}).then((response)=>{
         console.log(response);
         dispatch(loadPlanRequiredForValidation(response.data))
     })

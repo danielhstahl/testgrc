@@ -1,5 +1,5 @@
 import axios from 'axios'
-import url from './url'
+//import url from './url'
 export const setRawTestSelection=(testSelection)=>{
     return {
         type:"SET_RAW_TESTSELECTION",
@@ -7,7 +7,7 @@ export const setRawTestSelection=(testSelection)=>{
     }
 }
 export const getRawTestSelection=(dispatch)=>{
-    return axios.get(`${url}/testSelection`).then((response)=>{
+    return axios.get(`/testSelection`).then((response)=>{
         dispatch(setRawTestSelection(response.data))
     })
 }

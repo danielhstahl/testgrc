@@ -9,26 +9,30 @@ import workflowApp from '../Reducers/ReduxReducers';
 import {setLogIn} from '../Actions/AuthenticationActions';
 let store = createStore(workflowApp)
 injectTapEventPlugin();
-const userObj={user:{userType:"userType", cn:"cn"}, err:""}
+
 it('renders RouterHolder when isLoading without crashing', () => {
-  const div = document.createElement('div');
-  store.dispatch(setLogIn(userObj))
-  ReactDOM.render(<Provider store={store}><MuiThemeProvider>
+    const userObj={user:{userType:"userType", cn:"cn"}, err:""}
+    const div = document.createElement('div');
+    ReactDOM.render(<Provider store={store}><MuiThemeProvider>
     <RouterHolder userObj={userObj} isLoading={true}/>
-    </MuiThemeProvider></Provider>, div);
+    </MuiThemeProvider></Provider>, div)
 });
 
 it('renders RouterHolder when not loaded without crashing', () => {
-  const div = document.createElement('div');
-  store.dispatch(setLogIn(userObj))
-  ReactDOM.render(<Provider store={store}><MuiThemeProvider>
+    const userObj={user:{userType:"userType", cn:"cn"}, err:""}
+    const div = document.createElement('div');
+    store.dispatch(setLogIn(userObj.user))
+    ReactDOM.render(<Provider store={store}><MuiThemeProvider>
     <RouterHolder userObj={userObj} isLoading={false}/>
-    </MuiThemeProvider></Provider>, div);
+    </MuiThemeProvider></Provider>, div)
+
 });
 
 it('renders RouterHolder when no user without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Provider store={store}><MuiThemeProvider>
-    <RouterHolder userObj={{user:{userType:"userType", cn:"cn"}, err:"hello"}} isLoading={false}/>
-    </MuiThemeProvider></Provider>, div);
+    const userObj={user:{userType:"userType", cn:"cn"}, err:{hello:"hello"}}
+    const div = document.createElement('div');
+    ReactDOM.render(<Provider store={store}><MuiThemeProvider>
+    <RouterHolder userObj={userObj} isLoading={false}/>
+    </MuiThemeProvider></Provider>, div)
+
 });

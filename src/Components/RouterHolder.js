@@ -16,7 +16,7 @@ const ConditionRoutes=({isLoading, user, children})=>{
   if(isLoading){
     return <PageLoad/>
   }
-  else if(!user.err){
+  else if(user){
     return <div>{children}</div>
   }
   else{
@@ -40,7 +40,7 @@ RouterHolder.propTypes={
       userType:React.PropTypes.string.isRequired,
       cn:React.PropTypes.string.isRequired
     }),
-    err:React.PropTypes.string
+    err:React.PropTypes.object
   }).isRequired,
   isLoading:React.PropTypes.bool.isRequired
 }

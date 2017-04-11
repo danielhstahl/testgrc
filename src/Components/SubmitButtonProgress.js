@@ -49,8 +49,8 @@ const enhance=compose(
   })
 )
 
-export const SubmitButtonProgress=({submit, err, success, waitingResponse})=>{err?<RaisedButton secondary onTouchTap={submit} label={err}/>:
+export const SubmitButtonProgress=({submit, err, success, waitingResponse})=>err?<RaisedButton secondary onTouchTap={submit} label={err}/>:
     success?<RaisedButton primary onTouchTap={submit} label={success}/>:
-    waitingResponse?<CircularProgress/>:<RaisedButton primary onTouchTap={submit} label="Submit"/>}
+    waitingResponse?<CircularProgress/>:<RaisedButton primary onTouchTap={submit} label="Submit"/>
 
 export default enhance(SubmitButtonProgress)

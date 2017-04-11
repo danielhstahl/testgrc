@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col} from 'react-grid-system';
 import Subheader from 'material-ui/Subheader';
+import Checkbox from 'material-ui/Checkbox';
 import {List, ListItem} from 'material-ui/List';
 import Functions from 'material-ui/svg-icons/editor/functions' //validation
 import Poll from 'material-ui/svg-icons/social/poll' //review
@@ -10,27 +11,29 @@ import setPropTypes from 'recompose/setPropTypes';
 import {
   Link
 } from 'react-router-dom'
+import LinearProgress from 'material-ui/LinearProgress';
 
-const ListStyle={marginTop:14}
 const enhance=compose(
     pure,
     setPropTypes({
         list:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
-        })).isRequired,
-        title:React.PropTypes.string.isRequired
+        })).isRequired
     })
 )
-const PipeLineList=enhance(({list, title})=>
-<List style={{marginTop:14}}>
-<Subheader>{title}</Subheader>
+const PipelineDescription=({description})=>{
+    return <div>{description}<LinearProgress mode="determinate" value={50}/></div>
+}
+const PipeLineList=enhance(({list})=>
+<List>
     {list.map((listItem, index)=>{
         return <ListItem 
             key={index}
-            primaryText={listItem.description}
-            leftIcon={listItem.type==="Validation"?<Functions/>:<Poll/>}
+            primaryText={<PipelineDescription description={listItem.description}/>}
+            leftCheckbox={<Checkbox />}
             containerElement={<Link to={`/${listItem.type}/${listItem.id}`} />}
         />
     })}
 </List>)
+export default PipeLineList
