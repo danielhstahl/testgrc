@@ -34,4 +34,14 @@ const RouterHolder=({userObj, isLoading})=>{
       </ConditionRoutes>
     </Router>)
 }
+RouterHolder.propTypes={
+  userObj:React.PropTypes.shape({
+    user:React.PropTypes.shape({
+      userType:React.PropTypes.string,
+      cn:React.PropTypes.string
+    }),
+    err:React.PropTypes.string
+  }).isRequired,
+  isLoading:React.PropTypes.bool.isRequired
+}
 export default RouterHolder

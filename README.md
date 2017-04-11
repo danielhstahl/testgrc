@@ -12,8 +12,12 @@ This project uses [React](https://facebook.github.io/react/), [Redux](http://red
 
 ## How to contribute
 
+### Issues
 * If there is a problem with the GUI (cosmetic or functional) please specify the browser in the issue.  
+
+### Pull Requests
 * Pull requests must have unit tests for new functionality.  This project uses [Jest](https://facebook.github.io/jest/).
+* The project uses [recompose](https://github.com/acdlite/recompose) to faciliate functional testing and code readability and maintenance.  Any new components must use the recompose framework OR be stateless components.   
 
 
 # Below is boilerplate Create React App documentation

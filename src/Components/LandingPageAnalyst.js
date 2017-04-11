@@ -61,6 +61,7 @@ const enhance=compose(
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
+        onLoad:React.PropTypes.func.isRequired
     })
 )
 const LandingPageAnalyst=enhance(({list})=><ListWithLinks list={list} />)

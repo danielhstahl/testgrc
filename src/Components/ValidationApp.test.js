@@ -8,6 +8,6 @@ injectTapEventPlugin();
 it('renders ValidationApp without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<MuiThemeProvider>
-    <ValidationApp/>
+    <ValidationApp match={{params:"hello", url:"url"}} loadInit={()=>{}} loadOnValidationChange={()=>{}}/>
   </MuiThemeProvider>, div);
 });

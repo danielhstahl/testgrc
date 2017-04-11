@@ -13,6 +13,6 @@ it('renders LandingPageAnalyst without crashing', () => {
             type:"type1",
             description:"desc1"
         }
-    ]} />
+    ]} onLoad={()=>{}}/>
     </MuiThemeProvider>, div);
 });

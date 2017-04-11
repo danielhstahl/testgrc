@@ -93,7 +93,9 @@ const enhanceVApp=compose(
     ),
     setPropTypes({
         history:React.PropTypes.object.isRequired,
-        match:React.PropTypes.object.isRequired
+        match:React.PropTypes.object.isRequired,
+        loanInit:React.PropTypes.func.isRequired,
+        loadOnValidationChange:React.PropTypes.func.isRequired,
     })
 )
 
