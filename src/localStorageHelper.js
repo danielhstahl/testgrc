@@ -13,7 +13,7 @@ const setUser=(user, store, attemptLogin)=>{
 }
 export const checkLogin=(store, attemptLogin, setLogOut)=>{
     try{
-        setUser(JSON.parse(localStorage.getItem('token')), store, attemptLogin);
+        setUser(JSON.parse(localStorage.getItem(userItemName)), store, attemptLogin);
     }catch(e){
         unsetStorage(store, setLogOut);
     }

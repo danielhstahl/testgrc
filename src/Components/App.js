@@ -11,7 +11,7 @@ import RouterHolderContainer from '../Containers/RouterHolderContainer'
 injectTapEventPlugin();
 
 
-const App =() => 
+const App=()=> 
 <MuiThemeProvider className= "app" muiTheme={getMuiTheme(workflowTheme)}>
     <RouterHolderContainer/>
 </MuiThemeProvider>

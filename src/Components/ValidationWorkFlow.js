@@ -20,13 +20,13 @@ const FlowDescriptionStyles={
   paddingRight:14
 }
 
-export const ValidationWork=({step, nodeArray})=>{ 
+/*export const ValidationWork=({step, nodeArray})=>{ 
   return nodeArray[step];
 }
 ValidationWork.propTypes={
     step:React.PropTypes.number.isRequired,
     nodeArray:React.PropTypes.arrayOf(React.PropTypes.node).isRequired
-}
+}*/
 
 const enhanceFlow=compose(
   onlyUpdateForKeys(['step']),

@@ -9,7 +9,7 @@ it('renders Scope without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<MuiThemeProvider>
     <Scope 
-        rawRCUS={[{
+        mrmvPlanning={[{
             process:"process",
             risk:"risk",
             processStep:0,
@@ -17,12 +17,6 @@ it('renders Scope without crashing', () => {
             controls:"Controls",
             workpaper:0,
             MRMVResponsibility:"responsibility"
-        }]}
-        plans={[{
-            processStep:0,
-            riskStep:0,
-            explanation:"",
-            testWork:0
         }]}
         rawTestSelection={[{
             index:0,
