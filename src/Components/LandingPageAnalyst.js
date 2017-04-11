@@ -82,6 +82,6 @@ const enhance=compose(
         onLoad:React.PropTypes.func.isRequired
     })
 )
-const LandingPageAnalyst=enhance(({activities, todos, pipeline, tab})=>switchList(tab, activities, todos, pipeline))//<ListWithLinks list={list} />)
+const LandingPageAnalyst=enhance(({activities, todos, pipeline, tab})=>switchList(tab, activities, todos, pipeline))
     
 export default LandingPageAnalyst

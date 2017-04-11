@@ -1,7 +1,8 @@
 import {
   cyan500, cyan700,
   grey100, grey300, grey400, grey500,
-  white, darkBlack, fullBlack, lightGreen300, orange700
+  white, darkBlack, fullBlack, lightGreen300, orange700,
+  lightGreen400
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
 import spacing from 'material-ui/styles/spacing';
@@ -11,7 +12,7 @@ export default {
   fontFamily: 'Roboto, sans-serif',
   palette: {
     primary1Color: lightGreen300,
-    primary2Color: cyan700,
+    primary2Color: lightGreen400,
     primary3Color: grey400,
     accent1Color: orange700,
     accent2Color: grey100,
