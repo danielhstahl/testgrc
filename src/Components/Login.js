@@ -30,7 +30,10 @@ const enhance=compose(
     onlyUpdateForKeys(['user', 'username', 'password']),
     setPropTypes({
         username:React.PropTypes.string.isRequired,
-        user:React.PropTypes.object.isRequired,
+        user:React.PropTypes.shape({
+            userType:React.PropTypes.string.isRequired,
+            cn:React.PropTypes.string.isRequired
+        }).isRequired,
         password:React.PropTypes.string.isRequired,
         handleLogin:React.PropTypes.func.isRequired,
         handleLoginWrapper:React.PropTypes.func.isRequired,

@@ -57,15 +57,6 @@ const enhance=compose(
         }
     }),
     setPropTypes({
-        /*activities:React.PropTypes.arrayOf(React.PropTypes.shape({
-            type:React.PropTypes.string.isRequired,
-            description:React.PropTypes.string.isRequired
-        })).isRequired,
-        todos:React.PropTypes.arrayOf(React.PropTypes.shape({
-            type:React.PropTypes.string.isRequired,
-            description:React.PropTypes.string.isRequired
-        })).isRequired,
-        index:React.PropTypes.number.isRequired*/
         list:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
