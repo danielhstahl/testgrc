@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container} from 'react-grid-system';
+import { Container, Row} from 'react-grid-system';
 import AssociateFAB from './AssociateFAB'
 import workflowTheme from '../workflowTheme'
 import LandingPageAnalystContainer from '../Containers/LandingPageAnalystContainer'
@@ -11,9 +11,11 @@ import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-
+import Paper from 'material-ui/Paper'
+import Avatar from 'material-ui/Avatar';
+import {List, ListItem} from 'material-ui/List';
  
-
+const titleStyle={position:'absolute', top:20, width:'100%'};
 const TabStyle={}
 const getLandingPage=(userType)=>{
     switch(userType){
@@ -61,11 +63,12 @@ const enhanceLandingPageV=compose(
 const labels=["Activities", "To Do", "Pipeline"]
 const LandingPageV=enhanceLandingPageV(({user, Page, tab, setTab})=>{
     const dataImage=`data:image/jpeg;base64,${user.thumbnailPhoto}`
-    const header=<div><img src={dataImage}/><ListOfTabs labels={labels} tab={tab} setTab={setTab}/></div>
+    const header=<ListOfTabs labels={labels} tab={tab} setTab={setTab}/>
     return(
     <MaterialView 
         headerChild={header} 
         contentChild={<Page tab={tab}/>}
+        optionalTitle={<Container><Row><Paper rounded={false} style={titleStyle}><List><ListItem disabled={true} leftAvatar={<Avatar src={dataImage}/>}>Welcome {user.cn}!</ListItem></List></Paper></Row></Container>}
     />
 )})
 

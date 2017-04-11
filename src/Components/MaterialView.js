@@ -21,12 +21,16 @@ const enhance=compose(
     pure,
     setPropTypes({
         headerChild:React.PropTypes.node.isRequired,
-        contentChild:React.PropTypes.node.isRequired
+        contentChild:React.PropTypes.node.isRequired,
+        optionalTitle:React.PropTypes.node,
     })
 )
-const MaterialView=({headerChild, contentChild})=>
+const MaterialView=({headerChild, contentChild, optionalTitle})=>
 <div style={pageStyle} >
+    
+    
     <div style={headingStyle}>
+        {optionalTitle?optionalTitle:null}
         <Container style={headingPaperStyle}> 
             <Row>
                 <Paper rounded ={false} style={{bottom:0}}>
