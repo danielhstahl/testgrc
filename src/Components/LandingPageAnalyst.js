@@ -1,6 +1,4 @@
 import React from 'react';
-import { Container, Row, Col} from 'react-grid-system';
-import Subheader from 'material-ui/Subheader';
 import {List, ListItem} from 'material-ui/List';
 import AutoRenew from 'material-ui/svg-icons/action/autorenew'//ongoing monitoring
 import FeedBack from 'material-ui/svg-icons/action/feedback' //issue
@@ -13,7 +11,6 @@ import lifecycle from 'recompose/lifecycle';
 import {
   Link
 } from 'react-router-dom'
-//const ListStyle={marginTop:14}
 const switchIcon=(type)=>{
     switch(type){
         case "Validation":

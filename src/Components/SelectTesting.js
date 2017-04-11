@@ -16,7 +16,7 @@ const enhance=compose(
         handleOpen:({updateOpen})=>()=>updateOpen(true),
         handleClose:({updateOpen, onClose})=>()=>{
             updateOpen(false)
-            onClose?onClose():""
+            return onClose?onClose():""
         }
     }),
     onlyUpdateForKeys(['isSubmitted', 'notAllowedToSubmit', 'open', 'children']),

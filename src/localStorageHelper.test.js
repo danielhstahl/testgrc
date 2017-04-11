@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom';
 import {setStorage, checkLogin} from './localStorageHelper';
 
 
-const attemptLogin=(dispatch, user)=>{
-    console.log(dispatch);
-    console.log(user);
-}
 it('correctly sets storage', () => {
     const user={obj:"somobj"}
     setStorage(user)

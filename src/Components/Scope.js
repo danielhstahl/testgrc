@@ -27,7 +27,9 @@ Scope.propTypes={
         riskStep:React.PropTypes.number.isRequired,
         controls:React.PropTypes.string.isRequired,
         workpaper:React.PropTypes.number.isRequired,
-        MRMVResponsibility:React.PropTypes.string.isRequired
+        MRMVResponsibility:React.PropTypes.string.isRequired,
+        explanation:React.PropTypes.string.isRequired,
+        submitted:React.PropTypes.bool.isRequired
     })),
     rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
         index:React.PropTypes.number.isRequired,

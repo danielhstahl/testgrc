@@ -2,7 +2,6 @@ import React from 'react';
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import IconButton from 'material-ui/IconButton';
-import workflowTheme from '../workflowTheme';
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
@@ -19,14 +18,6 @@ const FlowDescriptionStyles={
   paddingLeft:14, 
   paddingRight:14
 }
-
-/*export const ValidationWork=({step, nodeArray})=>{ 
-  return nodeArray[step];
-}
-ValidationWork.propTypes={
-    step:React.PropTypes.number.isRequired,
-    nodeArray:React.PropTypes.arrayOf(React.PropTypes.node).isRequired
-}*/
 
 const enhanceFlow=compose(
   onlyUpdateForKeys(['step']),

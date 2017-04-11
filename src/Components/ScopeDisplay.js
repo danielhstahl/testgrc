@@ -9,7 +9,6 @@ import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import {filterAndSortPlan} from '../scopeHelpers'
-import {Container} from 'react-grid-system';
 const customContentStyle = {
   width: '100%',
   maxWidth: 'none',

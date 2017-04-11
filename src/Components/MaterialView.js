@@ -1,13 +1,12 @@
 
-import React, {Component} from 'react';
-import { Container, Row, Col} from 'react-grid-system';
+import React from 'react';
+import { Container, Row} from 'react-grid-system';
 
 import {backgroundPrimary, backgroundAccent, headingHeight} from '../Styles/ThemeStyles'
 import Paper from 'material-ui/Paper'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import pure from 'recompose/pure';
-import {Route, Switch, Redirect} from 'react-router-dom'
 import AssociateFAB from './AssociateFAB'
 
 const pageStyle={height:'100%'}
@@ -33,7 +32,7 @@ const MaterialView=({headerChild, contentChild, optionalTitle})=>
         {optionalTitle?optionalTitle:null}
         <Container style={headingPaperStyle}> 
             <Row>
-                <Paper rounded ={false} style={{bottom:0}}>
+                <Paper rounded={false} style={{bottom:0}}>
                     {headerChild}                   
                 </Paper>
             </Row>

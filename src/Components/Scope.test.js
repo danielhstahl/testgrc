@@ -16,7 +16,9 @@ it('renders Scope without crashing', () => {
             riskStep:0,
             controls:"Controls",
             workpaper:0,
-            MRMVResponsibility:"responsibility"
+            MRMVResponsibility:"responsibility",
+            explanation:"explanation",
+            submitted:false
         }]}
         rawTestSelection={[{
             index:0,

@@ -1,12 +1,10 @@
 import React from 'react';
 import { Container, Row} from 'react-grid-system';
-import AssociateFAB from './AssociateFAB'
 import workflowTheme from '../workflowTheme'
 import LandingPageAnalystContainer from '../Containers/LandingPageAnalystContainer'
 import MaterialView from './MaterialView'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import withState from 'recompose/withState';
-import pure from 'recompose/pure';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
@@ -16,7 +14,6 @@ import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
  
 const titleStyle={position:'absolute', top:20, width:'100%'};
-const TabStyle={}
 const getLandingPage=(userType)=>{
     switch(userType){
         case "MRMVAnalyst":

@@ -1,6 +1,4 @@
-//const timeAllowedLogin=86400
 const userItemName='token'
-const userItemTime='tokenTime'
 const unsetStorage=(store, setLogOut)=>{
     localStorage.removeItem(userItemName);
     store.dispatch(setLogOut());

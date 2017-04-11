@@ -2,7 +2,6 @@ import React from 'react';
 import RefreshIndicator from 'material-ui/RefreshIndicator'; 
 
 const refreshSize=100;
-const top=200;
 const progressStyle={maxWidth:refreshSize, margin:"0 auto"}
 const refreshStyle= {
     display: 'inline-block',
