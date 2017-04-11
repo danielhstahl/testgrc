@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const bodyParser=require('body-parser');
+
 const cryptojs=require('crypto-js');
 //const SHA256 = require('crypto-js/SHA256');
 const inRamDb=require('./inRamDb');
@@ -17,6 +18,7 @@ const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePerson
 const jsonParser = bodyParser.json();
 let app = express();
 app.use(bodyParser.json());
+
 //const timeAllowedLogin=86400000;
 
 app.use((req, res, next)=>{
@@ -48,6 +50,7 @@ app.get("/associates", (req, res)=>{
         console.log("at line 37")
         res.send(transformNormalizedToKey(result))
     })
+
 })
 app.get("/skills", (req, res)=>{//these are "static"
     sql.getSkills((err, result)=>{
@@ -133,6 +136,7 @@ app.post("/writeValidationAssociate",  (req, res)=>{ //in final state use valida
         
     })
 })
+
 app.post("/writeValidationSkill",  (req, res)=>{ //in final state use validation id
     //console.log(req.body);
     const skill=req.body.skill;
@@ -145,5 +149,6 @@ app.post("/writeValidationSkill",  (req, res)=>{ //in final state use validation
         res.sendStatus(200);
     })
 })
+
 app.listen(port);
 
