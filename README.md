@@ -1,3 +1,23 @@
+# Documentation
+
+To develop:
+
+`npm install`
+
+`npm start`
+
+This project uses [React](https://facebook.github.io/react/), [Redux](http://redux.js.org/), and 
+[React-Router](https://reacttraining.com/react-router/).
+
+
+## How to contribute
+
+* If there is a problem with the GUI (cosmetic or functional) please specify the browser in the issue.  
+* Pull requests must have unit tests for new functionality.  This project uses [Jest](https://facebook.github.io/jest/).
+
+
+# Below is boilerplate Create React App documentation
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

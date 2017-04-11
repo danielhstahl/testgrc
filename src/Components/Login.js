@@ -32,7 +32,10 @@ const enhance=compose(
         username:React.PropTypes.string.isRequired,
         user:React.PropTypes.object.isRequired,
         password:React.PropTypes.string.isRequired,
-        handleLogin:React.PropTypes.func.isRequired
+        handleLogin:React.PropTypes.func.isRequired,
+        handleLoginWrapper:React.PropTypes.func.isRequired,
+        handleUser:React.PropTypes.func.isRequired,
+        handlePassword:React.PropTypes.func.isRequired,
     })
 )
 

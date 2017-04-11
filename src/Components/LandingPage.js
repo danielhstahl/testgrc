@@ -75,9 +75,13 @@ const LandingPageV=enhanceLandingPageV(({user, Page, tab, setTab})=>{
   
 
 const LandingPage=({user})=>{
-    //const Page=getLandingPage(user.userType)
-    
     return <LandingPageV user={user} Page={getLandingPage(user.userType)}/>
+}
+LandingPage.propTypes={
+    user:React.PropTypes.shape({
+        userType:React.PropTypes.string.isRequired,
+        cn:React.PropTypes.string.isRequired
+    }).isRequired
 }
 
 

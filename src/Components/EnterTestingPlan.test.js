@@ -15,7 +15,7 @@ it('renders EnterTestingPlan without crashing', () => {
       handleExplanation={()=>{}}
       selectedItem={0}
       testSelection={[{index:0, description:"hello"}]}
-      requiresExplanation={true}
+      explanation="Hello World"
     />
   </MuiThemeProvider>, div);
 });

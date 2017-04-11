@@ -1,6 +1,5 @@
 import React from 'react';
 import { SpeedDial, SpeedDialItem } from 'react-mui-speeddial';
-//import FloatingActionButton from 'material-ui/FloatingActionButton';
 import PriorityHigh from 'material-ui/svg-icons/notification/priority-high';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
@@ -9,7 +8,6 @@ import ContentCreate from 'material-ui/svg-icons/content/create';
 import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import { withRouter } from 'react-router'
 import workflowTheme from '../workflowTheme'
-//import {backgroundPrimary} from '../Styles/ThemeStyles'
 const fabStyle={height:0,width:'100%'}
 const butStyle={float:'right', marginRight:50, top:-28}
 const fabProps={secondary:true}
