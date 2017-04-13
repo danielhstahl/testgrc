@@ -1,5 +1,6 @@
 const userItemName='token'
-const unsetStorage=(store, setLogOut)=>{
+export const unsetStorage=()=>localStorage.removeItem(userItemName)
+const unsetStorageDispatch=(store, setLogOut)=>{
     localStorage.removeItem(userItemName);
     store.dispatch(setLogOut());
 }
@@ -13,6 +14,6 @@ export const checkLogin=(store, attemptLogin, setLogOut)=>{
     try{
         setUser(JSON.parse(localStorage.getItem(userItemName)), store, attemptLogin);
     }catch(e){
-        unsetStorage(store, setLogOut);
+        unsetStorageDispatch(store, setLogOut);
     }
 }

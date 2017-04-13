@@ -1,8 +1,10 @@
+import {unsetStorage} from '../localStorageHelper'
 const user=(state={user:null, err:null}, action)=>{
     switch(action.type){
         case "LOGIN":
             return {user:action.user, err:null}
         case "LOGOUT":
+            unsetStorage()
             return {user:null, err:null}
         case "LOGIN_ERROR":
             return {user:null, err:action.err}

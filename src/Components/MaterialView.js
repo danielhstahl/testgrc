@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Container, Row} from 'react-grid-system';
 
@@ -7,7 +6,7 @@ import Paper from 'material-ui/Paper'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import pure from 'recompose/pure';
-import AssociateFAB from './AssociateFAB'
+import AssociateFABContainer from '../Containers/AssociateFABContainer'
 
 const pageStyle={height:'100%'}
 //const FlowStyles={padding: "2% 0% 0% 0%"}
@@ -38,7 +37,7 @@ const MaterialView=({headerChild, contentChild, optionalTitle})=>
             </Row>
         </Container> 
     </div>
-    <AssociateFAB/>
+    <AssociateFABContainer/>
     <div style={bottomStyle}>
     <Container> 
         <Row>

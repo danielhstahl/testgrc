@@ -10,7 +10,7 @@ import { withRouter } from 'react-router'
 const fabStyle={height:0,width:'100%'}
 const butStyle={float:'right', marginRight:50, top:-28}
 const fabProps={secondary:true}
-const AssociateFAB=({history})=>{
+const AssociateFAB=({history, handleLogout})=>{
     return(
     <div style={fabStyle}>
     <SpeedDial
@@ -32,7 +32,11 @@ const AssociateFAB=({history})=>{
             label="" 
             fabContent={<ContentCreate/>}
         />
-        <SpeedDialItem label="" fabContent={<ExitToApp/>}/>
+        <SpeedDialItem 
+            label="" 
+            fabContent={<ExitToApp/>}
+            onTouchTap={handleLogout}
+        />
     </SpeedDial>
     </div>
     );
