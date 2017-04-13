@@ -12,7 +12,9 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import Paper from 'material-ui/Paper'
 import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
- 
+import Badge from 'material-ui/Badge'
+import IconButton from 'material-ui/IconButton';
+import Warning from 'material-ui/svg-icons/alert/warning';
 const titleStyle={position:'absolute', top:20, width:'100%'};
 const getLandingPage=(userType)=>{
     switch(userType){
@@ -22,11 +24,28 @@ const getLandingPage=(userType)=>{
             return ({tab})=><LandingPageAnalystContainer tab={tab}/>
     }
 }
+const centerStyle={display:'flex', alignItems:'center'}
+const PotentialIssues=({content, text})=>{
+    if(content){
+        return <div style={centerStyle}>{text}<Badge
+            badgeContent={content}
+            secondary={true}
+            badgeStyle={{top: 12, right: 12}}
+        >
+            <Warning/>
+        </Badge></div>
+    }
+    return <div>{text}</div>;
+
+}
 
 const enhanceTabs=compose(
     onlyUpdateForKeys(['index']),
     setPropTypes({
-        labels:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+        labels:React.PropTypes.arrayOf(React.PropTypes.shape({
+            text:React.PropTypes.string.isRequired,
+            problems:React.PropTypes.number
+        })).isRequired,
         tab:React.PropTypes.number.isRequired,
         setTab:React.PropTypes.func.isRequired
     })
@@ -41,7 +60,7 @@ const ListOfTabs = enhanceTabs(({labels, tab, setTab}) =>
 >
     {labels.map((label, index)=>{
         return(
-        <Tab style={listTextColor} label={label} key={index} value={index}>
+        <Tab style={listTextColor}  label={<PotentialIssues content={label.problems} text={label.text}/>} key={index} value={index}>
         </Tab>)
     })}
 </Tabs>)
@@ -57,9 +76,9 @@ const enhanceLandingPageV=compose(
         setTab:React.PropTypes.func.isRequired
     })
 )
-const labels=["Activities", "To Do", "Pipeline"]
+const labels=[{text:"Activities"}, {text:"To Do", problems:4}, {text:"Pipeline"}]
 const LandingPageV=enhanceLandingPageV(({user, Page, tab, setTab})=>{
-    const dataImage=`data:image/jpeg;base64,${user.thumbnailPhoto}`
+    const dataImage=user.thumbnailPhoto&&`data:image/jpeg;base64,${user.thumbnailPhoto}`
     const header=<ListOfTabs labels={labels} tab={tab} setTab={setTab}/>
     return(
     <MaterialView 

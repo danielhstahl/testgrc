@@ -5,22 +5,23 @@ import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import Popover from 'material-ui/Popover'
 import DatePicker from 'material-ui/DatePicker';
+import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem'
+import IconButton from 'material-ui/IconButton'
 import Menu from 'material-ui/Menu'
 import {List, ListItem} from 'material-ui/List';
-import Functions from 'material-ui/svg-icons/editor/functions' //validation
+import DateRange from 'material-ui/svg-icons/action/date-range' //
+import IsQC from 'material-ui/svg-icons/device/access-time' //
 import {backgroundPrimary} from '../Styles/ThemeStyles'
-import Poll from 'material-ui/svg-icons/social/poll' //review
 import pure from 'recompose/pure'
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-import {
-  Link
-} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import LinearProgress from 'material-ui/LinearProgress';
+import {validationIcon} from '../landingPageHelpers'
 const disableWeekends=date=>date.getDay()===0||date.getDay()===6
 const firstDayOfWeek=0;
 const enhance=compose(
@@ -32,7 +33,7 @@ const enhance=compose(
         })).isRequired
     })
 )
-const enhanceDatePopover=compose(
+const enhanceMenu=compose(
     withState('open', 'toggleOpen', false),
     withState('anchor', 'setAnchor', null),
     withHandlers({
@@ -48,11 +49,34 @@ const enhanceDatePopover=compose(
     onlyUpdateForKeys(['open', 'anchor'])
 )
 const MyDatePicker=({title})=><DatePicker container='inline' hintText={title} mode='landscape' shouldDisableDate={disableWeekends} firstDayOfWeek={firstDayOfWeek}/>
+const anchor={horizontal: 'left', vertical: 'top'}
+const CustomDatePicker=/*enhanceMenu*/(/*({open, anchor, handleTouchTap, handleRequestClose})=>*/
+<IconMenu
+    iconButtonElement={<IconButton><DateRange /></IconButton>}
+    anchorOrigin={anchor}
+    targetOrigin={anchor}
+>
+    <MenuItem><MyDatePicker title="QC1"/></MenuItem>
+    <MenuItem><MyDatePicker title="QC2"/></MenuItem>
+    <MenuItem><MyDatePicker title="QC3"/></MenuItem>
+    <MenuItem><MyDatePicker title="QC4"/></MenuItem>
 
-const CustomDatePicker=enhanceDatePopover(({open, anchor, handleTouchTap, handleRequestClose})=><div>
+</IconMenu>)
+
+const QCPicker=(
+    <div>
+    <DateRange />
+    <DateRange />
+    <DateRange />
+    <DateRange />
+    </div>
+)
+
+/*
+const CustomAssignTo=enhanceMenu(({open, anchor, handleTouchTap, handleRequestClose})=><div>
     <RaisedButton
         onTouchTap={handleTouchTap}
-        label="QC Dates"
+        label="Assign To"
     />
      <Popover
         open={open}
@@ -61,35 +85,27 @@ const CustomDatePicker=enhanceDatePopover(({open, anchor, handleTouchTap, handle
         targetOrigin={targetOrigin}
         onRequestClose={handleRequestClose}
     ><Menu>
-            <MyDatePicker title="QC1"/>
-            <MyDatePicker title="QC2"/>
-            <MyDatePicker title="QC3"/>
-            <MyDatePicker title="QC4"/>
+            <MenuItem primaryText="Daniel"/>
+            <MenuItem primaryText="Daniel"/>
+            <MenuItem primaryText="Daniel"/>
+            <MenuItem primaryText="Daniel"/>
         </Menu>
     </Popover>
 </div>)
 
-const anchorOrigin={horizontal:"left",vertical:"bottom"}
-const targetOrigin={horizontal:"left",vertical:"top"}
-const PipelineDescription=({description, open, anchor})=>(
-<Container>
-    <Row>
-        <Col xs={3}>{description}</Col>
-        <Col xs={6}><LinearProgress style={{maxWidth:300}} mode="determinate" value={50}/></Col>
-        <Col xs={3}><CustomDatePicker/></Col>
-    </Row>
-</Container>
-)
+*/
 
 const PipeLineList=enhance(({list})=>
 <List>
     {list.map((listItem, index)=>{
         return <ListItem 
+            disabled={true}
             key={index}
-            primaryText={<PipelineDescription description={listItem.description}/>}
-            leftCheckbox={<Checkbox />}
-            
+            primaryText={<div>{listItem.description}</div>}
+            leftIcon={validationIcon(listItem.type)}
+            rightIconButton={CustomDatePicker}
         />
+
     })}
 </List>)
 export default PipeLineList

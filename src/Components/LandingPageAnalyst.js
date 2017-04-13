@@ -1,64 +1,42 @@
 import React from 'react';
 import {List, ListItem} from 'material-ui/List';
-import AutoRenew from 'material-ui/svg-icons/action/autorenew'//ongoing monitoring
-import FeedBack from 'material-ui/svg-icons/action/feedback' //issue
-import Functions from 'material-ui/svg-icons/editor/functions' //validation
-import Poll from 'material-ui/svg-icons/social/poll' //review
 import pure from 'recompose/pure'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import lifecycle from 'recompose/lifecycle';
 import Pipeline from './Pipeline';
-import {
-  Link
-} from 'react-router-dom'
-const switchIcon=(type)=>{
-    switch(type){
-        case "Validation":
-            return <Functions/>
-        case "Ongoing Monitoring":
-            return <AutoRenew/>
-        case "Issue":
-            return <FeedBack/>
-        case "Annual Review":
-            return <Poll/>
-        default:
-            return <Poll/>
-    }
-}
+import {validationIcon} from '../landingPageHelpers'
+import {Link} from 'react-router-dom'
+import Activities from './Activities'
+import ToDo from './ToDo'
+
 const switchList=(tab, activities, todos, pipeline)=>{
     switch(tab){
         case 0:
-            return <ListWithLinks list={activities} />
+            return <Activities list={activities} />
         case 1:
-            return <ListWithLinks list={todos} />
+            return <ToDo list={todos} />
         case 2:
             return <Pipeline list={pipeline} />
         default:
-            return <ListWithLinks list={activities} />
+            return <Activities list={activities} />
     }   
 }
-const enhanceLinks=compose(
-    pure,
-    setPropTypes({
-        list:React.PropTypes.arrayOf(React.PropTypes.shape({
-            type:React.PropTypes.string.isRequired,
-            description:React.PropTypes.string.isRequired
-        })).isRequired
-    })
-)
-const ListWithLinks=enhanceLinks(({list})=>
+
+
+
+/*const ActivityList=enhanceLinks(({list})=>
 <List >
     {list.map((listItem, index)=>{
         return <ListItem 
             key={index}
             primaryText={listItem.description}
-            leftIcon={switchIcon(listItem.type)}
+            leftIcon={validationIcon(listItem.type)}
             containerElement={<Link to={`/${listItem.type}/${listItem.id}`} />}
         />
     })}
 </List>)
-
+*/
 const enhance=compose(
     pure,
     lifecycle({
