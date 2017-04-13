@@ -14,6 +14,7 @@ import DateRange from 'material-ui/svg-icons/action/date-range' //
 import IsQC from 'material-ui/svg-icons/device/access-time' //
 import {backgroundPrimary} from '../Styles/ThemeStyles'
 import pure from 'recompose/pure'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import withState from 'recompose/withState'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose';
@@ -21,11 +22,11 @@ import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import {Link} from 'react-router-dom'
 import LinearProgress from 'material-ui/LinearProgress';
-import {validationIcon} from '../landingPageHelpers'
+import {validationIcon, numberOfQC} from '../landingPageHelpers'
 const disableWeekends=date=>date.getDay()===0||date.getDay()===6
 const firstDayOfWeek=0;
 const enhance=compose(
-    pure,
+    pure, 
     setPropTypes({
         list:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
@@ -33,24 +34,23 @@ const enhance=compose(
         })).isRequired
     })
 )
-const enhanceMenu=compose(
+const enhanceCard=compose(
     withState('open', 'toggleOpen', false),
-    withState('anchor', 'setAnchor', null),
     withHandlers({
-        handleTouchTap:props=>event=>{
-            event.preventDefault()
-            props.toggleOpen(!props.open);
-            props.setAnchor(event.currentTarget)
-        },
-        handleRequestClose:props=>e=>{
-            props.toggleOpen(false)
+        handleOpen:props=>expand=>{
+            props.toggleOpen(expand)
         }
     }),
-    onlyUpdateForKeys(['open', 'anchor'])
+    onlyUpdateForKeys(['open'])
 )
 const MyDatePicker=({title})=><DatePicker container='inline' hintText={title} mode='landscape' shouldDisableDate={disableWeekends} firstDayOfWeek={firstDayOfWeek}/>
+
+
+
+
+/*
 const anchor={horizontal: 'left', vertical: 'top'}
-const CustomDatePicker=/*enhanceMenu*/(/*({open, anchor, handleTouchTap, handleRequestClose})=>*/
+const CustomDatePicker=(
 <IconMenu
     iconButtonElement={<IconButton><DateRange /></IconButton>}
     anchorOrigin={anchor}
@@ -70,7 +70,7 @@ const QCPicker=(
     <DateRange />
     <DateRange />
     </div>
-)
+)*/
 
 /*
 const CustomAssignTo=enhanceMenu(({open, anchor, handleTouchTap, handleRequestClose})=><div>
@@ -95,17 +95,29 @@ const CustomAssignTo=enhanceMenu(({open, anchor, handleTouchTap, handleRequestCl
 
 */
 
-const PipeLineList=enhance(({list})=>
-<List>
-    {list.map((listItem, index)=>{
-        return <ListItem 
-            disabled={true}
-            key={index}
-            primaryText={<div>{listItem.description}</div>}
-            leftIcon={validationIcon(listItem.type)}
-            rightIconButton={CustomDatePicker}
-        />
+const CustomCard=enhanceCard(({open, handleOpen, description, type})=>
+<Card expanded={open} onExpandChange={handleOpen}>
+    <CardHeader
+        title={description}
+        avatar={validationIcon(type)}
+        actAsExpander={true}
+        showExpandableButton={true}
+    />
+    <CardText expandable={true}>
+        {[...Array(numberOfQC(type))].map((v, index)=>{
+            return <MyDatePicker key={index} title={`QC ${index+1}`}/>
+        })}
+    </CardText>
+    </Card>
 
-    })}
-</List>)
+)
+
+
+const PipeLineList=enhance(({list})=>{
+    return <div>
+    {list.map((listItem, index)=>
+    <CustomCard key={index} description={listItem.description} type={listItem.type}/>
+)}</div>
+})
+
 export default PipeLineList

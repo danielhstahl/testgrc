@@ -1,0 +1,4 @@
+{"level":"info","message":"called /login","timestamp":"2017-04-13T20:42:41.154Z"}
+{"level":"error","message":"InvalidCredentialsError: 80090308: LdapErr: DSID-0C0903D9, comment: AcceptSecurityContext error, data 52e, v2580\u0000 b0gx3","timestamp":"2017-04-13T20:42:41.237Z"}
+{"level":"info","message":"called /login","timestamp":"2017-04-13T20:44:06.944Z"}
+{"level":"info","message":"return /login","timestamp":"2017-04-13T20:44:07.199Z"}

@@ -45,6 +45,7 @@ export const getLogIn=(dispatch, user, password)=>{
     axios.post(`/login`, {user, password}).then((response)=>{
         const {err, user}=response.data;
         if(err){
+            console.log(err);
             dispatch(setLogInError(err))
         }else{
             user.hashPassword=SHA256(password).toString(enc.Base64);

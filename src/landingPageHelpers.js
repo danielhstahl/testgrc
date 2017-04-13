@@ -17,3 +17,18 @@ export const validationIcon=(type)=>{
             return <Poll/>
     }
 }
+
+export const numberOfQC=(type)=>{
+    switch(type){
+        case "Validation":
+            return 4
+        case "Ongoing Monitoring":
+            return 1
+        case "Issue":
+            return 2
+        case "Annual Review":
+            return 2
+        default:
+            return 2
+    }
+}
