@@ -51,10 +51,8 @@ const authenticate=(userid, password, cb)=>{
     const username=`CORP\\${userid}`;
     let ad = new AD(config);
     let domainPartition;
-    //let defaultDN;
     let user;
     wrapRootDSE(ad).then((dse)=>{
-        //defaultDN=dse.defaultNamingContext
         domainPartition=dse.namingContexts[2];
         return wrapAuthenticate(ad, username, password)
     }).then((auth)=>{

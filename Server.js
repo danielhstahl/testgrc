@@ -11,11 +11,11 @@ const addToSession=inRamDb.addToSession
 const removeFromSession=inRamDb.removeFromSession
 const getFromSession=inRamDb.getFromSession
 
-const data =require('./tmpData.js');
+//const data =require('./tmpData.js');
 const userAttributes=require('./userAttributes')
 const sql=require('./fakeSql.js')
-const uuidV4=require('uuid/v4')
-const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePersonel, testSelection=data.testSelection;
+//const uuidV4=require('uuid/v4')
+//const RCUS=data.RCUS, skills=data.skills, availablePersonel=data.availablePersonel, testSelection=data.testSelection;
 
 const jsonParser = bodyParser.json();
 let app = express();

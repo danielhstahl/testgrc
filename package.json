@@ -36,8 +36,8 @@
     "winston": "^2.3.1"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"react-scripts start\" \"npm run test-serv\"",
-    "test-serv": "node fakeServer.js",
+    "start": "concurrently --kill-others \"react-scripts start\" \"npm run serv\"",
+    "test-serv": "node Server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "test-coverage": "react-scripts test --env=jsdom --coverage --json  --outputFile=testcoverage.json",
