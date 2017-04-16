@@ -35,6 +35,8 @@ export const attemptLogin=(dispatch, user)=>{
                 dispatch(setLogIn(user))
             }
             dispatch(CheckLoading(false))
+        }).catch((err)=>{
+            console.log(err);
         })
     }else{
         dispatch(CheckLoading(false))
