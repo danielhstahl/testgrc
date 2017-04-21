@@ -8,13 +8,13 @@ const computePlan=(rawRCUS, plans)=>{
     return leftjoin(rawRCUS, plans, joinHelper, mergeHelper);
 }
 const mapStateToProps=(state, ownProps)=>{
-    return {rawTestSelection:state.rawTest, mrmvPlanning:computePlan(state.rawRCUS, state.plans, state.rawTest)}
+    return {rawTestSelection:state.rawTest, mrmvPlanning:computePlan(state.rawRCUS, state.plans, state.rawTest), policyGroups:state.user.user.policyGroups}
 }
 const mapDispatchToProps=(dispatch, ownProps)=>{
     return {
         
-        handleTestSubmit:(plan)=>{
-            return plan.submitted?dispatch(editPlan(plan, ownProps.validationId)):dispatch(addPlanningToValidation(plan, ownProps.validationId))
+        handleTestSubmit:(plan, groups)=>{
+            return plan.submitted?dispatch(editPlan(plan, ownProps.validationId, groups)):dispatch(addPlanningToValidation(plan, ownProps.validationId, groups))
         }
     }
 }

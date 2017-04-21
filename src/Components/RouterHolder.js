@@ -37,7 +37,7 @@ const RouterHolder=({userObj, isLoading})=>{
 RouterHolder.propTypes={
   userObj:React.PropTypes.shape({
     user:React.PropTypes.shape({
-      userType:React.PropTypes.string.isRequired,
+      policyGroups:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
       cn:React.PropTypes.string.isRequired
     }),
     err:React.PropTypes.object

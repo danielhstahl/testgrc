@@ -1,4 +1,5 @@
 import axios from 'axios'
+import paramify from './paramify'
 //import url from './url'
 export const setRawSkills=(skills)=>{
     return {
@@ -6,13 +7,13 @@ export const setRawSkills=(skills)=>{
         skills
     }
 }
-export const getRawSkills=(dispatch)=>{
-    return axios.get(`/skills`).then((response)=>{
+export const getRawSkills=(dispatch, groups)=>{
+    return axios.get(`/skills`, paramify({policyGroups:groups}) ).then((response)=>{
         dispatch(setRawSkills(response.data))
     })
 }
-export const addSkillsRequiredForValidation=(skill, validationId)=>{
-    axios.post(`/writeValidationSkill`, {skill, validationId, include:true}).then().catch(err=>console.log(err))
+export const addSkillsRequiredForValidation=(skill, validationId, groups)=>{
+    axios.post(`/writeValidationSkill`, {skill, validationId, include:true, policyGroups:groups}).then().catch(err=>console.log(err))
     return {
         type:"ADD_VALIDATION_SKILL",
         skill
@@ -24,8 +25,8 @@ export const loadSkillsRequiredForValidation=(skills)=>{
         skills
     }
 }
-export const getValidationSkills=(dispatch, validationId)=>{
-    return axios.get(`/validationSkills`, {params:{validationId}}).then((response)=>{
+export const getValidationSkills=(dispatch, validationId, groups)=>{
+    return axios.get(`/validationSkills`, paramify({validationId, policyGroups:groups})).then((response)=>{
         dispatch(loadSkillsRequiredForValidation(response.data))
     })
 }

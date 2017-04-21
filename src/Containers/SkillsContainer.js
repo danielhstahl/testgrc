@@ -5,18 +5,18 @@ import{addAssociateForValidation, removeAssociateForValidation } from '../Action
 import Skills from '../Components/Skills'
 
 const mapStateToProps=(state)=>{
-    return {validationSkills:state.skills, rawSkills:state.rawSkills, associatesForDisplay:joinedAssociates(state.skills, state.rawAssociates, state.associates)}
+    return {validationSkills:state.skills, rawSkills:state.rawSkills, associatesForDisplay:joinedAssociates(state.skills, state.rawAssociates, state.associates), policyGroups:state.user.user.policyGroups}
 }
 const mapDispatchToProps=(dispatch, ownProps)=>{
     return {
-        handleSelect:(e, i, v)=>{
-            dispatch(addSkillsRequiredForValidation(v, ownProps.validationId));
+        handleSelect:(e, i, v, groups)=>{
+            dispatch(addSkillsRequiredForValidation(v, ownProps.validationId, groups));
         },
-        handleToggleAssociate:(associate, isChecked)=>{
-            return isChecked?dispatch(addAssociateForValidation(associate, ownProps.validationId)):dispatch(removeAssociateForValidation(associate, ownProps.validationId))
+        handleToggleAssociate:(associate, isChecked, groups)=>{
+            return isChecked?dispatch(addAssociateForValidation(associate, ownProps.validationId, groups)):dispatch(removeAssociateForValidation(associate, ownProps.validationId, groups))
         },
-        handleRemoveSkill:(skill)=>{
-            dispatch(removeSkillRequiredForValidation(skill, ownProps.validationId));
+        handleRemoveSkill:(skill, groups)=>{
+            dispatch(removeSkillRequiredForValidation(skill, ownProps.validationId, groups));
         }
     }
 }

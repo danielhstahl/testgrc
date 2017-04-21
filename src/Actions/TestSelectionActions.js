@@ -1,4 +1,5 @@
 import axios from 'axios'
+import paramify from './paramify'
 //import url from './url'
 export const setRawTestSelection=(testSelection)=>{
     return {
@@ -6,8 +7,8 @@ export const setRawTestSelection=(testSelection)=>{
         testSelection
     }
 }
-export const getRawTestSelection=(dispatch)=>{
-    return axios.get(`/testSelection`).then((response)=>{
+export const getRawTestSelection=(dispatch, groups)=>{
+    return axios.get(`/testSelection`, paramify({policyGroups:groups})).then((response)=>{
         dispatch(setRawTestSelection(response.data))
     })
 }

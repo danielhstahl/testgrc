@@ -68,8 +68,8 @@ const enhanceVApp=compose(
         componentWillMount(){
             console.log("This is expensive")
             const {validationId}=this.props.match.params
-            this.props.loadInit();
-            this.props.loadOnValidationChange(validationId);
+            this.props.loadInit(this.props.policyGroups);
+            this.props.loadOnValidationChange(validationId, this.props.policyGroups);
         }
     }),
     shouldUpdate(
@@ -87,6 +87,7 @@ const enhanceVApp=compose(
         match:React.PropTypes.object.isRequired,
         loadInit:React.PropTypes.func.isRequired,
         loadOnValidationChange:React.PropTypes.func.isRequired,
+        policyGroups:React.PropTypes.arrayOf(React.PropTypes.string).isRequired
     })
 )
 

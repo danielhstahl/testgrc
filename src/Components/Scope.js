@@ -8,12 +8,13 @@ import {FourColHead} from './ScopeUtils'
 
 const tableStyle={marginLeft:0, marginRight:0};
 
-const Scope =({mrmvPlanning, rawTestSelection, handleTestSubmit, maxHeight=500})=> {
+const Scope =({mrmvPlanning, rawTestSelection, handleTestSubmit, policyGroups, maxHeight=500})=> {
+    const handleTestSubmitSubScope=plan=>handleTestSubmit(plan, policyGroups)
     return <Container>
         <div style={{maxHeight:maxHeight, overflowY:"auto"}}>
         <FourColHead style={tableStyle} first="Process" second="Risk" third="Control (if any)" fourth="MRMV Testing"/>
         {mrmvPlanning.map((rcusItem, rcusIndex)=>{
-            return <SelectAndEnter tableStyle={tableStyle} key={rcusIndex} rcusItem={rcusItem} rawTestSelection={rawTestSelection} handleTestSubmit={handleTestSubmit}/>
+            return <SelectAndEnter tableStyle={tableStyle} key={rcusIndex} rcusItem={rcusItem} rawTestSelection={rawTestSelection} handleTestSubmit={handleTestSubmitSubScope}/>
         })}
         </div>
         <ScopeDisplay mrmvPlanning={mrmvPlanning} rawTestSelection={rawTestSelection}/>
@@ -36,6 +37,7 @@ Scope.propTypes={
         description:React.PropTypes.string.isRequired
     })),
     handleTestSubmit:React.PropTypes.func.isRequired,
+    policyGroups:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     maxHeight:React.PropTypes.number
 }
 export default Scope

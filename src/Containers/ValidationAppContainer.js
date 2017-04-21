@@ -10,20 +10,20 @@ import {getRawTestSelection} from '../Actions/TestSelectionActions'
 import ValidationApp from '../Components/ValidationApp'
 
 const mapStateToProps=(state)=>{
-    return {}
+    return {policyGroups:state.user.user.policyGroups}
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
-        loadInit:()=>{
-            getRawAssociates(dispatch);
-            getRawSkills(dispatch); 
-            getRawTestSelection(dispatch); 
-            getRawRCUS(dispatch); 
+        loadInit:(groups)=>{
+            getRawAssociates(dispatch, groups);
+            getRawSkills(dispatch, groups); 
+            getRawTestSelection(dispatch, groups); 
+            getRawRCUS(dispatch, groups); 
         },
-        loadOnValidationChange:(validationId)=>{
-            getValidationSkills(dispatch, validationId);
-            getValidationAssociates(dispatch, validationId);
-            getValidationPlan(dispatch, validationId);
+        loadOnValidationChange:(validationId, groups)=>{
+            getValidationSkills(dispatch, validationId, groups);
+            getValidationAssociates(dispatch, validationId, groups);
+            getValidationPlan(dispatch, validationId, groups);
         }
     }
 }

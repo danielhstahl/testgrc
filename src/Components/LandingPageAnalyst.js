@@ -41,7 +41,7 @@ const enhance=compose(
     pure,
     lifecycle({
         componentWillMount(){
-            this.props.onLoad();
+            this.props.onLoad(this.props.policyGroups);
         }
     }),
     setPropTypes({
@@ -57,6 +57,7 @@ const enhance=compose(
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
+        policyGroups:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
         onLoad:React.PropTypes.func.isRequired
     })
 )
