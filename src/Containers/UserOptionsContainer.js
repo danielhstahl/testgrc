@@ -1,18 +1,19 @@
 import { connect } from 'react-redux'
 import { setLogOut } from '../Actions/AuthenticationActions'
-import AssociateFAB from '../Components/AssociateFAB'
+import UserOptions from '../Components/UserOptions'
 
-const mapStateToProps=(state, ownProps)=>{
-    return {}
+const mapStateToProps=(state)=>{
+    return {
+        user:state.user.user
+    }
 }
 const mapDispatchToProps=(dispatch)=>{
     return{
         handleLogout:()=>dispatch(setLogOut())
     };
 }
-const AssociateFABContainer = connect(
+const UserOptionsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AssociateFAB)
-export default AssociateFABContainer;
-
+)(UserOptions)
+export default UserOptionsContainer;

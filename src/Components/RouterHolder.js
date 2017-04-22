@@ -6,21 +6,18 @@ import {
 import LandingPageContainer from '../Containers/LandingPageContainer'
 import LoginContainer from '../Containers/LoginContainer'
 import ValidationAppContainer from '../Containers/ValidationAppContainer'
-
-
+import CustomAppBar from './CustomAppBar'
+import {backgroundPrimary} from '../Styles/ThemeStyles'
 
 import PageLoad from './PageLoad'
 
 
 const ConditionRoutes=({isLoading, user, children})=>{
-  console.log(isLoading)
-  console.log(user)
-  console.log(children)
   if(isLoading){
     return <PageLoad/>
   }
   else if(user){
-    return <div>{children}</div>
+    return <div style={backgroundPrimary}>{children}</div>
   }
   else{
     return <LoginContainer/>
@@ -32,6 +29,7 @@ const RouterHolder=({userObj, isLoading})=>{
     return(
     <Router>
       <ConditionRoutes isLoading={isLoading} user={user}>
+        <CustomAppBar/> 
         <Route exact path="/" component={LandingPageContainer}/>
         <Route path={`/validation/:validationId`} component={ValidationAppContainer}/>
       </ConditionRoutes>
