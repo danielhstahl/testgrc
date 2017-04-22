@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container, Row} from 'react-grid-system';
-
+import AppBar from 'material-ui/AppBar';
 import {backgroundPrimary, backgroundAccent, headingHeight} from '../Styles/ThemeStyles'
 import Paper from 'material-ui/Paper'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import pure from 'recompose/pure';
-import AssociateFABContainer from '../Containers/AssociateFABContainer'
+//import AssociateFABContainer from '../Containers/AssociateFABContainer'
 
 const pageStyle={height:'100%'}
 //const FlowStyles={padding: "2% 0% 0% 0%"}
@@ -23,7 +23,11 @@ const enhance=compose(
         optionalTitle:React.PropTypes.node,
     })
 )
-const MaterialView=({headerChild, contentChild, optionalTitle})=>
+const MaterialView=({children})=>
+<AppBar title={null} style={{}} iconClassNameRight="muidocs-icon-navigation-expand-more">
+    {children}
+</AppBar>
+/*const MaterialView=({headerChild, contentChild, optionalTitle})=>
 <div style={pageStyle} >
     
     
@@ -47,5 +51,7 @@ const MaterialView=({headerChild, contentChild, optionalTitle})=>
         </Row>
     </Container>
     </div>
-</div>
+</div>*/
+
+
 export default enhance(MaterialView);

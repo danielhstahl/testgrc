@@ -13,6 +13,9 @@ import PageLoad from './PageLoad'
 
 
 const ConditionRoutes=({isLoading, user, children})=>{
+  console.log(isLoading)
+  console.log(user)
+  console.log(children)
   if(isLoading){
     return <PageLoad/>
   }

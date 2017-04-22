@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "homepage": "https://phillyfan1138.github.io/testgrc",
-  "proxy": "http://albh640283b:3001",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "gh-pages": "^0.12.0",
     "react-scripts": "0.9.5",

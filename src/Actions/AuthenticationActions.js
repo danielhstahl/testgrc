@@ -1,8 +1,10 @@
 import axios from 'axios'
 import url from './url'
+import paramify from './paramify'
 import {SHA256, enc} from 'crypto-js'
 import {setStorage} from '../localStorageHelper'
 import {CheckLoading} from './LoadingAction'
+
 export const setLogIn=(user)=>{
     return {
         type:"LOGIN",
@@ -25,7 +27,7 @@ export const attemptLogin=(dispatch, user)=>{
     if(user){
         console.log(user)
         dispatch(CheckLoading(true))
-        axios.get(`/checkLogin`, {params:{sessionId:user.sessionId}}).then((response)=>{
+        axios.get(`/checkLogin`, paramify({sessionId:user.sessionId})).then((response)=>{
             console.log(response.data);
             const {hashPassword}=response.data;
             if(!hashPassword||user.hashPassword!==hashPassword){
