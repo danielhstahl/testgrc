@@ -2,7 +2,7 @@ import React from 'react';
 import {ValidationFlow} from './ValidationWorkFlow'
 import ScopeContainer from '../Containers/ScopeContainer'
 import SkillsContainer from '../Containers/SkillsContainer'
-import MaterialView from './MaterialView'
+//import MaterialView from './MaterialView'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import shouldUpdate from 'recompose/shouldUpdate';
@@ -59,7 +59,11 @@ const ValApp=enhanceSwitch(({url, match, history, validationId})=>{
     const step=getDefaultStep(match.params.step)
     const contentView=switchComponent(step, validationId)
     return(
-        <MaterialView headerChild={ <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>} contentChild={contentView}/>
+        <div>
+        <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>
+            {contentView}
+        </div>
+        /*<MaterialView headerChild={ <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>} contentChild={contentView}/>*/
     )
 })
 

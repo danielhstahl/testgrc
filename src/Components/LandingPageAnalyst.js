@@ -49,18 +49,18 @@ const enhance=compose(
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
-        todos:React.PropTypes.arrayOf(React.PropTypes.shape({
+        /*todos:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
         pipeline:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
-        })).isRequired,
+        })).isRequired,*/
         policyGroups:React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
         onLoad:React.PropTypes.func.isRequired
     })
 )
-const LandingPageAnalyst=enhance(({activities, todos, pipeline, tab})=>switchList(tab, activities, todos, pipeline))
+const LandingPageAnalyst=enhance(({activities,  tab})=>switchList(tab, activities))
     
 export default LandingPageAnalyst

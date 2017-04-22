@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row} from 'react-grid-system';
 import workflowTheme from '../workflowTheme'
 import LandingPageAnalystContainer from '../Containers/LandingPageAnalystContainer'
-import MaterialView from './MaterialView'
+//import MaterialView from './MaterialView'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import withState from 'recompose/withState';
 import compose from 'recompose/compose';
@@ -19,13 +19,13 @@ const titleStyle={position:'absolute', top:20, width:'100%'};
 const getLandingPage=(userType)=>{
     switch(userType){
         case "MRMVAnalyst":
-            return ({tab})=><LandingPageAnalystContainer tab={tab}/>
+            return ()=><LandingPageAnalystContainer/>
         default:
-            return ({tab})=><LandingPageAnalystContainer tab={tab}/>
+            return ()=><LandingPageAnalystContainer/>
     }
 }
 const centerStyle={display:'flex', alignItems:'center'}
-const PotentialIssues=({content, text})=>{
+/*const PotentialIssues=({content, text})=>{
     if(content){
         return <div style={centerStyle}>{text}<Badge
             badgeContent={content}
@@ -37,9 +37,9 @@ const PotentialIssues=({content, text})=>{
     }
     return <div>{text}</div>;
 
-}
+}*/
 
-const enhanceTabs=compose(
+/*const enhanceTabs=compose(
     onlyUpdateForKeys(['index']),
     setPropTypes({
         labels:React.PropTypes.arrayOf(React.PropTypes.shape({
@@ -49,10 +49,10 @@ const enhanceTabs=compose(
         tab:React.PropTypes.number.isRequired,
         setTab:React.PropTypes.func.isRequired
     })
-)
+)*/
 const listBackground={backgroundColor:workflowTheme.palette.canvasColor}
 const listTextColor={color:workflowTheme.palette.textColor}
-const ListOfTabs = enhanceTabs(({labels, tab, setTab}) =>
+/*const ListOfTabs = enhanceTabs(({labels, tab, setTab}) =>
 <Tabs 
     value={tab} 
     onChange={setTab}
@@ -63,36 +63,35 @@ const ListOfTabs = enhanceTabs(({labels, tab, setTab}) =>
         <Tab style={listTextColor}  label={<PotentialIssues content={label.problems} text={label.text}/>} key={index} value={index}>
         </Tab>)
     })}
-</Tabs>)
+</Tabs>)*/
+
 const enhanceLandingPageV=compose(
-    withState('tab', 'updateTab', 0),
+   /* withState('tab', 'updateTab', 0),
     withHandlers({
         setTab:props=>val=>props.updateTab(val)
-    }),
-    onlyUpdateForKeys(['Page', 'tab']),
+    }),*/
+    onlyUpdateForKeys(['Page']),
     setPropTypes({
-        tab:React.PropTypes.number.isRequired,
+        //tab:React.PropTypes.number.isRequired,
         Page:React.PropTypes.func.isRequired,
-        setTab:React.PropTypes.func.isRequired
+        //setTab:React.PropTypes.func.isRequired
     })
 )
-const labels=[{text:"Activities"}, {text:"To Do", problems:4}, {text:"Pipeline"}]
-const LandingPageV=enhanceLandingPageV(({user, Page, tab, setTab})=>{
-    const dataImage=user.thumbnailPhoto&&`data:image/jpeg;base64,${user.thumbnailPhoto}`
-    const header=<ListOfTabs labels={labels} tab={tab} setTab={setTab}/>
+//const labels=[{text:"Activities"}, {text:"To Do", problems:4}, {text:"Pipeline"}]
+const LandingPageV=enhanceLandingPageV(({Page})=>{
     return(
-    <MaterialView 
-        headerChild={header} 
-        contentChild={<Page tab={tab}/>}
-        optionalTitle={<Container><Row><Paper rounded={false} style={titleStyle}><List><ListItem disabled={true} leftAvatar={<Avatar src={dataImage}/>}>Welcome {user.cn}!</ListItem></List></Paper></Row></Container>}
-    />
+        <Container>
+            <Paper rounded={false}>
+                <Page/>
+            </Paper>
+        </Container>
 )})
 
 
 
 /**todo!  need to improve which policy group is selected */
 const LandingPage=({user})=>{
-    return <LandingPageV user={user} Page={getLandingPage(user.policyGroups[0])}/>
+    return <LandingPageV Page={getLandingPage(user.policyGroups[0])}/>
 }
 LandingPage.propTypes={
     user:React.PropTypes.shape({
