@@ -1,22 +1,17 @@
 import { connect } from 'react-redux'
-//import { getRawTodos, getRawActivities } from '../Actions/ReduxActions'
 import LandingPageAnalyst from '../Components/LandingPageAnalyst'
-//import {getRawTodos} from '../Actions/TodoActions'
-import {getRawActivities} from '../Actions/ActivityActions'
-//import {getPipeline} from '../Actions/PipelineActions'
+
 const mapStateToProps=(state, ownProps)=>{
     const {activities, user}=state;
     //const lists=[state.activities, state.todos, state.pipeline]
-    return {activities,  policyGroups:user.user.policyGroups, tab:ownProps.tab}
+    return {activities:activities.sort((a, b)=>a.nextDueDate>b.nextDueDate),  policyGroups:user.user.policyGroups, tab:ownProps.tab}
 }
 const mapDispatchToProps=(dispatch)=>{
     
     return{
-        onLoad:(groups)=>{
-            //getRawTodos(dispatch, groups);
+        /*onLoad:(groups)=>{
             getRawActivities(dispatch, groups);
-            //getPipeline(dispatch, groups);
-        }
+        }*/
         
     };
 }

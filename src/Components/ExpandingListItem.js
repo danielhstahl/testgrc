@@ -1,17 +1,12 @@
 import React from 'react';
-import {List, ListItem} from 'material-ui/List';
+import {ListItem} from 'material-ui/List';
 import withState from 'recompose/withState';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
-import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import {ReactHeight} from 'react-height';
 
 
-
-function getYPos(index) {
-  return 81 + index * 56;
-}
 const effects=(visible, size) => {
     const overflow='hidden'
     return visible?Object.assign({}, 
@@ -35,7 +30,6 @@ const enhance=compose(
     withState('size', 'setSize', 0),
     withHandlers({
         handleExpand:({toggleExpand, expanded})=>()=>toggleExpand(!expanded),
-        //setHeight:({setSize})=>(size)=>setSize(size)
     }),
     onlyUpdateForKeys(["expanded"])
 )

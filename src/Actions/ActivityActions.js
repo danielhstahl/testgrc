@@ -10,12 +10,16 @@ export const getRawActivities=dispatch=>{
         {
             type:"Validation",
             id:"1",
-            description:"Validation for Model1"
+            description:"Validation for Model1",
+            nextDueDate:"2017-04-01",
+            finalDueDate:"2020-04-01"
         },
         {
             type:"Annual Review",
             id:"4",
-            description:"Annual Review for Model2"
+            description:"Annual Review for Model2",
+            nextDueDate:"2020-04-01",
+            finalDueDate:"2020-04-01"
         }
     ]
     return dispatch(setRawActivities(activities))
