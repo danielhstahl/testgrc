@@ -35,10 +35,11 @@ const enhanceLandingPageV=compose(
         Page:React.PropTypes.func.isRequired,
     })
 )
+const paperStyle={maxHeight:'80vh', overflowY:'scroll'}
 const LandingPageV=enhanceLandingPageV(({Page})=>{
     return(
-        <Container>
-            <Paper rounded={false}>
+        <Container >
+            <Paper rounded={false} style={paperStyle}>
                 <Page/>
             </Paper>
         </Container>
