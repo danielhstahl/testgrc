@@ -25,59 +25,16 @@ const getLandingPage=(userType)=>{
     }
 }
 const centerStyle={display:'flex', alignItems:'center'}
-/*const PotentialIssues=({content, text})=>{
-    if(content){
-        return <div style={centerStyle}>{text}<Badge
-            badgeContent={content}
-            secondary={true}
-            badgeStyle={{top: 12, right: 12}}
-        >
-            <Warning/>
-        </Badge></div>
-    }
-    return <div>{text}</div>;
-
-}*/
-
-/*const enhanceTabs=compose(
-    onlyUpdateForKeys(['index']),
-    setPropTypes({
-        labels:React.PropTypes.arrayOf(React.PropTypes.shape({
-            text:React.PropTypes.string.isRequired,
-            problems:React.PropTypes.number
-        })).isRequired,
-        tab:React.PropTypes.number.isRequired,
-        setTab:React.PropTypes.func.isRequired
-    })
-)*/
 const listBackground={backgroundColor:workflowTheme.palette.canvasColor}
 const listTextColor={color:workflowTheme.palette.textColor}
-/*const ListOfTabs = enhanceTabs(({labels, tab, setTab}) =>
-<Tabs 
-    value={tab} 
-    onChange={setTab}
-    tabItemContainerStyle={listBackground}
->
-    {labels.map((label, index)=>{
-        return(
-        <Tab style={listTextColor}  label={<PotentialIssues content={label.problems} text={label.text}/>} key={index} value={index}>
-        </Tab>)
-    })}
-</Tabs>)*/
+
 
 const enhanceLandingPageV=compose(
-   /* withState('tab', 'updateTab', 0),
-    withHandlers({
-        setTab:props=>val=>props.updateTab(val)
-    }),*/
     onlyUpdateForKeys(['Page']),
     setPropTypes({
-        //tab:React.PropTypes.number.isRequired,
         Page:React.PropTypes.func.isRequired,
-        //setTab:React.PropTypes.func.isRequired
     })
 )
-//const labels=[{text:"Activities"}, {text:"To Do", problems:4}, {text:"Pipeline"}]
 const LandingPageV=enhanceLandingPageV(({Page})=>{
     return(
         <Container>

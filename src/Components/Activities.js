@@ -13,6 +13,7 @@ import setPropTypes from 'recompose/setPropTypes';
 import lifecycle from 'recompose/lifecycle';
 import Pipeline from './Pipeline';
 import LinearProgress from 'material-ui/LinearProgress';
+import PMTimeline from './PMTimeline'
 import {Link} from 'react-router-dom'
 import {validationIcon} from '../landingPageHelpers'
 
@@ -58,13 +59,16 @@ const ActivityList=enhanceLinks(({list})=>
 <List >
     <Subheader>Activities</Subheader>
     {list.map((listItem, index)=>{
-        return <ExpandingListItem 
-            key={index}
-            primaryText={<ActivityDescription description={listItem.description} nextDueDate={listItem.nextDueDate} finalDueDate={listItem.finalDueDate}/>}
-            leftIcon={validationIcon(listItem.type)}
-            /*containerElement={<Link to={`/${listItem.type}/${listItem.id}`} />}*/
-
-        ><ActivityDetail listItem={listItem} /></ExpandingListItem>
+        console.log(listItem)
+        return (
+            <ExpandingListItem 
+                key={index}
+                primaryText={<ActivityDescription description={listItem.description} nextDueDate={listItem.nextDueDate} finalDueDate={listItem.finalDueDate}/>}
+                leftIcon={validationIcon(listItem.type)}
+            >
+                <PMTimeline timeline={listItem.timeline} />
+            </ExpandingListItem>
+        )
     })}
 </List>)
 export default ActivityList

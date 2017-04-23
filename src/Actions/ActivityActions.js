@@ -11,15 +11,68 @@ export const getRawActivities=dispatch=>{
             type:"Validation",
             id:"1",
             description:"Validation for Model1",
-            nextDueDate:"2017-04-01",
-            finalDueDate:"2020-04-01"
+            timeline:[
+                {
+                    description:"Kickoff",
+                    dueDate:"2017-04-01",
+                    actualDate:"2017-04-02"
+                },
+                {
+                    description:"QC1",
+                    dueDate:"2017-04-15",
+                    actualDate:null
+                },
+                {
+                    description:"QC2",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                },
+                {
+                    description:"QC3",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                },
+                {
+                    description:"QC4",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                },
+                {
+                    description:"Draft",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                },{
+                    description:"Final",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                }
+            ]
         },
         {
             type:"Annual Review",
             id:"4",
             description:"Annual Review for Model2",
-            nextDueDate:"2020-04-01",
-            finalDueDate:"2020-04-01"
+            timeline:[
+                {
+                    description:"Kickoff",
+                    dueDate:"2017-04-01",
+                    actualDate:"2017-04-02"
+                },
+                {
+                    description:"QC1",
+                    dueDate:"2017-04-15",
+                    actualDate:"2017-04-15",
+                },
+                {
+                    description:"QC2",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                },{
+                    description:"Final",
+                    dueDate:"2020-04-30",
+                    actualDate:null
+                }
+            ]
         }
     ]
     return dispatch(setRawActivities(activities))

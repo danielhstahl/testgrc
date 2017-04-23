@@ -11,20 +11,21 @@ import setPropTypes from 'recompose/setPropTypes';
 import lifecycle from 'recompose/lifecycle';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
+import Warning from 'material-ui/svg-icons/alert/warning'
 import { centerStyle, backgroundSecondary} from '../Styles/ThemeStyles'
 const zeroPadding={padding:0}
 const anchorOrigin={horizontal: 'right', vertical: 'top'}
 const targetOrigin={horizontal: 'right', vertical: 'top'}
-const badgeStyle={top: 12, right: 12}
+const badgeStyle={top: 0, right: 0, padding:0, margin:0}
 const fontWeight={fontWeight:"normal"}
-const badgedImage=(countToDo, avatar)=>(
+const badgedImage=(countToDo)=>(
     countToDo?<Badge
         badgeContent={countToDo}
         secondary={true}
         badgeStyle={badgeStyle}
     >
-        {avatar}
-    </Badge>:avatar
+        <Warning/>
+    </Badge>:null
 )
 
 const enhance=compose(
@@ -43,7 +44,6 @@ const enhance=compose(
         countToDo:React.PropTypes.number
     })
 )
-const alertStyle=Object.assign({}, backgroundSecondary,  {borderRadius: '50%', width:24, height:24, })
 const UserOptions=enhance(({user, history, handleLogout, countToDo})=>{
     const dataImage=user.thumbnailPhoto&&`data:image/jpeg;base64,${user.thumbnailPhoto}`
     const avatar=(
@@ -51,7 +51,9 @@ const UserOptions=enhance(({user, history, handleLogout, countToDo})=>{
             <Avatar src={dataImage}/>
         </IconButton>
     )
-    const alerts=countToDo>0?<span style={alertStyle}>{countToDo}</span>:null
+    //const alerts=badgedImage(countToDo)
+    const alerts=countToDo>0?<span style={centerStyle}><Warning/>{countToDo}</span>:null
+    //const alerts=countToDo>0?<span style={alertStyle}>{countToDo}</span>:null
     return(
         <div style={centerStyle}>
             <h3 style={fontWeight}>{user.cn}</h3>
@@ -60,10 +62,9 @@ const UserOptions=enhance(({user, history, handleLogout, countToDo})=>{
                 anchorOrigin={anchorOrigin}
                 targetOrigin={targetOrigin}
             >
-                <MenuItem primaryText="Tasks" onTouchTap={()=>history.push('/')} leftIcon={<ContentCreate/>}/>
+                <MenuItem primaryText="Tasks" onTouchTap={()=>history.push('/')} leftIcon={<ContentCreate/>} rightIcon={alerts}/>
                 <MenuItem primaryText="Logout" leftIcon={<ExitToApp/>} onTouchTap={handleLogout}/>
             </IconMenu>
-            {alerts}
         </div>
     )
 })
