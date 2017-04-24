@@ -31,9 +31,9 @@ const PMTimeline=({timeline})=>
         <Col xs={3} style={{paddingLeft:0}}>
             <Stepper orientation="vertical">
                 {timeline.map((val, index)=>{
-                    return(<Step key={index} active={true} >
+                    return(<Step key={index} active={val.actualDate?true:false} >
                         <StepLabel>{val.description}</StepLabel>
-                        <StepContent >{val.actualDate?val.actualDate:<br/>}</StepContent>
+                        <StepContent active={true}>{val.actualDate?val.actualDate:<br/>}</StepContent>
                     </Step>)
                 })}
             </Stepper>

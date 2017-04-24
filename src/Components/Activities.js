@@ -59,14 +59,16 @@ const ActivityList=enhanceLinks(({list})=>
 <List >
     <Subheader>Activities</Subheader>
     {list.map((listItem, index)=>{
-        console.log(listItem)
         return (
             <ExpandingListItem 
                 key={index}
                 primaryText={<ActivityDescription description={listItem.description} nextDueDate={listItem.nextDueDate} finalDueDate={listItem.finalDueDate}/>}
                 leftIcon={validationIcon(listItem.type)}
             >
-                <PMTimeline timeline={listItem.timeline} />
+                <div>
+                    <PMTimeline timeline={listItem.timeline} />
+                     <FlatButton primary label="Work on activity" containerElement={<Link to={`/${listItem.type}/${listItem.id}`} />}/>
+                </div>
             </ExpandingListItem>
         )
     })}

@@ -23,15 +23,33 @@ const ConditionRoutes=({isLoading, user, children})=>{
     return <LoginContainer/>
   }
 }
+
+const routes=[
+  {
+    path:"/",
+    name:"Home",
+    component:LandingPageContainer,
+    nav:true,
+    exact:true
+  },
+  {
+    path:"/validation/:validationId",
+    name:"",
+    component:ValidationAppContainer,
+    nav:false,
+    exact:false
+  }
+]
 const RouterHolder=({userObj, isLoading})=>{
     const {user}=userObj
     console.log("This should only be called once after login");
     return(
     <Router>
       <ConditionRoutes isLoading={isLoading} user={user}>
-        <CustomAppBar/> 
-        <Route exact path="/" component={LandingPageContainer}/>
-        <Route path={`/validation/:validationId`} component={ValidationAppContainer}/>
+        <CustomAppBar routes={routes}/> 
+        {routes.map(route=>(
+           <Route key={route.path} exact={route.exact} path={route.path} component={route.component}/>
+        ))}
       </ConditionRoutes>
     </Router>)
 }
