@@ -40,13 +40,14 @@ const routes=[
     exact:false
   }
 ]
+const filteredRoutes=routes.filter(val=>val.nav)
 const RouterHolder=({userObj, isLoading})=>{
     const {user}=userObj
     console.log("This should only be called once after login");
     return(
     <Router>
       <ConditionRoutes isLoading={isLoading} user={user}>
-        <CustomAppBar routes={routes}/> 
+        <CustomAppBar routes={filteredRoutes}/> 
         {routes.map(route=>(
            <Route key={route.path} exact={route.exact} path={route.path} component={route.component}/>
         ))}

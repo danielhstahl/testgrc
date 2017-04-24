@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import  RouterHolder  from '../Components/RouterHolder'
 const mapStateToProps=(state)=>{
-    console.log("Should only get here once per session");
     return {
         userObj:state.user,
         isLoading:state.isLoading

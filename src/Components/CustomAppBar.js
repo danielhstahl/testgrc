@@ -10,6 +10,7 @@ import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 const zeroTopMargin={marginTop:0}
 import withState from 'recompose/withState';
 import compose from 'recompose/compose';
+import shouldUpdate from 'recompose/shouldUpdate';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
 import withHandlers from 'recompose/withHandlers';
@@ -36,13 +37,41 @@ const enhance=compose(
     }),
     onlyUpdateForKeys(['open']),
     setPropTypes({
-        open:React.PropTypes.bool.isRequired
+        open:React.PropTypes.bool.isRequired,
+        routes:React.PropTypes.arrayOf(React.PropTypes.shape({
+            path:React.PropTypes.string.isRequired,
+            name:React.PropTypes.string.isRequired,
+        })).isRequired
     })
     
 )
-const CustomAppBar=enhance(({open, localToggleWrapper, localToggleDrawer, router, routes})=>{
-    const filteredRoutes=routes.filter(val=>val.nav)
-    return (
+const enhanceMenu=compose(
+    shouldUpdate(
+        (props, nextProps)=>nextProps.open===true
+    ),
+    setPropTypes({
+        open:React.PropTypes.bool.isRequired,
+        routes:React.PropTypes.arrayOf(React.PropTypes.shape({
+            path:React.PropTypes.string.isRequired,
+            name:React.PropTypes.string.isRequired,
+        })).isRequired
+    })
+)
+const CustomMenu=enhanceMenu(({open, pathname, routes, toggleDrawer})=>(
+    <div>
+    {routes.map(route=>{
+        return  <MenuItem 
+            key={route.path} 
+            onTouchTap={toggleDrawer} 
+            style={pathname===route.path?backgroundborderColor:null}
+            containerElement={<Link to={route.path}/>}
+        >
+            {route.name}
+        </MenuItem>
+    })}
+    </div>
+))
+const CustomAppBar=enhance(({open, localToggleWrapper, localToggleDrawer, router, routes})=> (
     <div>
         <AppBar 
             title={null} 
@@ -59,20 +88,16 @@ const CustomAppBar=enhance(({open, localToggleWrapper, localToggleDrawer, router
             docked={false}
             onRequestChange={localToggleWrapper}
         >
-        {filteredRoutes.map(route=>{
-            return  <MenuItem 
-                key={route.path} 
-                onTouchTap={localToggleDrawer} 
-                style={router.route.location.pathname===route.path?backgroundborderColor:null}
-                containerElement={<Link to={route.path}/>}
-            >
-                {route.name}
-            </MenuItem>
-        })}
+            <CustomMenu 
+                open={open} 
+                routes={routes} 
+                pathname={router.route.location.pathname} 
+                toggleDrawer={localToggleDrawer} 
+            />
         </Drawer>
     </div>
     )
-})
+)
 
 
 export default CustomAppBar;
