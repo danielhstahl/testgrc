@@ -31,10 +31,11 @@ const enhanceLandingPageV=compose(
     })
 )
 const containerStyle={marginTop:64}
+const paperStyle={marginLeft:52}//64-12
 const LandingPageV=enhanceLandingPageV(({Page})=>{
     return(
         <Container style={containerStyle}>
-            <Paper rounded={false} >
+            <Paper rounded={false} style={paperStyle}>
                 <Page/>
             </Paper>
         </Container>
