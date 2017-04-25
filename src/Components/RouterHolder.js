@@ -11,13 +11,14 @@ import {backgroundPrimary} from '../Styles/ThemeStyles'
 
 import PageLoad from './PageLoad'
 
-
+/**footer adds a block of color below the viewed items */
+const footer=<div style={Object.assign({height:500}, backgroundPrimary)}></div>
 const ConditionRoutes=({isLoading, user, children})=>{
   if(isLoading){
     return <PageLoad/>
   }
   else if(user){
-    return <div style={backgroundPrimary}>{children}</div>
+    return <div style={backgroundPrimary}>{children}{footer}</div>
   }
   else{
     return <LoginContainer/>
@@ -52,6 +53,7 @@ const RouterHolder=({userObj, isLoading})=>{
            <Route key={route.path} exact={route.exact} path={route.path} component={route.component}/>
         ))}
       </ConditionRoutes>
+      
     </Router>)
 }
 RouterHolder.propTypes={

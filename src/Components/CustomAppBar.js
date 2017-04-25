@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import workflowTheme from '../workflowTheme'
 import {backgroundborderColor, alternateTextColor, centerStyle, backgroundPrimary} from '../Styles/ThemeStyles'
+import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 const zeroTopMargin={marginTop:0}
 import withState from 'recompose/withState';
@@ -21,7 +22,7 @@ import {
 } from 'react-router-dom'
 
 
-const appBarStyle=Object.assign({}, centerStyle, backgroundPrimary, {marginBottom:20})
+const appBarStyle=Object.assign({marginBottom:20, zIndex:0, position: "fixed", top: 0}, centerStyle, backgroundPrimary)
 const iconStyleRight=Object.assign({}, zeroTopMargin, alternateTextColor) 
 const hamburger=<IconButton><MenuIcon color={workflowTheme.palette.alternateTextColor}/></IconButton>
 
@@ -76,8 +77,6 @@ const CustomAppBar=enhance(({open, localToggleWrapper, localToggleDrawer, router
         <AppBar 
             title={null} 
             iconElementLeft={hamburger}
-            iconElementRight={<UserOptionsContainer/>} 
-            iconStyleRight={iconStyleRight}
             iconStyleLeft={zeroTopMargin}
             style={appBarStyle}
             zDepth={0}
@@ -88,6 +87,9 @@ const CustomAppBar=enhance(({open, localToggleWrapper, localToggleDrawer, router
             docked={false}
             onRequestChange={localToggleWrapper}
         >
+            <UserOptionsContainer/>
+            <Divider/>
+            <br/>
             <CustomMenu 
                 open={open} 
                 routes={routes} 

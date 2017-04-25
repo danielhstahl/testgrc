@@ -15,7 +15,6 @@ import {List, ListItem} from 'material-ui/List';
 import Badge from 'material-ui/Badge'
 import IconButton from 'material-ui/IconButton';
 import Warning from 'material-ui/svg-icons/alert/warning';
-const titleStyle={position:'absolute', top:20, width:'100%'};
 const getLandingPage=(userType)=>{
     switch(userType){
         case "MRMVAnalyst":
@@ -24,10 +23,6 @@ const getLandingPage=(userType)=>{
             return ()=><LandingPageAnalystContainer/>
     }
 }
-const centerStyle={display:'flex', alignItems:'center'}
-const listBackground={backgroundColor:workflowTheme.palette.canvasColor}
-const listTextColor={color:workflowTheme.palette.textColor}
-
 
 const enhanceLandingPageV=compose(
     onlyUpdateForKeys(['Page']),
@@ -35,11 +30,11 @@ const enhanceLandingPageV=compose(
         Page:React.PropTypes.func.isRequired,
     })
 )
-const paperStyle={maxHeight:'80vh', overflowY:'scroll'}
+const containerStyle={marginTop:64}
 const LandingPageV=enhanceLandingPageV(({Page})=>{
     return(
-        <Container >
-            <Paper rounded={false} style={paperStyle}>
+        <Container style={containerStyle}>
+            <Paper rounded={false} >
                 <Page/>
             </Paper>
         </Container>
