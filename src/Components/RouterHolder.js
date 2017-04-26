@@ -6,6 +6,8 @@ import {
 import LandingPageContainer from '../Containers/LandingPageContainer'
 import LoginContainer from '../Containers/LoginContainer'
 import ValidationAppContainer from '../Containers/ValidationAppContainer'
+import PipelineContainer from '../Containers/PipelineContainer'
+//import Pipeline from './Pipeline'
 import CustomAppBar from './CustomAppBar'
 import {backgroundPrimary} from '../Styles/ThemeStyles'
 
@@ -30,6 +32,13 @@ const routes=[
     path:"/",
     name:"Home",
     component:LandingPageContainer,
+    nav:true,
+    exact:true
+  },
+  {
+    path:"/pipeline",
+    name:"Pipeline",
+    component:PipelineContainer,
     nav:true,
     exact:true
   },

@@ -5,7 +5,7 @@ export const setPipeline=(pipeline)=>{
         pipeline
     }
 }
-export const getPipeline=dispatch=>{
+export const getPipeline=(dispatch, groups)=>{
     const pipeline=[
         {
             type:"Validation",

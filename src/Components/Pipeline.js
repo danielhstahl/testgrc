@@ -1,11 +1,12 @@
 import React from 'react';
-import { Container, Row, Col} from 'react-grid-system';
+import { Container} from 'react-grid-system';
 import Subheader from 'material-ui/Subheader';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
 import Popover from 'material-ui/Popover'
 import DatePicker from 'material-ui/DatePicker';
 import IconMenu from 'material-ui/IconMenu';
+import Paper from 'material-ui/Paper';
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import Menu from 'material-ui/Menu'
@@ -16,22 +17,31 @@ import {backgroundPrimary} from '../Styles/ThemeStyles'
 import pure from 'recompose/pure'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import withState from 'recompose/withState'
+import lifecycle from 'recompose/lifecycle'
 import withHandlers from 'recompose/withHandlers'
 import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import {Link} from 'react-router-dom'
 import LinearProgress from 'material-ui/LinearProgress';
+import {containerStyle, paperStyle} from '../Styles/ContentStyles'
 import {validationIcon, numberOfQC} from '../landingPageHelpers'
 const disableWeekends=date=>date.getDay()===0||date.getDay()===6
 const firstDayOfWeek=0;
 const enhance=compose(
     pure, 
+    lifecycle({
+        componentWillMount(){
+            const {loadInit, policyGroups}=this.props
+            loadInit(policyGroups)
+        }
+    }),
     setPropTypes({
-        list:React.PropTypes.arrayOf(React.PropTypes.shape({
+        pipeline:React.PropTypes.arrayOf(React.PropTypes.shape({
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
-        })).isRequired
+        })).isRequired,
+        loadInit:React.PropTypes.func.isRequired
     })
 )
 const enhanceCard=compose(
@@ -113,11 +123,12 @@ const CustomCard=enhanceCard(({open, handleOpen, description, type})=>
 )
 
 
-const PipeLineList=enhance(({list})=>{
-    return <div>
-    {list.map((listItem, index)=>
-    <CustomCard key={index} description={listItem.description} type={listItem.type}/>
-)}</div>
+const PipeLineList=enhance(({pipeline})=>{
+    return <Container style={containerStyle}>
+        <Paper rounded={false} style={paperStyle}>
+            {pipeline.map((listItem, index)=>
+            <CustomCard key={index} description={listItem.description} type={listItem.type}/>
+)}</Paper></Container>
 })
 
 export default PipeLineList

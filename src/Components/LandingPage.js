@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Row} from 'react-grid-system';
 import workflowTheme from '../workflowTheme'
+import {containerStyle, paperStyle} from '../Styles/ContentStyles'
+
 import LandingPageAnalystContainer from '../Containers/LandingPageAnalystContainer'
 //import MaterialView from './MaterialView'
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -30,8 +32,7 @@ const enhanceLandingPageV=compose(
         Page:React.PropTypes.func.isRequired,
     })
 )
-const containerStyle={marginTop:64}
-const paperStyle={marginLeft:52}//64-12
+
 const LandingPageV=enhanceLandingPageV(({Page})=>{
     return(
         <Container style={containerStyle}>
