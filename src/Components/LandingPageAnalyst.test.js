@@ -11,11 +11,17 @@ import {
 it('renders LandingPageAnalyst without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<Router><MuiThemeProvider>
-    <LandingPageAnalyst list={[
+    <LandingPageAnalyst activities={[
         {
             type:"type1",
-            description:"desc1"
+            description:"desc1",
+            timeline:[{
+                actualDate:"date1",
+                dueDate:"date1",
+                descriptoin:"something"               
+                
+            }]
         }
-    ]} onLoad={()=>{}}/>
+    ]}/>
     </MuiThemeProvider></Router>, div);
 });

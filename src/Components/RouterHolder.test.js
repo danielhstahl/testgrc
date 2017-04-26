@@ -11,7 +11,7 @@ let store = createStore(workflowApp)
 injectTapEventPlugin();
 
 it('renders RouterHolder when isLoading without crashing', () => {
-    const userObj={user:{userType:"userType", cn:"cn"}, err:""}
+    const userObj={user:{policyGroups:["hello"], cn:"cn"}, err:{hello:"hello"}}
     const div = document.createElement('div');
     ReactDOM.render(<Provider store={store}><MuiThemeProvider>
     <RouterHolder userObj={userObj} isLoading={true}/>
@@ -19,7 +19,7 @@ it('renders RouterHolder when isLoading without crashing', () => {
 });
 
 it('renders RouterHolder when not loaded without crashing', () => {
-    const userObj={user:{userType:"userType", cn:"cn"}, err:""}
+    const userObj={user:{ policyGroups:["hello"], cn:"cn"}, err:{hello:"hello"}}
     const div = document.createElement('div');
     store.dispatch(setLogIn(userObj.user))
     ReactDOM.render(<Provider store={store}><MuiThemeProvider>
@@ -29,7 +29,7 @@ it('renders RouterHolder when not loaded without crashing', () => {
 });
 
 it('renders RouterHolder when no user without crashing', () => {
-    const userObj={user:{userType:"userType", cn:"cn"}, err:{hello:"hello"}}
+    const userObj={user:{policyGroups:["hello"], cn:"cn"}, err:{hello:"hello"}}
     const div = document.createElement('div');
     ReactDOM.render(<Provider store={store}><MuiThemeProvider>
     <RouterHolder userObj={userObj} isLoading={false}/>

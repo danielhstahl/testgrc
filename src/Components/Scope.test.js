@@ -25,6 +25,7 @@ it('renders Scope without crashing', () => {
             description:"test"
         }]}
         handleTestSubmit={()=>{}}
+        policyGroups={["group"]}
     />
     </MuiThemeProvider>, div);
 });

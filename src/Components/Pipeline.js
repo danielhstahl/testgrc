@@ -26,7 +26,12 @@ const enhance=compose(
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired
         })).isRequired,
-        loadInit:React.PropTypes.func.isRequired
+        associates:React.PropTypes.arrayOf(React.PropTypes.shape({
+            cn:React.PropTypes.string.isRequired,
+            id:React.PropTypes.string.isRequired
+        })).isRequired,
+        loadInit:React.PropTypes.func.isRequired, 
+        policyGroups:React.PropTypes.arrayOf(React.PropTypes.string).isRequired
     })
 )
 

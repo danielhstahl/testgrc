@@ -11,7 +11,7 @@ it('renders ListOfPersonel without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<MuiThemeProvider>
     <ListOfPersonel 
-      arrayOfPersons={[{name:"name", id:"1", requiredSkills:["skill"]}]}
+      arrayOfPersons={[{cn:"name", id:"1", requiredSkills:["skill"]}]}
       onCheck={()=>{}}
     />
   </MuiThemeProvider>, div);

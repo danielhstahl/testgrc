@@ -25,7 +25,8 @@ const enhance=compose(
             cn:React.PropTypes.string.isRequired
         }).isRequired,
         handleLogout:React.PropTypes.func.isRequired,
-        countToDo:React.PropTypes.number
+        countToDo:React.PropTypes.number,
+        onLoad:React.PropTypes.func.isRequired
     })
 )
 const UserOptions=enhance(({user, history, handleLogout, countToDo})=>{
