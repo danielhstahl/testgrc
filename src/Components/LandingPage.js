@@ -1,22 +1,11 @@
 import React from 'react';
-import { Container, Row} from 'react-grid-system';
-import workflowTheme from '../workflowTheme'
+import { Container} from 'react-grid-system';
 import {containerStyle, paperStyle} from '../Styles/ContentStyles'
-
 import LandingPageAnalystContainer from '../Containers/LandingPageAnalystContainer'
-//import MaterialView from './MaterialView'
-import {Tabs, Tab} from 'material-ui/Tabs';
-import withState from 'recompose/withState';
 import compose from 'recompose/compose';
-import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import Paper from 'material-ui/Paper'
-import Avatar from 'material-ui/Avatar';
-import {List, ListItem} from 'material-ui/List';
-import Badge from 'material-ui/Badge'
-import IconButton from 'material-ui/IconButton';
-import Warning from 'material-ui/svg-icons/alert/warning';
 const getLandingPage=(userType)=>{
     switch(userType){
         case "MRMVAnalyst":

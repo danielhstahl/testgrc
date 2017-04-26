@@ -1,6 +1,6 @@
 import React from 'react';
 import {ValidationFlow} from './ValidationWorkFlow'
-import { Container, Row} from 'react-grid-system';
+import { Container} from 'react-grid-system';
 import Paper from 'material-ui/Paper'
 import ScopeContainer from '../Containers/ScopeContainer'
 import SkillsContainer from '../Containers/SkillsContainer'
@@ -66,7 +66,6 @@ const ValApp=enhanceSwitch(({url, match, history, validationId})=>{
                 {contentView}
             </Paper>
         </Container>
-        /*<MaterialView headerChild={ <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>} contentChild={contentView}/>*/
     )
 })
 
@@ -74,9 +73,10 @@ const enhanceVApp=compose(
     lifecycle({
         componentWillMount(){
             console.log("This is expensive")
+            const {loadInit, loadOnValidationChange, policyGroups}=this.props
             const {validationId}=this.props.match.params
-            this.props.loadInit(this.props.policyGroups);
-            this.props.loadOnValidationChange(validationId, this.props.policyGroups);
+            loadInit(policyGroups);
+            loadOnValidationChange(validationId, policyGroups);
         }
     }),
     shouldUpdate(

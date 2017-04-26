@@ -8,10 +8,11 @@ import compose from 'recompose/compose';
 import setPropTypes from 'recompose/setPropTypes';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 
+const listStyle={marginTop:14};
 const enhanceListPersonel=compose(
     setPropTypes({
         arrayOfPersons:React.PropTypes.arrayOf(React.PropTypes.shape({
-            name: React.PropTypes.string.isRequired,
+            cn: React.PropTypes.string.isRequired,
             id: React.PropTypes.string.isRequired,
             requiredSkills: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
         })).isRequired,
@@ -20,12 +21,12 @@ const enhanceListPersonel=compose(
     onlyUpdateForKeys(['arrayOfPersons'])
 )
 export const ListOfPersonel=enhanceListPersonel(({arrayOfPersons, onCheck})=>
-<List style={{marginTop:14}}>
+<List style={listStyle}>
     <Subheader>List of Available Associates</Subheader>
     {arrayOfPersons.map((person, index)=>{
         return <ListItem 
             key={index} 
-            primaryText={person.name} 
+            primaryText={person.cn} 
             leftCheckbox={<Checkbox checked={person.selected?true:false} onCheck={(e, isChecked)=>onCheck(person, isChecked)}/>} 
             nestedItems={person.requiredSkills.map((skill, index)=>{
                 return <ListItem key={index} primaryText={skill} />

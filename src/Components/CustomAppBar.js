@@ -17,13 +17,11 @@ import getContext from 'recompose/getContext';
 import withHandlers from 'recompose/withHandlers';
 import setPropTypes from 'recompose/setPropTypes';
 import {
-    BrowserRouter as Router,
   Link
 } from 'react-router-dom'
 
 
 const appBarStyle=Object.assign({marginBottom:20, zIndex:0, position: "fixed", top: 0}, centerStyle, backgroundPrimary)
-const iconStyleRight=Object.assign({}, zeroTopMargin, alternateTextColor) 
 const hamburger=<IconButton><MenuIcon color={workflowTheme.palette.alternateTextColor}/></IconButton>
 
 const enhance=compose(

@@ -7,8 +7,6 @@ import {
   StepLabel,
   StepContent,
 } from 'material-ui/Stepper';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 
 const customConnectorStyle={
     display:"block",
