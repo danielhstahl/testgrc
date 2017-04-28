@@ -36,7 +36,7 @@ Skills.propTypes={
         value:React.PropTypes.string.isRequired
     })).isRequired, 
     validationSkills:React.PropTypes.arrayOf(React.PropTypes.string).isRequired, associatesForDisplay:React.PropTypes.arrayOf(React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
+        cn: React.PropTypes.string.isRequired,
         id: React.PropTypes.string.isRequired,
         requiredSkills: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
     })).isRequired,  

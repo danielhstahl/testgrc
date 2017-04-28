@@ -1,6 +1,6 @@
 import workflowTheme from '../workflowTheme'
 
-export const backgroundPrimary={backgroundColor:workflowTheme.palette.borderColor,}
+export const backgroundPrimary={backgroundColor:workflowTheme.palette.primary1Color,}
 export const backgroundPrimary1={backgroundColor:workflowTheme.palette.primary1Color,}
 export const backgroundAlternativeColor={backgroundColor:workflowTheme.palette.alternateTextColor,}
 export const centerStyle={display:'flex', alignItems:'center'}

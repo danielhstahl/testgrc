@@ -22,7 +22,7 @@ import {
 
 
 const appBarStyle=Object.assign({marginBottom:20, zIndex:0, position: "fixed", top: 0}, centerStyle, backgroundPrimary)
-const hamburger=<IconButton><MenuIcon color={workflowTheme.palette.accent1Color}/></IconButton>
+const hamburger=<IconButton><MenuIcon color={workflowTheme.palette.alternateTextColor}/></IconButton>
 
 const enhance=compose(
     withState('open', 'toggleDrawer', false),
