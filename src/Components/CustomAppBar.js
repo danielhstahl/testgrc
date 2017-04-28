@@ -5,7 +5,7 @@ import UserOptionsContainer from '../Containers/UserOptionsContainer'
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import workflowTheme from '../workflowTheme'
-import {backgroundborderColor, alternateTextColor, centerStyle, backgroundPrimary} from '../Styles/ThemeStyles'
+import {backgroundborderColor,  centerStyle, backgroundPrimary, backgroundSecondary} from '../Styles/ThemeStyles'
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 const zeroTopMargin={marginTop:0}
@@ -22,7 +22,7 @@ import {
 
 
 const appBarStyle=Object.assign({marginBottom:20, zIndex:0, position: "fixed", top: 0}, centerStyle, backgroundPrimary)
-const hamburger=<IconButton><MenuIcon color={workflowTheme.palette.alternateTextColor}/></IconButton>
+const hamburger=<IconButton><MenuIcon color={workflowTheme.palette.accent1Color}/></IconButton>
 
 const enhance=compose(
     withState('open', 'toggleDrawer', false),

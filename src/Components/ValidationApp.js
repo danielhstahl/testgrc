@@ -9,7 +9,7 @@ import setPropTypes from 'recompose/setPropTypes';
 import shouldUpdate from 'recompose/shouldUpdate';
 import lifecycle from 'recompose/lifecycle';
 import {Route, Switch, Redirect} from 'react-router-dom'
-
+import {containerStyle, paperStyle} from '../Styles/ContentStyles'
 const contents=[
   {
     title:"Skill Assessment",
@@ -60,8 +60,8 @@ const ValApp=enhanceSwitch(({url, match, history, validationId})=>{
     const step=getDefaultStep(match.params.step)
     const contentView=switchComponent(step, validationId)
     return(
-        <Container>
-            <Paper rounded={false}>
+        <Container style={containerStyle}>
+            <Paper rounded={false} style={paperStyle}>
                 <ValidationFlow contents={contents}  handleStepChange={(step)=>handleStepChangeHelper(step)&&history.push(`${url}/${step}`)}  step={step}/>
                 {contentView}
             </Paper>
