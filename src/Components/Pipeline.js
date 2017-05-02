@@ -46,6 +46,7 @@ const PipeLineList=enhance(({pipeline, associates})=>(
             primaryText={listItem.description}
             leftIcon={validationIcon(listItem.type)}
         >
+        <Container>
             <Row>
                 <Col xs={4}>
                     {[...Array(numberOfQC(listItem.type))].map((v, qcIndex)=>{
@@ -56,6 +57,7 @@ const PipeLineList=enhance(({pipeline, associates})=>(
                     <SelectAssociates associates={associates} onSelect={(v)=>{console.log(v)}}/>
                 </Col>
             </Row>
+        </Container>
         </ExpandingListItem>)}
     </Paper>
 </Container>

@@ -75,15 +75,17 @@ const enhance=compose(
         handleOpenFinalScope:React.PropTypes.func.isRequired,
         mrmvPlanning:React.PropTypes.arrayOf(React.PropTypes.shape({
             process:React.PropTypes.string.isRequired,
-            risk:React.PropTypes.string.isRequired,
-            processStep:React.PropTypes.number.isRequired,
-            riskStep:React.PropTypes.number.isRequired,
-            controls:React.PropTypes.string.isRequired,
-            workpaper:React.PropTypes.number.isRequired,
-            MRMVResponsibility:React.PropTypes.string.isRequired,
-            explanation:React.PropTypes.string.isRequired,
-            testWork:React.PropTypes.number,
-            submitted:React.PropTypes.bool.isRequired
+            risk_controls:React.PropTypes.arrayOf(React.PropTypes.shape({
+                risk:React.PropTypes.string.isRequired,
+                processStep:React.PropTypes.number.isRequired,
+                riskStep:React.PropTypes.number.isRequired,
+                controls:React.PropTypes.string.isRequired,
+                workpaper:React.PropTypes.number.isRequired,
+                MRMVResponsibility:React.PropTypes.string.isRequired,
+                explanation:React.PropTypes.string.isRequired,
+                testWork:React.PropTypes.number,
+                submitted:React.PropTypes.bool.isRequired
+            })).isRequired
         })).isRequired,
         rawTestSelection:React.PropTypes.arrayOf(React.PropTypes.shape({
             index: React.PropTypes.number.isRequired,
@@ -92,8 +94,11 @@ const enhance=compose(
         height:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
     })
 )
-const ScopeDisplay=enhance(({openFinalScope, handleCloseFinalScope, handleOpenFinalScope, mrmvPlanning, height, rawTestSelection})=>
-<div style={buttonStyle}>
+const HoldDisplay=pure(({mrmvPlanning, rawTestSelection})=>(
+    <DisplayTable dataObj={filterAndSortPlan(mrmvPlanning, rawTestSelection)} columnTitles={["workpaper", "risk", "controls", "testwork", "explanation"]}/>)
+)
+const ScopeDisplay=enhance(({openFinalScope, handleCloseFinalScope, handleOpenFinalScope, mrmvPlanning, height, rawTestSelection})=>{
+    return <div style={buttonStyle}>
     <RaisedButton primary label="View final scope" onTouchTap={(e, v)=>handleOpenFinalScope(v)}/>
     <Dialog
         contentStyle={customContentStyle}
@@ -102,7 +107,11 @@ const ScopeDisplay=enhance(({openFinalScope, handleCloseFinalScope, handleOpenFi
         open={openFinalScope}
         onRequestClose={handleCloseFinalScope}
     >
-        {openFinalScope?<DisplayTable dataObj={filterAndSortPlan(mrmvPlanning, rawTestSelection)} columnTitles={["workpaper", "risk", "controls", "testwork", "explanation"]} height={height?height:defaultHeight}/>:null}
+        {openFinalScope?<HoldDisplay 
+            mrmvPlanning={mrmvPlanning} 
+            rawTestSelection={rawTestSelection}
+            />:null
+        }
     </Dialog>
-</div>)
+</div>})
 export default ScopeDisplay

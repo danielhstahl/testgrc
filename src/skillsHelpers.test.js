@@ -1,4 +1,4 @@
-import {whoFitsSkill, getSkillsByAssociate, sortSkillsByAssociate, joinedAssociates, getUniqueArray} from './skillsHelpers'
+import {whoFitsSkill, getSkillsByAssociate, sortSkillsByAssociate, joinedAssociates} from './skillsHelpers'
 it('returns both associates', ()=>{
     const obj=[{
         skills:[1, 2, 3]
@@ -109,16 +109,7 @@ it('returns partial skills per associate', ()=>{
 })
 
 
-it('returns unique array without last 1', ()=>{
-    const arr=[1, 2, 3, 1]
-    const expectedResult=[1, 2, 3]
-    expect(getUniqueArray(arr)).toEqual(expectedResult);
-})
-it('returns unique array with only 1', ()=>{
-    const arr=[1, 1, 1, 1]
-    const expectedResult=[1]
-    expect(getUniqueArray(arr)).toEqual(expectedResult);
-})
+
 it('updates personel then returns sorted', ()=>{
     const skills=[2, 3]
     const obj=[{

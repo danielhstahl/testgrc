@@ -1,4 +1,4 @@
-import {getUniqueArray} from '../skillsHelpers'
+import {getUniqueArray} from '../helperFunctions'
 const skill=(state="", action)=>{
     switch(action.type){
         case "ADD_VALIDATION_SKILL":

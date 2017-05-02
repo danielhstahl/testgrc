@@ -1,5 +1,5 @@
 import React from 'react';
-import {FourColBody, RiskTestExplanation} from './ScopeUtils'
+import {ThreeColBody, RiskTestExplanation} from './ScopeUtils'
 import EnterTestingPlan from './EnterTestingPlan'
 import SelectTesting from './SelectTesting'
 import {isOkToSubmit} from '../scopeHelpers'
@@ -24,7 +24,7 @@ const enhance=compose(
     onlyUpdateForKeys(['rcusItem', 'explanation', 'testWork']),
     setPropTypes({
         rcusItem:React.PropTypes.shape({
-            process:React.PropTypes.string.isRequired,
+            //process:React.PropTypes.string.isRequired,
             risk:React.PropTypes.string.isRequired,
             processStep:React.PropTypes.number.isRequired,
             riskStep:React.PropTypes.number.isRequired,
@@ -50,7 +50,7 @@ const enhance=compose(
 )
 
 const SelectAndEnter=enhance(({tableStyle, rcusItem, explanation, rawTestSelection, testWork, handleSelect, handleExplanation, clearState, handleTestSubmit})=>
-<FourColBody style={tableStyle} first={rcusItem.process} second={rcusItem.risk} third={rcusItem.controls}>
+<ThreeColBody style={tableStyle} first={rcusItem.risk} second={rcusItem.controls}>
     <SelectTesting 
         notAllowedToSubmit={!isOkToSubmit(testWork, explanation, rawTestSelection)} 
         isSubmitted={rcusItem.submitted}  
@@ -69,7 +69,7 @@ const SelectAndEnter=enhance(({tableStyle, rcusItem, explanation, rawTestSelecti
             handleSelect={handleSelect}
         />
     </SelectTesting>
-</FourColBody>
+</ThreeColBody>
 )
 
 

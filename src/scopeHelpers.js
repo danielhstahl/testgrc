@@ -22,13 +22,13 @@ export const isOkToSubmit=(testWork=0, explanation="", rawTestSelection=[{index:
 }
 
 export const filterAndSortPlan=(planResults, rawTestSelection)=>{
-    return planResults.map(plan=>{
-        return {
+    return planResults.reduce((aggrPlan, processItem)=>{
+        return aggrPlan.concat(processItem.risk_controls.map(plan=>({
             workpaper:plan.workpaper, 
             risk:plan.risk,
             controls:plan.controls,
             testWorkDescription:plan.testWork?rawTestSelection.filter(val=>val.index===plan.testWork)[0].description:"",
             explanation:plan.explanation
-        }
-    }).sort((a, b)=>a.workpaper<b.workpaper?-1:1)
+        })))
+    }, []).sort((a, b)=>a.workpaper<b.workpaper?-1:1)
 }

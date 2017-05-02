@@ -32,6 +32,31 @@ export const FourColHead=enhanceHead(({first, second, third, fourth, style})=>
 </Row>)
 
 
+
+const enhanceThreeHead=compose(
+    onlyUpdateForKeys(['first', 'second', 'third']),
+    setPropTypes({
+        first:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        second:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        third:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        style:React.PropTypes.object
+    })
+)
+
+export const ThreeColHead=enhanceThreeHead(({first, second, third, style})=>
+<Row style={style}>
+    <Col xs={4} >
+        <h3>{first}</h3>
+    </Col>
+    <Col xs={4}>
+        <h3>{second}</h3>
+    </Col>
+    <Col xs={4}>
+        <h3>{third}</h3>
+    </Col>
+</Row>)
+
+
 const enhanceBody=compose(
     onlyUpdateForKeys(['first', 'second', 'third', 'children']),
     setPropTypes({
@@ -54,6 +79,28 @@ export const FourColBody=enhanceBody(({first, second, third, children, style})=>
         <p>{third}</p>
     </Col>
     <Col xs={3}>
+        {children}
+    </Col>
+</Row>)
+
+const enhanceThreeBody=compose(
+    onlyUpdateForKeys(['first', 'second', 'children']),
+    setPropTypes({
+        first:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        second:React.PropTypes.oneOfType([React.PropTypes.node, React.PropTypes.string]).isRequired,
+        children:React.PropTypes.node.isRequired,
+        style:React.PropTypes.object
+    })
+)
+export const ThreeColBody=enhanceThreeBody(({first, second, children, style})=>
+<Row style={style}>
+    <Col xs={4} >
+        <p>{first}</p>
+    </Col>
+    <Col xs={4}>
+        <p>{second}</p>
+    </Col>
+    <Col xs={4}>
         {children}
     </Col>
 </Row>)

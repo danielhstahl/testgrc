@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import {joinedAssociates} from '../skillsHelpers'
+
 import { addSkillsRequiredForValidation,removeSkillRequiredForValidation} from '../Actions/SkillsActions'
 import{addAssociateForValidation, removeAssociateForValidation } from '../Actions/AssociateActions'
 import Skills from '../Components/Skills'
 
 const mapStateToProps=(state)=>{
-    return {validationSkills:state.skills, rawSkills:state.rawSkills, associatesForDisplay:joinedAssociates(state.skills, state.rawAssociates, state.associates), policyGroups:state.user.user.policyGroups}
+    return {validationSkills:state.skills, rawSkills:state.rawSkills, skills:state.skills, rawAssociates:state.rawAssociates, associates:state.associates,policyGroups:state.user.user.policyGroups}
 }
 const mapDispatchToProps=(dispatch, ownProps)=>{
     return {

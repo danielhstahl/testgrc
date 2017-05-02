@@ -9,7 +9,7 @@ export const getSkillsByAssociate=(skills=[], rawAssociates=[{cn:"", id:"", skil
     })
 }
 
-export const getUniqueArray=Array.from?(array)=>[...new Set(array)]:(array)=>array.sort().filter((val, index, arr)=>!index||val!==arr[index-1])//ensure unique values
+
 
 export const sortSkillsByAssociate=(updatedSkills=[""], rawAssociates=[{cn:"", id:"", skills:[""]}])=>{
     const updatedPersonel=getSkillsByAssociate(updatedSkills, rawAssociates);
