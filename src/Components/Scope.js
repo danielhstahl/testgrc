@@ -26,7 +26,6 @@ const computePlan=(rawRCUS, plans)=>{
 const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, policyGroups})=> {
     const handleTestSubmitSubScope=plan=>handleTestSubmit(plan, policyGroups)
     const mrmvPlanning=computePlan(rawRCUS, plans)
-    console.log(mrmvPlanning)
     return <Container>
         
             {mrmvPlanning.map((process, index)=>{

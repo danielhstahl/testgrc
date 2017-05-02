@@ -19,7 +19,7 @@ const enhanceLinks=compose(
             type:React.PropTypes.string.isRequired,
             description:React.PropTypes.string.isRequired,
             timeline:React.PropTypes.arrayOf(React.PropTypes.shape({
-                actualDate:React.PropTypes.any.isRequired,
+                actualDate:React.PropTypes.any,
                 dueDate:React.PropTypes.any.isRequired,
                 description:React.PropTypes.string.isRequired,
             })).isRequired
