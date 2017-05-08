@@ -22,7 +22,7 @@ const computePlan=(rawRCUS, plans)=>{
         return prev;
         }, []);
 }
-
+const bottomPadding={height:15};
 const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, policyGroups})=> {
     const handleTestSubmitSubScope=plan=>handleTestSubmit(plan, policyGroups)
     const mrmvPlanning=computePlan(rawRCUS, plans)
@@ -45,6 +45,7 @@ const Scope =({rawRCUS, plans, rawTestSelection, handleTestSubmit, policyGroups}
             })}
 
         <ScopeDisplay mrmvPlanning={mrmvPlanning} rawTestSelection={rawTestSelection}/>
+        <div style={bottomPadding}/>
     </Container>
 }
 Scope.propTypes={
